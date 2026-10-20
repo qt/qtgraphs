@@ -82,8 +82,8 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty bool Custom3DLabel::facingCamera
  *
- * Defines whether the label will always face the camera. Defaults to \c{false}.
- * If set to \c{true}, \l {QCustom3DItem::}{rotation} has no effect.
+ * Defines whether the label always faces the camera. Defaults to \c{false}. If
+ * set to \c{true}, \l {QCustom3DItem::}{rotation} has no effect.
  */
 
 /*!

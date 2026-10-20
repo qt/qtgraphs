@@ -72,11 +72,11 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddFillModel_exit);
  *
  * This type enables developers to render surface plots in 3D with Qt Quick.
  *
- * You will need to import the Qt Graphs module to use this type:
+ * To use this type, import the Qt Graphs module:
  *
  * \snippet doc_src_qmlgraphs.cpp 0
  *
- * After that you can use Surface3D in your qml files:
+ * After that, you can use Surface3D in your QML files:
  *
  * \snippet doc_src_qmlgraphs.cpp 3
  *

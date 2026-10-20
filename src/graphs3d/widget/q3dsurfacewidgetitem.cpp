@@ -18,11 +18,11 @@ QT_BEGIN_NAMESPACE
  *
  * This class enables developers to render 3D surface plots and to view them by
  * rotating the scene freely. The visual properties of the surface such as draw
- * mode and shading can be controlled via QSurface3DSeries.
+ * mode and shading can be controlled through QSurface3DSeries.
  *
  * The Q3DSurfaceWidgetItem supports selection by showing a highlighted ball on the data
  * point where the user has clicked with the left mouse button (when the default
- * input handler is in use) or selected via QSurface3DSeries. The selection pointer
+ * input handler is in use) or selected through QSurface3DSeries. The selection pointer
  * is accompanied by a label, which in the default case shows the value of the data
  * point and the coordinates of the point.
  *
@@ -34,7 +34,7 @@ QT_BEGIN_NAMESPACE
  * handler is in use.
  *
  * If no axes are set explicitly for Q3DSurfaceWidgetItem, temporary default axes with no
- * labels are created. These default axes can be modified via axis accessors,
+ * labels are created. These default axes can be modified through axis accessors,
  * but as soon as any axis is set explicitly for the orientation, the default
  * axis for that orientation is destroyed.
  *
@@ -64,7 +64,7 @@ QT_BEGIN_NAMESPACE
  *
  * \snippet doc_src_q3dsurface_construction.cpp 3
  *
- * Finally you will need to set it visible:
+ * Finally, make the graph visible:
  *
  * \snippet doc_src_q3dsurface_construction.cpp 4
  *
@@ -79,7 +79,7 @@ QT_BEGIN_NAMESPACE
  * The scene can be rotated, zoomed into, and a surface point can be selected to
  * view its position, but no other interactions are included in this minimal code
  * example. You can learn more by familiarizing yourself with the examples
- * provided, like the \l{Surface Graph Gallery}.
+ * provided, such as the \l{Surface Graph Gallery}.
  *
  *
  * \sa Q3DBarsWidgetItem, Q3DScatterWidgetItem, {Qt Graphs C++ Classes for 3D}
@@ -100,7 +100,7 @@ Q3DSurfaceWidgetItem::~Q3DSurfaceWidgetItem() {}
 /*!
  * Adds the \a series to the graph.  A graph can contain multiple series, but
  * has only one set of axes. If the newly added series has specified a selected
- * item, it will be highlighted and any existing selection will be cleared. Only
+ * item, it is highlighted and any existing selection is cleared. Only
  * one added series can have an active selection.
  *
  * \sa  Q3DGraphsWidgetItem::hasSeries()
@@ -261,9 +261,9 @@ bool Q3DSurfaceWidgetItem::event(QEvent *event)
 }
 
 /*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken into
- * use, addAxis is simply used to give the ownership of the \a axis to the
- * graph. The \a axis must not be null or added to another graph.
+ * Adds \a axis to the graph. The axes added through addAxis are not yet taken
+ * into use, addAxis is used to give the ownership of the \a axis to the graph.
+ * The \a axis must not be null or added to another graph.
  *
  * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
  */
@@ -274,7 +274,7 @@ void Q3DSurfaceWidgetItem::addAxis(QValue3DAxis *axis)
 
 /*!
  * Releases the ownership of the \a axis back to the caller, if it is added to
- * this graph. If the released \a axis is in use, a new default axis will be
+ * this graph. If the released \a axis is in use, a new default axis is
  * created and set active.
  *
  * If the default axis is released and added back later, it behaves as any other

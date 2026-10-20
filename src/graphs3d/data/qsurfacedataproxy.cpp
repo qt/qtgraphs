@@ -21,8 +21,8 @@ QT_BEGIN_NAMESPACE
  * QtGraphs::QSurfaceDataRow. \c QSurfaceDataArray is a QList that
  * controls the rows. \c QSurfaceDataRow is a QList that contains
  * QSurfaceDataItem objects. For more information about how to feed the data to
- * the proxy, see the sample code in the Q3DSurfaceWidgetItem documentation. Since data is
- * stored in series, it is necessary to create a series associated with the
+ * the proxy, see the sample code in the Q3DSurfaceWidgetItem documentation. Because data is
+ * stored in series, you must create a series associated with the
  * proxy before using these functions for the dataset.
  *
  * All rows must have the same number of items.
@@ -46,7 +46,7 @@ QT_BEGIN_NAMESPACE
  *
  * \note Surfaces with less than two rows or columns are rendered as lines.
  *
- * \note On some environments, surfaces with a lot of visible vertices may not
+ * \note On some environments, surfaces with many visible vertices may not
  * render, because they exceed the per-draw vertex count supported by the
  * graphics driver. This is mostly an issue on 32-bit and OpenGL ES2 platforms.
  *
@@ -165,8 +165,8 @@ void QSurfaceDataProxy::resetArray()
 }
 
 /*!
- * Sets the array from \a newArray. If the new array is equal to the
- * existing one, this function simply triggers the arrayReset() signal.
+ * Sets the array from \a newArray. If the new array is equal to the existing
+ * one, this function triggers the arrayReset() signal.
 */
 void QSurfaceDataProxy::resetArray(QSurfaceDataArray newArray)
 {

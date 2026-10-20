@@ -28,7 +28,7 @@ QT_BEGIN_NAMESPACE
  * Mappings can be used in the following ways:
  *
  * \list
- * \li If useModelCategories property is set to \c true, this proxy will map rows and
+ * \li If useModelCategories property is set to \c true, this proxy maps rows and
  *    columns of QAbstractItemModel to rows and columns of Q3DSurfaceWidgetItem, and uses the value returned for
  *    Qt::DisplayRole as Y-position by default. Row and column headers are used for Z-position and
  *    X-position by default, if they can be converted to floats. Otherwise row and column indices
@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
  * For example, assume that you have a custom QAbstractItemModel storing surface topography data.
  * Each item in the model has the roles "longitude", "latitude", and "height".
  * The item model already contains the data properly sorted so that longitudes and latitudes are
- * first encountered in correct order, which enables us to utilize the row and column category
+ * first encountered in correct order, which lets you use the row and column category
  * autogeneration.
  * You could do the following to display the data in a surface graph:
  *
@@ -62,7 +62,7 @@ QT_BEGIN_NAMESPACE
  * the replacement using regular expressions works, see QString::replace(const
  * QRegularExpression &rx, const QString &after) function documentation. Note
  * that using regular expressions has an impact on the performance, so it's more
- * efficient to utilize item models where doing search and replace is not
+ * efficient to use item models where doing search and replace is not
  * necessary to get the desired values.
  *
  * For example about using the search patterns in conjunction with the roles,
@@ -922,7 +922,7 @@ void QItemModelSurfaceDataProxy::remap(const QString &rowRole,
 /*!
  * Returns the index of the specified \a category in the row categories list.
  * If the category is not found, -1 is returned.
- * \note If the automatic row categories generation is in use, this method will
+ * \note If the automatic row categories generation is in use, this method does
  * not return a valid index before the data in the model is resolved for the
  * first time.
  */
@@ -936,7 +936,7 @@ qsizetype QItemModelSurfaceDataProxy::rowCategoryIndex(const QString &category)
  * Returns the index of the specified \a category in the column categories list.
  * If the category is not found, -1 is returned.
  * \note If the automatic column categories generation is in use, this method
- * will not return a valid index before the data in the model is resolved for
+ * does not return a valid index before the data in the model is resolved for
  * the first time.
  */
 qsizetype QItemModelSurfaceDataProxy::columnCategoryIndex(const QString &category)

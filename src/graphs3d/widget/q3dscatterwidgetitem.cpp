@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
  * by pinch.
  *
  * If no axes are set explicitly to Q3DScatterWidgetItem, temporary default axes with no
- * labels are created. These default axes can be modified via axis accessors,
+ * labels are created. These default axes can be modified through axis accessors,
  * but as soon as any axis is set explicitly for the orientation, the default axis
  * for that orientation is destroyed.
  *
@@ -36,14 +36,14 @@ QT_BEGIN_NAMESPACE
  *
  * \section1 How to construct a minimal Q3DScatterWidgetItem graph
  *
- * First, construct Q3DScatterWidgetItem. Since we are running the graph as the top-level
+ * First, construct Q3DScatterWidgetItem. Because the graph runs as the top-level
  * window in this example, we need to clear the \c Qt::FramelessWindowHint flag,
  * which is set by default:
  *
  * \snippet doc_src_q3dscatter_construction.cpp 0
  *
- * Now Q3DScatterWidgetItem is ready to receive data to be rendered. Add one series of 3
- * QVector3D items:
+ * Now Q3DScatterWidgetItem is ready to receive data to be rendered. Add one
+ * series of three QVector3D items:
  *
  * \note In the new proxy-series relationship, data is held in series.
  * Therefore, for the proxy to be able to add, delete, or edit the data, it is
@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
  *
  * \snippet doc_src_q3dscatter_construction.cpp 1
  *
- * Finally you will need to set it visible:
+ * Finally, make the graph visible:
  *
  * \snippet doc_src_q3dscatter_construction.cpp 2
  *
@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
  * The scene can be rotated, zoomed into, and an item can be selected to view
  * its position, but no other interactions are included in this minimal code
  * example. You can learn more by familiarizing yourself with the examples
- * provided, like the \l{Simple Scatter Graph}.
+ * provided, such as the \l{Simple Scatter Graph}.
  *
  * \sa Q3DBarsWidgetItem, Q3DSurfaceWidgetItem, {Qt Graphs C++ Classes for 3D}
  */
@@ -86,7 +86,7 @@ Q3DScatterWidgetItem::~Q3DScatterWidgetItem() {}
 /*!
  * Adds the \a series to the graph. A graph can contain multiple series, but has
  * only one set of axes. If the newly added series has specified a selected
- * item, it will be highlighted and any existing selection will be cleared. Only
+ * item, it is highlighted and any existing selection is cleared. Only
  * one added series can have an active selection.
  *
  * \sa Q3DGraphsWidgetItem::hasSeries()
@@ -212,9 +212,9 @@ bool Q3DScatterWidgetItem::event(QEvent *event)
 }
 
 /*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken into
- * use, addAxis is simply used to give the ownership of the \a axis to the
- * graph. The \a axis must not be null or added to another graph.
+ * Adds \a axis to the graph. The axes added through addAxis are not yet taken
+ * into use, addAxis is used to give the ownership of the \a axis to the graph.
+ * The \a axis must not be null or added to another graph.
  *
  * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
  */
@@ -225,7 +225,7 @@ void Q3DScatterWidgetItem::addAxis(QValue3DAxis *axis)
 
 /*!
  * Releases the ownership of the \a axis back to the caller, if it is added to
- * this graph. If the released \a axis is in use, a new default axis will be
+ * this graph. If the released \a axis is in use, a new default axis is
  * created and set active.
  *
  * If the default axis is released and added back later, it behaves as any other

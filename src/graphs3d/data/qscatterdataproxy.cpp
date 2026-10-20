@@ -17,8 +17,8 @@ QT_BEGIN_NAMESPACE
  * \brief The QScatterDataProxy class is the data proxy for 3D scatter graphs.
  *
  * A scatter data proxy handles adding, inserting, changing, and removing data
- * items. Since data is stored in series, it is necessary
- * to create a series associated with the proxy before using these functions for
+ * items. Because data is stored in series, you must
+ * create a series associated with the proxy before using these functions for
  * the dataset.
  *
  * QScatterDataProxy takes ownership of all
@@ -119,8 +119,8 @@ void QScatterDataProxy::resetArray()
 }
 
 /*!
- * Sets the array from \a newArray. If the new array is equal to the
- * existing one, this function simply triggers the arrayReset() signal.
+ * Sets the array from \a newArray. If the new array is equal to the existing
+ * one, this function triggers the arrayReset() signal.
  */
 void QScatterDataProxy::resetArray(QScatterDataArray newArray)
 {
@@ -137,7 +137,7 @@ void QScatterDataProxy::resetArray(QScatterDataArray newArray)
 
 /*!
  * Sets the scale array from \a newArray. If the new array is equal to the
- * existing one, this function simply triggers the scaleArrayReset() signal.
+ * existing one, this function triggers the scaleArrayReset() signal.
  */
 void QScatterDataProxy::resetScaleArray(QList<QVector3D> newArray)
 {

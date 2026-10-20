@@ -56,8 +56,8 @@ Q3DGraphsWidgetItem::~Q3DGraphsWidgetItem()
 }
 
 /*!
- * Adds the given \a theme to the graph. The themes added via addTheme are not
- * taken into use directly. Only the ownership of the theme is given to the
+ * Adds the given \a theme to the graph. The themes added through addTheme are
+ * not taken into use directly. Only the ownership of the theme is given to the
  * graph. The \a theme must not be null or already added to another graph.
  *
  * \sa releaseTheme(), setActiveTheme()
@@ -70,7 +70,7 @@ void Q3DGraphsWidgetItem::addTheme(QGraphsTheme *theme)
 
 /*!
  * Releases the ownership of the \a theme back to the caller, if it was added to
- * this graph. If the released \a theme is in use, a new default theme will be
+ * this graph. If the released \a theme is in use, a new default theme is
  * created and set active.
  *
  * If the default theme is released and added back later, it behaves as any
@@ -412,9 +412,10 @@ QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(QSize im
 
     By default, the camera preset is set to \c CameraPreset::FrontLow.
 
-    \note If you have set the cameraXRotation, cameraYRotation or cameraZoomLevel properties, or
-    called setCustomCamera(), this property will return CameraPreset::NoPreset until either
-    setCameraPreset() is called again, or the preset is changed to another value.
+    \note If you have set the cameraXRotation, cameraYRotation, or
+    cameraZoomLevel properties, or called setCustomCamera(), this property
+    returns CameraPreset::NoPreset until either setCameraPreset() is called
+    again, or the preset is changed to another value.
 */
 QtGraphs3D::CameraPreset Q3DGraphsWidgetItem::cameraPreset() const
 {
@@ -620,8 +621,8 @@ void Q3DGraphsWidgetItem::setLightStrength(float newLightStrength)
  *
  * \brief The shadow strength for the whole graph.
  *
- * The higher the number, the darker the shadows will be. The value must be
- * between \c 0.0 and \c 100.0.
+ * The higher the number, the darker the shadows are. The value must be between
+ * \c 0.0 and \c 100.0.
  *
  * This value affects the light specified in Q3DScene.
  */
@@ -1126,7 +1127,7 @@ int Q3DGraphsWidgetItem::currentFps() const
  * \brief Whether orthographic projection is used for displaying the graph.
  *
  * Defaults to \c{false}.
- * \note Shadows will be disabled when set to \c{true}.
+ * \note Shadows are disabled when set to \c{true}.
  *
  * \sa QAbstract3DAxis::labelAutoAngle,
  */
@@ -1323,9 +1324,9 @@ QLocale Q3DGraphsWidgetItem::locale() const
  *
  * This read-only property contains the results from
  * Q3DScene::graphPositionQuery. The values are normalized to the range \c{[-1,
- * 1]}. If the queried position was outside the graph bounds, the values will
- * not reflect the real position, but will instead indicate an undefined
- * position outside the range \c{[-1, 1]}. The value will be undefined until a
+ * 1]}. If the queried position was outside the graph bounds, the values do
+ * not reflect the real position, but instead indicate an undefined
+ * position outside the range \c{[-1, 1]}. The value is undefined until a
  * query is made.
  *
  * There is no single correct 3D coordinate to match a particular screen

@@ -65,8 +65,8 @@ QT_BEGIN_NAMESPACE
  * The current subviewport rectangle inside the viewport where the
  * primary view of the graphs is targeted.
  *
- * If the primary sub viewport has not
- * been explicitly set, it will be one fifth of the viewport.
+ * If the primary sub viewport has not been explicitly set, it is one fifth of
+ * the viewport.
  * \note Setting primarySubViewport larger than or outside of viewport resizes
  * viewport accordingly.
  */
@@ -74,8 +74,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty rect Scene3D::secondarySubViewport
  *
- * The secondary viewport is used for drawing the 2D slice view in some
- * graphs. If it has not been explicitly set, it will be equal to the size of the viewport.
+ * The secondary viewport is used for drawing the 2D slice view in some graphs.
+ * If it has not been explicitly set, it is equal to the size of the viewport.
  * \note If the secondary sub viewport is larger than or outside of the
  * viewport, the viewport is resized accordingly.
  */
@@ -220,8 +220,8 @@ QRect Q3DScene::viewport() const
  * \brief The current subviewport rectangle inside the viewport where the
  * primary view of the graphs is targeted.
  * 
- * If the primary sub viewport has not been explicitly set,
- * it will be one fifth of viewport().
+ * If the primary sub viewport has not been explicitly set, it is one fifth of
+ * viewport().
  *
  * \note Setting primarySubViewport larger than or outside of the viewport
  * resizes the viewport accordingly.
@@ -310,8 +310,8 @@ bool Q3DScene::isPointInSecondarySubView(QPoint point)
  *
  * \brief The secondary viewport rectangle inside the viewport.
  *
- * The secondary viewport is used for drawing the 2D slice view in some
- * graphs. If it has not been explicitly set, it will be equal to the size of the viewport.
+ * The secondary viewport is used for drawing the 2D slice view in some graphs.
+ * If it has not been explicitly set, it is equal to the size of the viewport.
  * \note If the secondary sub viewport is larger than or outside of the
  * viewport, the viewport is resized accordingly.
  */

@@ -16,11 +16,11 @@ QT_BEGIN_NAMESPACE
  *
  * This type enables developers to render a surface graph node in 3D with Qt Quick.
  *
- * You will need to import the Qt Graphs module to use this type:
+ * To use this type, import the Qt Graphs module:
  *
  * \snippet doc_src_qmlnodes.qml 0
  *
- * After that you can use Surface3DNode in your qml files:
+ * After that, you can use Surface3DNode in your QML files:
  *
  * \snippet doc_src_qmlnodes.qml 3
  *

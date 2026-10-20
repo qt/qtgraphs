@@ -78,11 +78,11 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DBarsCreateOffscreenSliceView_exit);
  *
  * This type enables developers to render bar graphs in 3D with Qt Quick.
  *
- * You will need to import Qt Graphs module to use this type:
+ * To use this type, import the Qt Graphs module:
  *
  * \snippet doc_src_qmlgraphs.cpp 0
  *
- * After that you can use Bars3D in your qml files:
+ * After that, you can use Bars3D in your QML files:
  *
  * \snippet doc_src_qmlgraphs.cpp 1
  *
@@ -182,7 +182,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DBarsCreateOffscreenSliceView_exit);
  * set to the axes.
  *
  * If the specified series is not yet added to the graph, setting it as the
- * primary series will also implicitly add it to the graph.
+ * primary series also implicitly adds it to the graph.
  *
  * If the primary series itself is removed from the graph, this property
  * resets to default.
@@ -196,19 +196,21 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DBarsCreateOffscreenSliceView_exit);
  *
  * The floor level for the bar graph in Y-axis data coordinates.
  *
- * The actual floor level will be restricted by the Y-axis minimum and maximum
+ * The actual floor level is restricted by the Y-axis minimum and maximum
  * values.
  * Defaults to zero.
  */
 
 /*!
  * \qmlmethod void Bars3D::addSeries(Bar3DSeries series)
- * Adds the \a series to the graph. A graph can contain multiple series, but only one set of axes,
- * so the rows and columns of all series must match for the visualized data to be meaningful.
- * If the graph has multiple visible series, only the first one added will
- * generate the row or column labels on the axes in cases where the labels are not explicitly set
- * to the axes. If the newly added series has specified a selected bar, it will be highlighted and
- * any existing selection will be cleared. Only one added series can have an active selection.
+ * Adds the \a series to the graph. A graph can contain multiple series, but
+ * only one set of axes, so the rows and columns of all series must match for
+ * the visualized data to be meaningful. If the graph has multiple visible
+ * series, only the first one added generates the row or column labels on the
+ * axes in cases where the labels are not explicitly set to the axes. If the
+ * newly added series has specified a selected bar, it is highlighted and any
+ * existing selection is cleared. Only one added series can have an active
+ * selection.
  * \sa GraphsItem3D::hasSeries()
  */
 
