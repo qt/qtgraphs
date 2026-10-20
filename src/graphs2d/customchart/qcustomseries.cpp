@@ -205,7 +205,7 @@ void QCustomSeries::setDelegate(QQmlComponent *newDelegate)
     Sets \a painter as the canvas painter renderer used to draw this series
     when the high-performance canvas painter backend is in use.
 
-    QCustomSeries takes ownership of \a painter. It is adopted by the
+    QCustomSeries takes ownership of \a painter. The painter is adopted by the
     CanvasPainter-backend renderer the next time this series is
     synchronized, after which it is destroyed only by the renderer, on the
     render thread -- never by QCustomSeries directly. If \a painter is

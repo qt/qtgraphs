@@ -52,8 +52,8 @@ QT_BEGIN_NAMESPACE
     screen is one pixel regardless of the scale of the x-axis. Bars wider than zero are scaled
     using the x-axis scale.
 
-    By default, the barWidth is 0.5 (bars will take 50% of the available width).
-    The valid values range from 0.0 (0%) to 1.0 (100%).
+    By default, the barWidth is 0.5 (bars take 50% of the available width). The
+    valid values range from 0.0 (0%) to 1.0 (100%).
 
     \note When used with QBarSeries, this value specifies the width of a group of bars instead of
     that of a single bar.
@@ -97,8 +97,8 @@ QT_BEGIN_NAMESPACE
     screen is one pixel regardless of the scale of the x-axis. Bars wider than zero are scaled
     using the x-axis scale.
 
-    By default, the barWidth is 0.5 (bars will take 50% of the available width).
-    The valid values range from 0.0 (0%) to 1.0 (100%).
+    By default, the barWidth is 0.5 (bars take 50% of the available width). The
+    valid values range from 0.0 (0%) to 1.0 (100%).
 
     \note When used with the BarSeries type, this value specifies the width of a group of bars
     instead of that of a single bar.
@@ -411,7 +411,7 @@ QT_BEGIN_NAMESPACE
 
     Adds a set of bars specified by \a barset to the bar series and takes
     ownership of it. If the set is null or it already belongs to the series,
-    it will not be appended.
+    it is not appended.
 
     Returns \c true if appending succeeded.
 
@@ -527,7 +527,7 @@ QAbstractSeries::SeriesType QBarSeries::type() const
 
     If there are more series than colors, the color list wraps and starts again
     with the first color in the list. If this is not set (default), colors
-    from the \l{QGraphsTheme::seriesColors} will be used.
+    from the \l{QGraphsTheme::seriesColors} are used.
 */
 /*!
     \qmlproperty list<color> BarSeries::seriesColors
@@ -535,7 +535,7 @@ QAbstractSeries::SeriesType QBarSeries::type() const
 
     If there are more series than colors, the color list wraps and starts again
     with the first color in the list. If this is not set (default), colors
-    from the \l{GraphsTheme::seriesColors} will be used.
+    from the \l{GraphsTheme::seriesColors} are used.
 */
 QList<QColor> QBarSeries::seriesColors() const
 {
@@ -569,7 +569,7 @@ void QBarSeries::setSeriesColors(const QList<QColor> &newSeriesColors)
 
     If there are more series than colors, the color list wraps and starts again
     with the first color in the list. If this is not set (default), colors
-    from the \l{QGraphsTheme::borderColors} will be used.
+    from the \l{QGraphsTheme::borderColors} are used.
 */
 /*!
     \qmlproperty list<color> BarSeries::borderColors
@@ -577,7 +577,7 @@ void QBarSeries::setSeriesColors(const QList<QColor> &newSeriesColors)
 
     If there are more series than colors, the color list wraps and starts again
     with the first color in the list. If this is not set (default), colors
-    from the \l{GraphsTheme::borderColors} will be used.
+    from the \l{GraphsTheme::borderColors} are used.
 */
 QList<QColor> QBarSeries::borderColors() const
 {
@@ -650,7 +650,7 @@ qreal QBarSeries::barWidth() const
 
 /*!
     Adds a set of bars specified by \a set to the bar series and takes ownership of it. If the set
-    is null or it already belongs to the series, it will not be appended.
+    is null or it already belongs to the series, it is not appended.
     Returns \c true if appending succeeded.
 */
 bool QBarSeries::append(QBarSet *set)
@@ -742,9 +742,10 @@ bool QBarSeries::append(const QList<QBarSet *> &sets)
 }
 
 /*!
-    Inserts a bar set specified by \a set to a series at the position specified by \a index
-    and takes ownership of the set. If the set is null or already belongs to the series, it will
-    not be appended. Returns \c true if inserting succeeds.
+    Inserts a bar set specified by \a set to a series at the position specified
+    by \a index and takes ownership of the set. If the set is null or already
+    belongs to the series, it is not appended. Returns \c true if inserting
+    succeeds.
 */
 bool QBarSeries::insert(qsizetype index, QBarSet *set)
 {
@@ -786,8 +787,8 @@ void QBarSeries::clear()
 }
 
 /*!
-    Replaces the BarSet which is present at \a index with \a set.
-    The original BarSet will be permanently deleted.
+    Replaces the BarSet which is present at \a index with \a set. The original
+    BarSet is permanently deleted.
 */
 void QBarSeries::replace(qsizetype index, QBarSet *set)
 {
@@ -841,8 +842,8 @@ qsizetype QBarSeries::find(QBarSet *set) const
 }
 
 /*!
-    Removes multiple BarSets from the series starting from \a index to a number of \a count.
-    The BarSets will be permanently deleted.
+    Removes multiple BarSets from the series starting from \a index to a number
+    of \a count. The BarSets are permanently deleted.
 */
 void QBarSeries::removeMultiple(qsizetype index, qsizetype count)
 {
@@ -856,7 +857,8 @@ void QBarSeries::removeMultiple(qsizetype index, qsizetype count)
 }
 
 /*!
-    Removes the BarSet at the location \a index. The BarSet will be permanently deleted.
+    Removes the BarSet at the location \a index. The BarSet is permanently
+    deleted.
 */
 bool QBarSeries::remove(qsizetype index)
 {
@@ -872,7 +874,7 @@ bool QBarSeries::remove(qsizetype index)
 
 /*!
     Replaces the BarSet specified by \a oldValue with the one in \a newValue. The BarSet
-    in \a oldValue will be permanently deleted if found inside the series. Returns \c true if
+    in \a oldValue is permanently deleted if found inside the series. Returns \c true if
     the replace is successful.
 */
 bool QBarSeries::replace(QBarSet *oldValue, QBarSet *newValue)
@@ -901,8 +903,9 @@ bool QBarSeries::replace(QBarSet *oldValue, QBarSet *newValue)
 }
 
 /*!
-    Replaces the entire BarSet list inside of this BarSeries with the BarSets specified by \a sets.
-    All of the original BarSets will be permanently deleted. Returns \c true if all BarSets are replaced.
+    Replaces the entire BarSet list inside of this BarSeries with the BarSets
+    specified by \a sets. All of the original BarSets are permanently deleted.
+    Returns \c true if all BarSets are replaced.
 */
 bool QBarSeries::replace(const QList<QBarSet *> &sets)
 {

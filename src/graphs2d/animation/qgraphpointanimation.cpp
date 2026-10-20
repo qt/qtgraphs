@@ -23,10 +23,10 @@ QT_BEGIN_NAMESPACE
 
     GraphPointAnimation is an animation type derived from QVariantAnimation which defines how points are animated.
     It can make use of QVariantAnimation functionality and properties for its animations, such as \c duration and \c easing.
-    These animations are housed inside of a QParallelAnimationGroup and hence will run in parallel.
+    These animations are housed inside of a QParallelAnimationGroup and therefore run in parallel.
 
-    This example shows how to use a GraphPointAnimation to set points to animate with
-    a \c duration of 1000ms and \c easing of OutCubic:
+    This example shows how to use a GraphPointAnimation to set points to animate
+    with a \c duration of 1000 ms and \c easing of OutCubic:
 
     \snippet doc_src_qmlgraphs.cpp 12
 
@@ -35,7 +35,7 @@ QT_BEGIN_NAMESPACE
 
     \note GraphPointAnimation currently supports animating only the last point in
     a series when a point is appended or removed. If a point is replaced, the
-    animation will be triggered regardless of the point’s index within the
+    animation is triggered regardless of the point's index within the
     series.
 
     \sa GraphTransition, SplineControlAnimation

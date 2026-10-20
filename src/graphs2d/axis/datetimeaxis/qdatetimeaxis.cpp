@@ -113,8 +113,8 @@ QT_BEGIN_NAMESPACE
 */
 /*!
  \qmlproperty QTimeZone DateTimeAxis::timeZone
- The time zone that will be used to display labels of the axis.
- The accepted values are based on IANA time zone IDs. The default time zone is UTC.
+ The time zone used to display labels of the axis. The accepted values are based
+ on IANA time zone IDs. The default time zone is UTC.
  \since 6.11
 */
 
@@ -228,7 +228,7 @@ QT_BEGIN_NAMESPACE
 /*!
  \qmlproperty int DateTimeAxis::tickCount
  \since 6.12
- The number of major ticks placed on an axis. If the value is 0 or lower,
+ The number of major ticks on the axis. If the value is 0 or lower,
  the axis automatically calculates the appropriate amount of ticks.
  The default value is 0.
 */

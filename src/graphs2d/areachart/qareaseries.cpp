@@ -42,33 +42,30 @@ QT_BEGIN_NAMESPACE
     \property QAreaSeries::color
     \brief The fill color of the area.
     The default value is \c Qt::transparent, meaning the color is defined by the theme.
-    \note If \l AreaSeries::gradient is set to something other than \c null, it
-    will take precedence over \c color. The \c color will be ignored in this
-    case.
+    \note If \l AreaSeries::gradient is not \c null, it takes precedence over
+    \c color, and \c color is ignored.
 */
 /*!
     \qmlproperty color AreaSeries::color
     The fill color of the area.
     The default value is \c transparent, meaning the color is defined by the theme.
-    \note If \l gradient is set to something other than \c null, it will take
-    precedence over \c color. The \c color will be ignored in this case.
+    \note If \l gradient is not \c null, it takes precedence over \c color, and
+    \c color is ignored.
 */
 
 /*!
     \property QAreaSeries::selectedColor
     \brief The fill color of the area when selected.
     The default value is \c Qt::transparent, meaning the selected color is defined by the theme.
-    \note If \l AreaSeries::selectedGradient is set to something other than
-    \c null, it will take precedence over \c selectedColor. The \c selectedColor
-    will be ignored in this case.
+    \note If \l AreaSeries::selectedGradient is not \c null, it takes precedence
+    over \c selectedColor, and \c selectedColor is ignored.
 */
 /*!
     \qmlproperty color AreaSeries::selectedColor
     The fill color of the area when selected.
     The default value is \c transparent, meaning the selected color is defined by the theme.
-    \note If \l selectedGradient is set to something other than \c null, it will
-    take precedence over \c selectedColor. The \c selectedColor will be ignored
-    in this case.
+    \note If \l selectedGradient is not \c null, it takes precedence over
+    \c selectedColor, and \c selectedColor is ignored.
 */
 
 /*!
@@ -140,50 +137,52 @@ QT_BEGIN_NAMESPACE
     \internal
     \since 6.11
     This property defines the fill gradient. By default no gradient is enabled
-    and the value is \c null. In this case the fill will be based on the \l{color} property.
+    and the value is \c null. In this case the fill is based on the \l{color}
+    property.
 
     \note The Gradient type cannot be used here. Rather, prefer using one of
     the advanced subtypes, like LinearGradient.
 
-    \note If set to something other than \c{null}, the \c gradient will take precedence over
-    \l color.
+    \note If \c gradient is not \c{null}, it takes precedence over \l color.
 */
 /*!
     \qmlproperty ShapeGradient AreaSeries::gradient
     \since 6.11
     This property defines the fill gradient. By default no gradient is enabled
-    and the value is \c null. In this case the fill will be based on the \l{color} property.
+    and the value is \c null. In this case the fill is based on the \l{color}
+    property.
 
     \note The Gradient type cannot be used here. Rather, prefer using one of
     the advanced subtypes, like LinearGradient.
 
-    \note If set to something other than \c{null}, the \c gradient will take precedence over
-    \l color.
+    \note If \c gradient is not \c{null}, it takes precedence over \l color.
 */
 
 /*!
     \property QAreaSeries::selectedGradient
     \internal
     \since 6.11
-    This property defines the fill gradient of the area when selected. By default no gradient is enabled
-    and the value is \c null. In this case the fill will be based on the \l{selectedColor} property.
+    This property defines the fill gradient of the area when selected. By
+    default no gradient is enabled and the value is \c null. In this case, the
+    fill is based on the \l{selectedColor} property.
 
     \note The Gradient type cannot be used here. Rather, prefer using one of
     the advanced subtypes, like LinearGradient.
 
-    \note If set to something other than \c{null}, the \c selectedGradient will take precedence over
+    \note If \c selectedGradient is not \c{null}, it takes precedence over
     \l selectedColor.
 */
 /*!
     \qmlproperty ShapeGradient AreaSeries::selectedGradient
     \since 6.11
-    This property defines the fill gradient of the area when selected. By default no gradient is enabled
-    and the value is \c null. In this case the fill will be based on the \l{selectedColor} property.
+    This property defines the fill gradient of the area when selected. By
+    default no gradient is enabled and the value is \c null. In this case, the
+    fill is based on the \l{selectedColor} property.
 
     \note The Gradient type cannot be used here. Rather, prefer using one of
     the advanced subtypes, like LinearGradient.
 
-    \note If set to something other than \c{null}, the \c selectedGradient will take precedence over
+    \note If \c selectedGradient is not \c{null}, it takes precedence over
     \l selectedColor.
 */
 
