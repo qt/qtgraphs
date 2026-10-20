@@ -1356,10 +1356,12 @@ QPieSlicePrivate::~QPieSlicePrivate()
 {
     if (m_labelItem && !m_labelItem->parent())
         m_labelItem->deleteLater();
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     if (m_shapePath && !m_shapePath->parent())
         m_shapePath->deleteLater();
     if (m_labelShape && !m_labelShape->parent())
         m_labelShape->deleteLater();
+#endif
 }
 
 void QPieSlicePrivate::updateData(bool clearHidden)
