@@ -452,9 +452,9 @@ bool QAbstract3DSeries::isVisible() const
  *
  * For QSurface3DSeries, this property holds the selection pointer.
  *
- * If the mesh is MeshUserDefined, then the userDefinedMesh property
- * must also be set for items to render properly. The default value depends on
- * the graph type.
+ * If the mesh is \l{QAbstract3DSeries::Mesh}{Mesh::UserDefined}, then the
+ * userDefinedMesh property must also be set for items to render properly. The
+ * default value depends on the graph type.
  */
 void QAbstract3DSeries::setMesh(QAbstract3DSeries::Mesh mesh)
 {
@@ -486,9 +486,9 @@ QAbstract3DSeries::Mesh QAbstract3DSeries::mesh() const
  *
  * \brief Whether smooth versions of predefined meshes are used.
  *
- * If \c true, smooth versions set via the \l mesh property are used.
- * This property does not affect custom meshes used when the mesh is set to
- * MeshUserDefined. Defaults to \c{false}.
+ * If \c true, smooth versions set via the \l mesh property are used. This
+ * property does not affect custom meshes used when the mesh is set to
+ * \l{QAbstract3DSeries::Mesh}{Mesh::UserDefined}. Defaults to \c{false}.
  */
 void QAbstract3DSeries::setMeshSmooth(bool enable)
 {
@@ -556,7 +556,8 @@ void QAbstract3DSeries::setMeshAxisAndAngle(QVector3D axis, float angle)
  *
  * \brief The filename for a user defined custom mesh for objects.
  *
- * The custom mesh is used when \l mesh is MeshUserDefined.
+ * The custom mesh is used when \l mesh is
+ * \l{QAbstract3DSeries::Mesh}{Mesh::UserDefined}.
  * \note The file needs to be in the QtQuick3D mesh format. Use the \c balsam
  * conversion tool to create a mesh from other 3D model formats.
  */

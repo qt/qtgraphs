@@ -111,9 +111,9 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty bool Scene3D::slicingActive
  *
  * Defines whether the 2D slicing view is currently active. If \c true,
- * Graphs3D::selectionMode must have either the
- * \l{QtGraphs3D::SelectionFlag}{Graphs3D.SelectionRow} or
- * \l{QtGraphs3D::SelectionFlag}{Graphs3D.SelectionColumn}
+ * GraphsItem3D::selectionMode must have either the
+ * \l{QtGraphs3D::SelectionFlag}{Graphs3D.SelectionFlag.Row} or
+ * \l{QtGraphs3D::SelectionFlag}{Graphs3D.SelectionFlag.Column}
  * set to a valid selection.
  * \note Not all graphs support the 2D slicing view.
  */
