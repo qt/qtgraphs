@@ -97,9 +97,10 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty Bar3DSeries Bars3DNode::selectedSeries
  * \readonly
  *
- * The selected series or \c null. If \l {GraphsNode::selectionMode}{selectionMode} has
- * the \c SelectionMultiSeries flag set, this property holds the series that
- * owns the selected bar.
+ * The selected series or \c null. If
+ * \l {GraphsNode::selectionMode}{selectionMode} has the
+ * \l{Graphs3D.SelectionFlag}{SelectionFlag.MultiSeries} flag set, this property
+ * holds the series that owns the selected bar.
  */
 
 /*!

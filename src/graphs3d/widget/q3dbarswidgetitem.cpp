@@ -365,7 +365,8 @@ QValue3DAxis *Q3DBarsWidgetItem::valueAxis() const
  *
  * \brief The selected series or a null value.
  *
- * If selectionMode has the \c SelectionMultiSeries flag set, this
+ * If selectionMode has the
+ * \l{QtGraphs3D::SelectionFlag}{SelectionFlag::MultiSeries} flag set, this
  * property holds the series that owns the selected bar.
  */
 QBar3DSeries *Q3DBarsWidgetItem::selectedSeries() const

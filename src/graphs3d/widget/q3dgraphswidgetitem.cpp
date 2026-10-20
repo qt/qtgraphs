@@ -134,7 +134,8 @@ QList<QGraphsTheme *> Q3DGraphsWidgetItem::themes() const
  *        Indicates that order-independent transparency techniques are not used.
  *        Offers the best performance. Use when graphs don't contain
  *        transparency or when a bar or scatter graph is also using instancing,
- *        that is \l optimizationHint is {QtGraphs3D::OptimizationHint::Default}.
+ *        that is, when \l optimizationHint is
+ *        \l{QtGraphs3D::OptimizationHint}{OptimizationHint::Default}.
  *
  * \value Approximate
  *        Indicates that a graph attempts an approximation of order-independent
@@ -343,9 +344,10 @@ QAbstract3DAxis *Q3DGraphsWidgetItem::selectedAxis() const
 }
 
 /*!
- * Can be used to query the index of the selected custom item after receiving \c
- * selectedElementChanged signal with Q3DGraphsWidgetItem::ElementType::CustomItem
- * type. Selection is valid until the next \c selectedElementChanged signal.
+ * Can be used to query the index of the selected custom item after receiving
+ * \c selectedElementChanged signal with
+ * \l{QtGraphs3D::ElementType}{ElementType::CustomItem} type. Selection is valid
+ * until the next \c selectedElementChanged signal.
  *
  * Returns the index of the selected custom item, or -1.
  *
@@ -358,10 +360,11 @@ qsizetype Q3DGraphsWidgetItem::selectedCustomItemIndex() const
 }
 
 /*!
- * Can be used to get the selected custom item after receiving \c
- * selectedElementChanged signal with Q3DGraphsWidgetItem::ElementType::CustomItem
- * type. Ownership of the item remains with the graph. Selection is valid until
- * the next \c selectedElementChanged signal.
+ * Can be used to get the selected custom item after receiving
+ * \c selectedElementChanged signal with
+ * \l{QtGraphs3D::ElementType}{ElementType::CustomItem} type. Ownership of the
+ * item remains with the graph. Selection is valid until the next
+ * \c selectedElementChanged signal.
  *
  * Returns the pointer to the selected custom item, or null.
  *

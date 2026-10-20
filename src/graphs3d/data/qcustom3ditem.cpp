@@ -526,9 +526,8 @@ bool QCustom3DItem::isVisible() const
  *
  * \brief Whether shadow casting for the item is enabled.
  *
- * Defaults to \c{true}.
- * If \c{false}, the item does not cast shadows regardless of
- * Q3DGraphsWidgetItem::ShadowQuality.
+ * Defaults to \c{true}. If \c{false}, the item does not cast shadows regardless
+ * of \l QtGraphs3D::ShadowQuality.
  */
 void QCustom3DItem::setShadowCasting(bool enabled)
 {

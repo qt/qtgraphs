@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
     \qmlvaluetype legendData
     \nativetype QLegendData
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml__2D
+    \ingroup graphs_qml_2D
     \brief The legendData value type contains information to display on a set's
     legend marker.
 

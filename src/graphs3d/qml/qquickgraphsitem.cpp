@@ -369,7 +369,8 @@ constexpr float polarRoundness = 64.0f;
  *        Indicates that order-independent transparency techniques are not used.
  *        Offers the best performance. Use when graphs don't contain
  *        transparency or when a bar or scatter graph is also using instancing,
- *        that is \l optimizationHint is {QtGraphs3D::OptimizationHint::Default}.
+ *        that is, when \l optimizationHint is
+ *        \l{Graphs3D.OptimizationHint}{OptimizationHint.Default}.
  *
  * \value Approximate
  *        Indicates that a graph attempts an approximation of order-independent
