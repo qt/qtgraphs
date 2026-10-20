@@ -49,7 +49,7 @@ public:
         float borderWidth;
         bool isSelected;
     };
-    using PaintSnapshot = QHash<QBarSeries *, QList<BarSeriesData>>;
+    using PaintSnapshot = QList<BarSeriesData>;
     BarsRenderer(QGraphsView *graph, bool clipPlotArea);
     ~BarsRenderer() override;
 
@@ -98,7 +98,7 @@ private:
     QHash<QBarSeries *, QList<QQuickText *>> m_labelTextItems;
     QHash<QBarSeries *, QList<BarSeriesData>> m_seriesData;
 #if QT_CONFIG(graphs_2d_high_performance_backend)
-    QHash<QBarSeries *, QList<BarSeriesData>> m_paintSnapshot;
+    PaintSnapshot m_paintSnapshot;
 #endif
 
     QQuickTapHandler *m_tapHandler = nullptr;

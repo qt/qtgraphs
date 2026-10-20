@@ -252,5 +252,10 @@ Rectangle {
                     barSeries.deselectAll();
             }
         }
+        Button {
+            width: 250
+            text: "Use canvaspainter: " + chartView.useCanvasPainter
+            onClicked: chartView.useCanvasPainter = !chartView.useCanvasPainter
+        }
     }
 }
