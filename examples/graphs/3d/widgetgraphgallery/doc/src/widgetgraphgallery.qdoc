@@ -19,15 +19,16 @@
 
     \section1 Bar Graph
 
-    In the \uicontrol {Bar Graph} tab, create a 3D bar graph using Q3DBarWidgetItem and combine
+    In the \uicontrol {Bar Graph} tab, create a 3D bar graph using \l Q3DBarsWidgetItem and combine
     the use of widgets to adjust various bar graph qualities. The example shows how to:
 
     \list
-        \li Create an application with Q3DBarWidgetItem and some control widgets
+        \li Create an application with \l Q3DBarsWidgetItem and some control
+            widgets
         \li Use QBar3DSeries and QBarDataProxy to set data to the graph
         \li Adjust some graph and series properties using widget controls
         \li Select a row or a column by clicking an axis label
-        \li Create a custom proxy to use with Q3DBarWidgetItem
+        \li Create a custom proxy to use with \l Q3DBarsWidgetItem
     \endlist
 
     For information about interacting with the graph, see
@@ -161,8 +162,8 @@
         \li Data mode
     \endlist
 
-    Some widget controls are intentionally disabled when in the \uicontrol {Custom Proxy Data}
-    data mode.
+    Some widget controls are intentionally disabled when in the
+    \uicontrol {Model Proxy Data} mode.
 
     \section2 Selecting a Row or Column by Clicking an Axis Label
 
@@ -493,7 +494,7 @@
     With the \uicontrol {Sqrt & Sin} data set, custom surface gradients can be
     taken into use with two push buttons. Define the gradient with
     QLinearGradient, where the desired colors are set. Also, change the color
-    style to Q3DTheme::ColorStyle::RangeGradient to use the gradient.
+    style to \l{QGraphsTheme::ColorStyle}{ColorStyle::RangeGradient} to use the gradient.
 
     \snippet 3d/widgetgraphgallery/surfacegraphmodifier.cpp 8
 

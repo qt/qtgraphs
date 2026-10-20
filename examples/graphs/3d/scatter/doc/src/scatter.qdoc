@@ -63,9 +63,10 @@
 
     \snippet 3d/scatter/qml/scatter/main.qml 5
 
-    \c CustomButtom extends the \c RoundButton type, but adds a few additions. Properties
-    such as \c {Layout.minimumWidth}, \c {Layout.FillWidth}, \c {radius} and \c {background} are set.
-    These define the styling and layout of the button.
+    \c CustomButton extends the \c RoundButton type, but adds a few additions.
+    Properties such as \c {Layout.minimumWidth}, \c {Layout.fillWidth},
+    \c {radius} and \c {background} are set. These define the styling and layout
+    of the button.
 
     \snippet 3d/scatter/qml/scatter/main.qml 6
 

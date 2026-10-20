@@ -150,7 +150,7 @@
     \section1 Examples
 
     \annotatedlist qtgraphs_qmlexamples_3D
-    The following example shows how to use widgets to visualize data:
+    The following examples show how to use widgets to visualize data:
     \annotatedlist qtgraphs_examples_3D
 */
 
