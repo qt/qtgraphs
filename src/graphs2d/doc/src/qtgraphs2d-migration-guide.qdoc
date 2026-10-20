@@ -5,9 +5,8 @@
     \page qtgraphs_migration_guide_2d.html
     \title Qt Graphs Migration from Qt Charts
 
-    The API and functionality between Qt Charts and Qt Graphs are slightly
-    different. This article explains the differences between the APIs of Qt
-    Charts and Qt Graphs:
+    The API and functionality of Qt Charts and Qt Graphs differ slightly. This
+    article explains how to migrate from the Qt Charts API to the Qt Graphs API.
 
     \section1 QML Import Statement
 
@@ -35,7 +34,7 @@
     \endcode
     for Qt Graphs.
 
-    \section1 Qmake Module Inclusion
+    \section1 qmake module inclusion
 
     The inclusion in Qt Charts:
     \code
@@ -56,11 +55,10 @@
         \li Candlestick charts
         \li Box-and-whiskers chart
         \li Titles and legends
-        \li Log value axis
-        \li Polar chart view
+        \li Log value axis (added in Qt 6.12)
     \endlist
 
-    \section2 Theme APIs
+    \section1 Theme APIs
 
     The theming between 2D and 3D graphs is unified, for the theme settings, see
     \l{GraphsTheme}.
@@ -68,9 +66,9 @@
     The generic color scheme of the whole graph is now controlled by a
     \l{GraphsTheme::colorScheme}{color scheme} property, and series colors by a
     \l{GraphsTheme::theme}{theme} property. If color scheme is not explicitly
-    set, it will follow the desktop theming (Light/Dark).
+    set, it follows the desktop theming (Light/Dark).
 
-    \section2 Enums
+    \section1 Enums
 
     In Qt Graphs 2D, all the enums are implemented as scoped enums, for example,
     for the \c{PieSlice.LabelOutside} in Qt Charts, the corresponding enum in
@@ -78,8 +76,8 @@
 
     \section1 Migrating chart series in QML
 
-    This section gives the examples of how to migrate your code with Qt Charts
-    to the Qt Graphs 2D.
+    This section gives the examples of how to migrate your code from Qt Charts
+    to the Qt Graphs 2D API.
 
     \section2 Migrating Area series
 

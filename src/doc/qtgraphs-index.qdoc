@@ -8,17 +8,17 @@
 
     The Qt Graphs module enables you to visualize data in 2D and 3D graphs.
 
-    In the 3D realm there is support for bar, scatter, and surface graphs.
-    It's especially useful for visualizing depth maps and large quantities
-    of rapidly changing data, such as data received from multiple sensors.
-    The look and feel of graphs can be customized by using themes or by adding
-    custom items and labels.
 
-    In the 2D realm, there is support for area, bar, donut, line, pie, scatter, and spline graphs,
-    and they are easily combinable with any other QML content.
+    For 3D, Qt Graphs supports bar, scatter, and surface graphs. These graphs
+    suit depth maps and large quantities of rapidly changing data, such as data
+    from multiple sensors. You can customize the look and feel of graphs with
+    themes, custom items, and labels.
 
-    Qt Graphs is built on Qt 6 and the 3D graphs on Qt Quick 3D to take advantage of
-    hardware acceleration and Qt Quick.
+    For 2D, Qt Graphs supports area, bar, donut, line, pie, scatter, and
+    spline graphs. You can combine them with any other QML content.
+
+    Qt Graphs builds on Qt 6, and the 3D graphs build on Qt Quick 3D, to take
+    advantage of hardware acceleration and Qt Quick.
 
     \section1 Using the Module
 
@@ -41,16 +41,15 @@
     \section3 Building a widget application
 
     \list
-        \li \l{Qt Graphs Widgets}{Building With Widgets}
+        \li \l{Qt Graphs Widgets}{Building with Widgets}
     \endlist
 
     \section1 Articles and Guides
 
     \section2 Limiting Features
 
-    In cases where the target of an application is some embedded hardware with
-    limited specifications, it is possible to build only 2D or 3D support into
-    the module.
+    If your application targets embedded hardware with limited resources, you
+    can build only the 2D or the 3D support into the module.
 
     For more information, see \l{Qt Graphs Configure Options}{configuring Qt Graphs}.
 

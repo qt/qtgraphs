@@ -19,8 +19,8 @@
 
     \brief C++ classes for the Qt Graphs for 3D API used with widgets.
 
-    Widget support is included in its own module to avoid a hard dependency on
-    QtWidgets when building only QML applications.
+    Widget support lives in its own module, so QML-only applications do not
+    depend on Qt Widgets.
 */
 
 /*!
@@ -29,7 +29,7 @@
 
     \brief C++ classes for the Qt Graphs API.
 
-    The Qt Graphs functionality can be accessed via these C++ classes.
+    These C++ classes provide the Qt Graphs functionality.
 */
 
 /*!
@@ -39,7 +39,7 @@
 
     \brief C++ classes for the Qt Graphs for 2D API.
 
-    The Qt Graphs for 2D functionality can be accessed via these C++ classes.
+    These C++ classes provide the Qt Graphs for 2D functionality.
 */
 
 /*!
@@ -49,7 +49,7 @@
 
     \brief C++ classes for the Qt Graphs for 3D API.
 
-    The Qt Graphs for 3D functionality can be accessed via these C++ classes.
+    These C++ classes provide the Qt Graphs for 3D functionality.
 */
 
 /*!
@@ -59,7 +59,7 @@
 
     \brief C++ classes for the Qt Graphs for 3D API used with widgets.
 
-    The Qt Graphs for 3D widget functionality can be accessed via these C++ classes.
+    These C++ classes provide the Qt Graphs for 3D widget functionality.
 */
 
 /*!
@@ -69,7 +69,7 @@
 
     \brief C++ classes for the Qt Graphs common API.
 
-    The Qt Graphs common functionality, like theme, can be accessed via these C++ classes.
+    These C++ classes provide common Qt Graphs functionality, such as themes.
 */
 
 /*!
@@ -90,7 +90,7 @@
 
     \brief QML types for the Qt Graphs API.
 
-    The Qt Graphs functionality can be accessed via these QML types.
+    These QML types provide the Qt Graphs functionality.
 */
 
 /*!
@@ -100,7 +100,7 @@
 
     \brief QML types for the Qt Graphs for 3D API.
 
-    The Qt Graphs for 3D functionality can be accessed via these QML types.
+    These QML types provide the Qt Graphs for 3D functionality.
 
     \section1 QML Types
 */
@@ -112,7 +112,7 @@
 
     \brief QML types for the Qt Graphs for 2D API.
 
-    The Qt Graphs for 2D functionality can be accessed via these QML types.
+    These QML types provide the Qt Graphs for 2D functionality.
 
     \section1 QML Types
 */
@@ -124,8 +124,7 @@
 
     \brief QML types for the Qt Graphs common API.
 
-    The Qt Graphs common functionality, like theme, can be accessed via these
-    QML types.
+    These QML types provide common Qt Graphs functionality, such as themes.
 
     \section1 QML Types
 */
@@ -207,11 +206,10 @@
 
             To disable, pass \c{-DFEATURE_graphs_2d_area=OFF} to CMake.
 
-            Enabling area graph will also enable \l LineSeries support, as that
-            is the minimum requirement for creating area graphs. If
-            \l SplineSeries is required for the \c upperSeries or
-            \c{lowerSeries}, the \c QT_FEATURE_graphs_2d_spline option should
-            also be enabled.
+            Enabling the area graph feature also enables \l LineSeries support,
+            because line series are the minimum requirement for area graphs. If
+            you need \l SplineSeries for \c upperSeries or \c lowerSeries, also
+            enable the \c QT_FEATURE_graphs_2d_spline option.
         \li \c QT_FEATURE_graphs_2d_bar enables building the bar graph support
             into the Qt Graphs module. It is \c ON by default.
 
@@ -297,13 +295,14 @@
     \section1 Qt Graphs for 3D Issues
 
     \list
-        \li Surfaces with non-straight rows and columns do not always render properly.
+       \li Surfaces with non-straight rows and columns do not always render
+            properly.
         \li Widget-based examples lay out incorrectly on iOS.
-        \li Widget-based examples are not supported for Android or WinRT.
-        \li Android qmake builds of QML applications importing QtGraphs also require
-            "QT += graphs" in the pro file. This is because Qt Graphs
-            QML plugin has a dependency on Qt Graphs C++ library, which Qt Creator
-            doesn't automatically add to the deployment package.
+        \li Widget-based examples are not supported on Android or WinRT.
+        \li Android qmake builds of QML applications that import QtGraphs also
+            require \c{QT += graphs} in the \c .pro file, because the Qt Graphs
+            QML plugin depends on the Qt Graphs C++ library, which Qt Creator
+            does not add to the deployment package automatically.
         \li Transparency is not supported for Surface3D due to a limitation with Qt Quick 3D.
         \li Transparency functionality is not available for highlighted items
             in Bars3D and Scatter3D.

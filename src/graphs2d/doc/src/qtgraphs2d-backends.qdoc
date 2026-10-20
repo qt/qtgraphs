@@ -53,7 +53,7 @@
     high-quality backend has to rebuild its shape geometry.
 
     The choice does not affect \l ScatterSeries. Neither backend draws its
-    points. They are Qt Quick items, created from the component set as
+    points. The points are Qt Quick items, created from the component set as
     \l {XYSeries::pointDelegate}{pointDelegate}, or from a built-in marker
     when the series sets none. The other XY series draw their points the
     same way when they set a delegate. Their lines and areas still go
@@ -184,7 +184,7 @@
 
     A custom series can also paint with \l QCanvasPainter, by passing a
     \l QCustomSeriesCanvasRenderer subclass to
-    \l {QCustomSeries::setCustomSeriesPainter()}. That method only exists in a
+    \l {QCustomSeries::setCustomSeriesPainter()}. This function only exists in a
     build that has the high-performance backend, and the painter is only used
     while that backend is drawing the graph.
 

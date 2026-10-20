@@ -43,7 +43,7 @@
     that setting a value for \c{SceneEnvironment.antialiasingMode} and
     \c{SceneEnvironment.clearColor} does nothing. However, if the
     \c backgroundMode is not set to \c{SceneEnvironment.Color}, background
-    will be affected by the settings.
+    is affected by the settings.
 
     \section1 Scene Integration
 
@@ -95,7 +95,7 @@
     }
     \endqml
 
-    Adding \l{QtQuick3D::Node}{Nodes} directly as children to the graph will not
+    Adding \l{QtQuick3D::Node}{Nodes} directly as children to the graph does not
     work, because the default child for a graph is the corresponding series.
 */
 
@@ -123,12 +123,9 @@
     be directly supported. Therefore, Qt Graphs implements data proxies, into
     which user can feed their data in a known format. Each graph has a basic
     proxy type in its series, which takes data in a format suitable for that
-    graph. With the proxy-series relationship, since data is stored in series,
-    it's important to mention a few points. Firstly, with this implementation,
-    users can access data through the series. If a user wants to perform
-    operations on this data, such as adding or removing, they can still carry
-    out these operations through the proxy. However, in order to perform these
-    operations, it is necessary to create a series associated with this proxy.
+    graph. The series stores the data, and users access the data through the
+    series. To add, remove, or otherwise change the data, use the proxy. To
+    perform these operations, create a series associated with the proxy.
 
     For example, the basic proxy for \l QBar3DSeries is \l QBarDataProxy, which
     is used to add data to the series as \l QBarDataItem objects. Each
@@ -167,7 +164,7 @@
     from the model, it uses these mappings to generate the rows and columns of
     the bar graph.
 
-    Often, the item models will have a single role that contains information you
+    Often, the item models have a single role that contains information you
     want to map to multiple values. A typical example of this is a timestamp
     field when generating a bar graph with two time-related axes, for example,
     years and months. To enable mapping a single item model role to more than
@@ -278,8 +275,8 @@
     selection mode.
 
     When multiple series are added to a graph, selecting an item in one of them
-    will clear the selection on the other series. There is a multiseries option
-    as well for bars and surface, which will select each series in the selected
+    clears the selection on the other series. There is a multiseries option
+    as well for bars and surface, which selects each series in the selected
     position.
 */
 
@@ -330,7 +327,7 @@
     \endcode
     for Qt Graphs.
 
-    \section1 Qmake Module Inclusion
+    \section1 qmake module inclusion
 
     The inclusion in Qt DataVisualization:
     \code
@@ -400,13 +397,14 @@
 
     \section2 optimizationHint
 
-    \c Legacy is now the mode that was \c OptimizationDefault in QtDataVisualization.
-    \c Default uses instancing, and should be used for all targets that support it.
+    \c Legacy is now the mode that was \c OptimizationDefault in Qt
+    DataVisualization. \c Default uses instancing, and should be used for all
+    targets that support it.
 
     \section2 renderingMode
 
     \c RenderDirectToBackground_NoClear has been removed, as it was already
-    obsolete in QtDataVisualization in Qt 6.
+    obsolete in Qt DataVisualization in Qt 6.
 
     \section2 renderToImage
 
@@ -465,7 +463,7 @@
     The generic color scheme of the whole graph is now controlled by a
     \l{GraphsTheme::colorScheme}{color scheme} property, and series colors by a
     \l{GraphsTheme::theme}{theme} property. If color scheme is not explicitly
-    set, it will follow the desktop theming (Light/Dark).
+    set, it follows the desktop theming (Light/Dark).
 
     \section2 Enums
 
