@@ -1418,8 +1418,10 @@ void QGraphsView::setMarginRight(qreal newMarginRight)
 /*!
     \property QGraphsView::clipPlotArea
     \since 6.10
-    \brief Controls whether graph items should be clipped
-    if they go outside of a plot area. The default value is \c true.
+    \brief Controls whether graph items should be clipped if they go outside of
+    a plot area.
+
+    The default value is \c true.
 
     \sa QGraphsView::plotArea
 */
@@ -1797,7 +1799,7 @@ void QGraphsView::setPanStyle(PanStyle newPanStyle)
 /*!
     \property QGraphsView::zoomAreaEnabled
     \since 6.9
-    \brief Enables zoom area
+    \brief Enables zoom area.
 
     Zoom area changes mouse and touch dragging to draw a box determined
     by \c zoomAreaDelegate. Upon release the graph QValueAxis zoom and pan
@@ -1833,7 +1835,7 @@ void QGraphsView::setZoomAreaEnabled(bool newZoomAreaEnabled)
 /*!
     \property QGraphsView::zoomAreaDelegate
     \since 6.9
-    \brief Zoom area visual delegate
+    \brief Zoom area visual delegate.
 
     Determines the QML element that is drawn when the user performs a drag
     motion to zoom in to an area.
@@ -1872,7 +1874,7 @@ void QGraphsView::setZoomAreaDelegate(QQmlComponent *newZoomAreaDelegate)
 /*!
     \property QGraphsView::zoomSensitivity
     \since 6.9
-    \brief Zoom value change sensitivity
+    \brief Zoom value change sensitivity.
 
     Determines how fast zoom value changes while zooming.
 */
@@ -1899,7 +1901,7 @@ void QGraphsView::setZoomSensitivity(qreal newZoomSensitivity)
 
 /*!
     \property QGraphsView::dynamicLabelMargins
-    \brief Calculate label margins dynamically based on content
+    \brief Calculate label margins dynamically based on content.
 
     This property holds whether label margins adjust dynamically.
 

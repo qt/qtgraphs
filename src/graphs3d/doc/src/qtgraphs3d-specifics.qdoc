@@ -4,6 +4,7 @@
 /*!
     \page qtgraphs_and_qtquick3d_integration_guide.html
     \title Qt Graphs Integration with Qt Quick 3D
+    \brief Integrating Qt Quick 3D scenes into Qt Graphs 3D graphs.
 
     As Qt Graphs for 3D is based on Qt Quick 3D, it is possible to integrate Qt
     Quick 3D scenes into the graphs.
@@ -101,6 +102,7 @@
 /*!
     \page qtgraphs_data_handling.html
     \title Qt Graphs Data Handling with 3D
+    \brief Series, data proxies, and data handling in 3D graphs.
 
     \section1 Series
 
@@ -234,6 +236,7 @@
 /*!
     \page qtgraphs_interacting_with_data.html
     \title Qt Graphs Interacting with Data in 3D
+    \brief Using mouse and touch input with 3D graphs, and selecting data.
 
     \section1 Interacting with Data
 
@@ -283,6 +286,7 @@
 /*!
     \page qtgraphs_migration_guide.html
     \title Qt Graphs Migration from Qt DataVisualization
+    \brief Migrating 3D graphs from Qt DataVisualization to Qt Graphs.
 
     The API and functionality between Qt DataVisualization and Qt Graphs was
     kept mostly unchanged. However, there are some differences that need to be

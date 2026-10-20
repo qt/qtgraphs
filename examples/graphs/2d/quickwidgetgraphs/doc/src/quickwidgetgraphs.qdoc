@@ -8,7 +8,7 @@
 
     \title Graphs 2D in Qt Widgets
     \ingroup qtgraphs_examples
-    \brief Using Graphs for 2D in a Widget based application.
+    \brief Using Qt Graphs for 2D in a Qt Widgets-based application.
 
     Graphs 2D support only Qt Quick applications. This example shows how to
     display a simple 2D pie graph in a Qt Widgets applications using a

@@ -51,7 +51,9 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateSplinePoints_exit);
 /*!
     \property QSplineSeries::width
 
-    The width of the spline line in pixels. The default value is 1.0.
+    \brief The width of the spline line in pixels.
+
+    The default value is 1.0.
 */
 /*!
     \qmlproperty real SplineSeries::width
@@ -61,8 +63,10 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateSplinePoints_exit);
 /*!
     \property QSplineSeries::capStyle
 
-    Controls the cap style of the spline line. The value is one of Qt::PenCapStyle enum values.
-    The default value is Qt::SquareCap.
+    \brief Controls the cap style of the spline line.
+
+    The value is one of Qt::PenCapStyle enum values. The default value is
+    Qt::SquareCap.
 
     \sa Qt::PenCapStyle
 */

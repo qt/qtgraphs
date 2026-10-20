@@ -264,6 +264,7 @@ bool Q3DBarsWidgetItem::isBarSpacingRelative() const
  * \property Q3DBarsWidgetItem::barSeriesMargin
  *
  * \brief Margin between series columns in X and Z dimensions.
+ *
  * Sensible values are on the range [0,1).
  *
  * Preset to \c {(0.0, 0.0)} by default. This property enables
@@ -336,13 +337,14 @@ QCategory3DAxis *Q3DBarsWidgetItem::columnAxis() const
 /*!
  * \property Q3DBarsWidgetItem::valueAxis
  *
- * Sets the active value axis (the Y-axis) to \a axis. Implicitly calls
- * addAxis() to transfer the ownership of \a axis to this graph.
+ * \brief The active value axis (the Y-axis).
  *
- * If \a axis is null, a temporary default axis with no labels and
- * an automatically adjusting range is created.
- * This temporary axis is destroyed if another axis is set explicitly to the
- * same orientation.
+ * Setting the axis implicitly calls addAxis() to transfer the ownership of the
+ * axis to this graph.
+ *
+ * If the axis is null, a temporary default axis with no labels and an
+ * automatically adjusting range is created. This temporary axis is destroyed if
+ * another axis is set explicitly to the same orientation.
  *
  * \sa addAxis(), releaseAxis()
  */

@@ -428,7 +428,7 @@ bool QSurface3DSeries::isFlatShadingSupported() const
 /*!
  * \property QSurface3DSeries::drawMode
  *
- * The drawing mode.
+ * \brief The drawing mode.
  *
  * Possible values are the values of DrawFlag. Clearing all flags is not
  * allowed.
@@ -627,7 +627,8 @@ QSurfaceDataArray QSurface3DSeries::dataArray() &&
  * \property QSurface3DSeries::axisX
  * \since 6.11
  *
- * \brief Holds an additional X-axis for the series
+ * \brief Holds an additional X-axis for the series.
+ *
  *  If an axis is given, the series will be fitted
  *  to the minimum and maximum values of the axis.
  *
@@ -664,7 +665,8 @@ void QSurface3DSeries::resetAxisX()
  * \property QSurface3DSeries::axisY
  * \since 6.11
  *
- * \brief Holds an additional Y-axis for the series
+ * \brief Holds an additional Y-axis for the series.
+ *
  *  If an axis is given, the series will be fitted
  *  to the minimum and maximum values of the axis.
  */
@@ -700,7 +702,8 @@ void QSurface3DSeries::resetAxisY()
  * \property QSurface3DSeries::axisZ
  * \since 6.11
  *
- * \brief Holds an additional Z-axis for the series
+ * \brief Holds an additional Z-axis for the series.
+ *
  *  If an axis is given, the series will be fitted
  *  to the minimum and maximum values of the axis.
  */

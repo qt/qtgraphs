@@ -204,7 +204,8 @@ QScatter3DSeries::QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent
  * \property QScatter3DSeries::axisX
  * \since 6.11
  *
- * \brief Holds an additional X-axis for the series
+ * \brief Holds an additional X-axis for the series.
+ *
  *  If an axis is given, the series will be fitted
  *  to the minimum and maximum values of the axis.
  */
@@ -240,7 +241,8 @@ void QScatter3DSeries::resetAxisX()
  * \property QScatter3DSeries::axisY
  * \since 6.11
  *
- * \brief Holds an additional Y-axis for the series
+ * \brief Holds an additional Y-axis for the series.
+ *
  *  If an axis is given, the series will be fitted
  *  to the minimum and maximum values of the axis.
  */
@@ -276,7 +278,8 @@ void QScatter3DSeries::resetAxisY()
  * \property QScatter3DSeries::axisZ
  * \since 6.11
  *
- * \brief Holds an additional Z-axis for the series
+ * \brief Holds an additional Z-axis for the series.
+ *
  *  If an axis is given, the series will be fitted
  *  to the minimum and maximum values of the axis.
  */

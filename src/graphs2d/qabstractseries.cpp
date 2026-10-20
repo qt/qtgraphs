@@ -36,7 +36,7 @@ QT_BEGIN_NAMESPACE
     \class QLegendData
     \inmodule QtGraphs
     \ingroup graphs_2D
-    \brief The QLegendData struct contains information to display on a sets
+    \brief The QLegendData struct contains information to display on a set's
     legend marker.
 
     The information needed to make a visual association between a set and a
@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
     \nativetype QLegendData
     \inqmlmodule QtGraphs
     \ingroup graphs_qml__2D
-    \brief The legendData value type contains information to display on a sets
+    \brief The legendData value type contains information to display on a set's
     legend marker.
 
     The information needed to make a visual association between a set and a
@@ -242,7 +242,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \property QAbstractSeries::zValue
-    \brief Controls the order in which the series is drawn
+    \brief Controls the order in which the series is drawn.
     \since 6.10
 
     The series list of GraphsView is sorted by the zValue property. Since each series type is
@@ -742,8 +742,10 @@ const QList<QLegendData> QAbstractSeries::legendData() const
 /*!
     \property QAbstractSeries::seriesChildren
 
-    The list of series child objects. This is a default property that allows child objects to be
-    specified within a series element in QML without explicitly using the children property name.
+    \brief The list of series child objects.
+
+    This is a default property that allows child objects to be specified within
+    a series element in QML without explicitly using the children property name.
 */
 QQmlListProperty<QObject> QAbstractSeries::seriesChildren()
 {

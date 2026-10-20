@@ -163,7 +163,7 @@ Q_LOGGING_CATEGORY(lcGraphsCommonTheme, "qt.graphs.common.theme")
  * \qmlvaluetype graphsline
  * \nativetype QGraphsLine
  * \ingroup graphs_qml_common
- * \brief a values for lines based on properties of QGraphsLine.
+ * \brief Holds the values for a line, based on the properties of QGraphsLine.
  *
  * The \c graphsline type refers to a line value with the properties of QGraphsLine.
  *
@@ -720,7 +720,7 @@ void QGraphsTheme::resetDirtyBits()
 /*!
  * \property QGraphsTheme::colorScheme
  *
- * The color scheme of the graph in use.
+ * \brief The color scheme of the graph in use.
  *
  * \sa Qt::ColorScheme
  */
@@ -757,12 +757,14 @@ void QGraphsTheme::setColorScheme(QGraphsTheme::ColorScheme newColorScheme)
 /*!
  * \property QGraphsTheme::theme
  *
- * The type of the theme. If no type is set, the type is
- * \l{QGraphsTheme::Theme::QtGreen}{GraphsTheme.Theme.QtGreen}.
- * Changing the theme type after the item has been constructed will change all
- * other properties of the theme to what the predefined theme specifies.
- * Changing the theme type of the active theme of the graph will also reset all
- * attached series to use the new theme.
+ * \brief The type of the theme.
+ *
+ * If no type is set, the type is
+ * \l{QGraphsTheme::Theme::QtGreen}{GraphsTheme.Theme.QtGreen}. Changing the
+ * theme type after the item has been constructed will change all other
+ * properties of the theme to what the predefined theme specifies. Changing the
+ * theme type of the active theme of the graph will also reset all attached
+ * series to use the new theme.
  */
 QGraphsTheme::Theme QGraphsTheme::theme() const
 {
@@ -788,7 +790,9 @@ void QGraphsTheme::setTheme(Theme newTheme, ForceTheme force)
 /*!
  * \property QGraphsTheme::colorStyle
  *
- * The style of the graph colors. One of QGraphsTheme::ColorStyle enum values.
+ * \brief The style of the graph colors.
+ *
+ * One of QGraphsTheme::ColorStyle enum values.
  *
  * This value can be overridden by setting \l{Abstract3DSeries::colorStyle}
  * {Abstract3DSeries.colorStyle} explicitly in the series.
@@ -1410,7 +1414,8 @@ void QGraphsTheme::setSeriesGradients(const QList<QLinearGradient> &newSeriesGra
 /*!
  * \property QGraphsTheme::borderWidth
  *
- * \brief The width of borders in graph if any
+ * \brief The width of borders in the graph, if any.
+ *
  * The default value is \c 1.0.
  */
 qreal QGraphsTheme::borderWidth() const
@@ -1741,8 +1746,8 @@ QLinearGradient QGraphsTheme::convertGradient(QQuickGradient *gradient)
 /*!
     \property QGraphsTheme::baseColors
 
-    The list of base colors to be used for the series when using the ColorStyle::Uniform
-    color style.
+    \brief The list of base colors to be used for the series when using the
+    ColorStyle::Uniform color style.
 */
 QQmlListProperty<QQuickGraphsColor> QGraphsTheme::baseColorsQML()
 {
@@ -1779,8 +1784,8 @@ void QGraphsTheme::clearBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list
 /*!
     \property QGraphsTheme::baseGradients
 
-    The list of base gradients to be used for the series when using the ColorStyle::RangeGradient
-    color style.
+    \brief The list of base gradients to be used for the series when using the
+    ColorStyle::RangeGradient color style.
 */
 QQmlListProperty<QQuickGradient> QGraphsTheme::baseGradientsQML()
 {
@@ -1817,8 +1822,11 @@ void QGraphsTheme::clearBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list
 /*!
     \property QGraphsTheme::themeChildren
 
-    The list of theme child objects. This is a default property that allows child objects to be
-    specified within the Theme element in QML without explicitly using the children property name.
+    \brief The list of theme child objects.
+
+    This is a default property that allows child objects to be specified within
+    the Theme element in QML without explicitly using the children property
+    name.
 */
 QQmlListProperty<QObject> QGraphsTheme::themeChildren()
 {
@@ -1968,7 +1976,7 @@ void QGraphsTheme::clearGradients()
 /*!
     \property QGraphsTheme::grid
 
-    The grid line styling properties for the graph.
+    \brief The grid line styling properties for the graph.
 */
 QGraphsLine QGraphsTheme::grid() const
 {
@@ -1990,7 +1998,7 @@ void QGraphsTheme::setGrid(const QGraphsLine &newGrid)
 /*!
     \property QGraphsTheme::axisX
 
-    The X-axis line and label styling properties for the graph.
+    \brief The X-axis line and label styling properties for the graph.
 */
 QGraphsLine QGraphsTheme::axisX() const
 {
@@ -2012,7 +2020,7 @@ void QGraphsTheme::setAxisX(const QGraphsLine &newAxisX)
 /*!
     \property QGraphsTheme::axisY
 
-    The Y-axis line and label styling properties for the graph.
+    \brief The Y-axis line and label styling properties for the graph.
 */
 QGraphsLine QGraphsTheme::axisY() const
 {
@@ -2034,7 +2042,7 @@ void QGraphsTheme::setAxisY(const QGraphsLine &newAxisY)
 /*!
     \property QGraphsTheme::axisZ
 
-    The Z-axis line and label styling properties for the graph.
+    \brief The Z-axis line and label styling properties for the graph.
 */
 QGraphsLine QGraphsTheme::axisZ() const
 {
@@ -2095,8 +2103,9 @@ QGraphsLine::~QGraphsLine()
 /*!
     \property QGraphsLine::mainColor
 
-    The color of the main grid or axis lines. If not set explicitly, the value is determined by the
-    theme.
+    \brief The color of the main grid or axis lines.
+
+    If not set explicitly, the value is determined by the theme.
 */
 QColor QGraphsLine::mainColor() const
 {
@@ -2117,8 +2126,9 @@ void QGraphsLine::setMainColor(QColor newColor)
 /*!
     \property QGraphsLine::subColor
 
-    The color of the sub grid or axis lines. If not set explicitly, the value is determined by the
-    theme.
+    \brief The color of the sub grid or axis lines.
+
+    If not set explicitly, the value is determined by the theme.
 */
 QColor QGraphsLine::subColor() const
 {
@@ -2139,7 +2149,7 @@ void QGraphsLine::setSubColor(QColor newColor)
 /*!
     \property QGraphsLine::mainWidth
 
-    The width of the main grid or axis lines in pixels.
+    \brief The width of the main grid or axis lines in pixels.
 */
 qreal QGraphsLine::mainWidth() const
 {
@@ -2157,7 +2167,7 @@ void QGraphsLine::setMainWidth(qreal newWidth)
 /*!
     \property QGraphsLine::subWidth
 
-    The width of the sub grid or axis lines in pixels.
+    \brief The width of the sub grid or axis lines in pixels.
 */
 qreal QGraphsLine::subWidth() const
 {
@@ -2175,7 +2185,9 @@ void QGraphsLine::setSubWidth(qreal newWidth)
 /*!
     \property QGraphsLine::labelTextColor
 
-    The color of the axis label text. If not set explicitly, the value is determined by the theme.
+    \brief The color of the axis label text.
+
+    If not set explicitly, the value is determined by the theme.
 */
 QColor QGraphsLine::labelTextColor() const
 {

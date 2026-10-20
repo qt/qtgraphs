@@ -124,9 +124,11 @@ QList<QGraphsTheme *> Q3DGraphsWidgetItem::themes() const
  * \property Q3DGraphsWidgetItem::transparencyTechnique
  * \since 6.9
  *
- * \brief Specifies which transparency technique to use. The Default value is \c{Default}.
- * When rendering transparent surface graphs, use \c{Approximate} or \c{Accurate}.
- * \c Default should be used for other graph types.
+ * \brief Specifies which transparency technique to use.
+ *
+ * The default value is \c{Default}. When rendering transparent surface graphs,
+ * use \c{Approximate} or \c{Accurate}. \c Default should be used for other
+ * graph types.
  *
  * \value Default
  *        Indicates that order-independent transparency techniques are not used.
@@ -418,9 +420,10 @@ QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(QSize im
 /*!
     \property Q3DGraphsWidgetItem::cameraPreset
 
-    The preset camera position that the camera is currently using. The value can be set to one of the
-    CameraPreset enum values. This property can be used to set a predefined camera angle from where
-    the graph is viewed.
+    \brief The preset camera position that the camera is currently using.
+
+    The value can be set to one of the CameraPreset enum values. This property
+    can be used to set a predefined camera angle from where the graph is viewed.
 
     By default, the camera preset is set to \c CameraPreset::FrontLow.
 
