@@ -839,8 +839,8 @@ void QXYSeries::setValueMin(qreal newMin)
 /*!
     \property QXYSeries::stepSize
     \since 6.12
-    \brief The step size between auto-generated X (or Y) values when
-    populating the series from plain numbers via \l values.
+    \brief The step size between auto-generated X (or Y) values when populating
+    the series from the plain numbers in \l values.
 
     The default value is 1.
 

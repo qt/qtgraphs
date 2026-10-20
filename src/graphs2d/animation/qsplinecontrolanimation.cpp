@@ -19,8 +19,8 @@ QT_BEGIN_NAMESPACE
 
     SplineControlAnimation is an animation type derived from QVariantAnimation which defines how spline control points
     are animated. It can make use of QVariantAnimation functionality and properties for its animations, such as \c duration
-    and \c easing. These animations are housed inside a QParallelAnimationGroup and hence will run in parallel.
-    This animation will not affect the main points of the SplineSeries, but only the two control handles
+    and \c easing. These animations are housed inside a QParallelAnimationGroup and therefore run in parallel.
+    This animation does not affect the main points of the SplineSeries, but only the two control handles
     on either side of the point. Each of the control points are linearly interpolated in succession.
 
     This example shows how to use both a SplineControlPointAnimation and a

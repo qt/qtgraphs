@@ -30,7 +30,7 @@ QT_BEGIN_NAMESPACE
 
     By default, the visual appearance of the slice is set by a theme, but the theme can be
     overridden by specifying slice properties. However, if the theme is changed after the
-    slices are customized, all customization will be lost.
+    slices are customized, all customization is lost.
 
     To enable user interaction with the pie graph, some basic signals are emitted when
     users click pie slices or hover the mouse over them.
@@ -57,7 +57,7 @@ QT_BEGIN_NAMESPACE
 
     By default, the visual appearance of the slice is set by a theme, but the theme can be
     overridden by specifying slice properties. However, if the theme is changed after the
-    slices are customized, all customization will be lost.
+    slices are customized, all customization is lost.
 
     The PieSlice type should be used as a child of a PieSeries type. For example:
 
@@ -916,7 +916,7 @@ QPieSlice *QPieSlice::find(const QString &label) const
 
 /*!
     Replaces the PieSlice at position \a index with the one specified by \a slice.
-    The original PieSlice will be permanently deleted. Returns \c false if replacing
+    The original PieSlice is permanently deleted. Returns \c false if replacing
     any of the PieSlices fails.
 */
 bool QPieSlice::replace(qsizetype index, QPieSlice *slice)
@@ -951,8 +951,8 @@ bool QPieSlice::replace(qsizetype index, QPieSlice *slice)
 }
 
 /*!
-    Removes multiple PieSlices from the slice starting from \a index to a number of \a count.
-    The PieSlices will be permanently deleted.
+    Removes multiple PieSlices from the slice starting from \a index to a number
+    of \a count. The PieSlices are permanently deleted.
 */
 void QPieSlice::removeMultiple(qsizetype index, int count)
 {
@@ -980,8 +980,8 @@ void QPieSlice::removeMultiple(qsizetype index, int count)
 }
 
 /*!
-    Removes the PieSlice at the location \a index. The PieSlice will be permanently deleted.
-    Returns \c true if removing is successful.
+    Removes the PieSlice at the location \a index. The PieSlice is permanently
+    deleted. Returns \c true if removing is successful.
 */
 bool QPieSlice::remove(qsizetype index)
 {
@@ -996,8 +996,9 @@ bool QPieSlice::remove(qsizetype index)
 }
 
 /*!
-    Replaces the PieSlice \a oldSlice with \a newSlice if found in the slice. \a oldSlice will
-    be permanently deleted. Returns \c true if replacing is successful.
+    Replaces the PieSlice \a oldSlice with \a newSlice if found in the slice.
+    \a oldSlice is permanently deleted. Returns \c true if replacing is
+    successful.
 */
 bool QPieSlice::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 {
@@ -1038,7 +1039,7 @@ bool QPieSlice::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 
 /*!
     Replaces the entire list of PieSlices in the slice with the list specified by \a slices.
-    All the original PieSlices will be permanently deleted. Returns \c true if all PieSlices are
+    All the original PieSlices are permanently deleted. Returns \c true if all PieSlices are
     replaced successfully.
 */
 bool QPieSlice::replaceAll(const QList<QPieSlice *> &slices)

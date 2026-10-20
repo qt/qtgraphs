@@ -92,7 +92,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
   \qmlproperty real LogValueAxis::base
-  This base of the logarithm.
+  The base of the logarithm.
 
   The value has to be greater than 0 and cannot equal 1.
   The default value is 10.0
@@ -102,7 +102,7 @@ QT_BEGIN_NAMESPACE
   \property QLogValueAxis::subTickCount
   \brief The number of subticks on the axis. This indicates how many subticks are drawn
   between major lines on the graph. Labels are not drawn for subticks.
-  Set the value to -1 and the number of subticks will be set equal to the
+  Set the value to -1 and the number of subticks is set equal to the
   closest integer value of the logarithm base.
   The default value is -1.
 */
@@ -110,7 +110,7 @@ QT_BEGIN_NAMESPACE
   \qmlproperty int LogValueAxis::subTickCount
   The number of subticks on the axis. This indicates how many subticks are drawn
   between major lines on the graph. Labels are not drawn for subticks.
-  Set the value to -1 and the number of subticks will be set equal to the
+  Set the value to -1 and the number of subticks is set equal to the
   closest integer value of the logarithm base.
   The default value is -1.
 */

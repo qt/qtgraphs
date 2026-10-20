@@ -321,10 +321,11 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 
     \brief The angle span limit for label visibility.
 
-    The angle span that will be used as the visibility limit for a slice label. A slice with
-    angle span under this value will change its visibility based on the \l angleSpanLabelVisibility
-    set to the series. The default value is \c {0}, which means no slices will be hidden
-    regardless of the \l {angleSpanLabelVisibility}.
+    The angle span used as the visibility limit for a slice label. A slice with
+    angle span under this value changes its visibility based on the
+    \l angleSpanLabelVisibility set to the series. The default value is \c {0},
+    which means no slices are hidden regardless of the
+    \l {angleSpanLabelVisibility}.
 
     \sa QPieSeries::angleSpanLabelVisibility
 */
@@ -335,10 +336,11 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 
     The angle span limit for label visibility.
 
-    The angle span that will be used as the visibility limit for a slice label. A slice with
-    angle span under this value will change its visibility based on the \l angleSpanLabelVisibility
-    set to the series. The default value is \c {0}, which means no slices will be hidden
-    regardless of the \l {angleSpanLabelVisibility}.
+    The angle span used as the visibility limit for a slice label. A slice with
+    angle span under this value changes its visibility based on the
+    \l angleSpanLabelVisibility set to the series. The default value is \c {0},
+    which means no slices are hidden regardless of the
+    \l {angleSpanLabelVisibility}.
 
     \sa angleSpanLabelVisibility
 */
@@ -349,7 +351,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 
     \brief The mode for label visibility.
 
-    The mode which determines which labels will be hidden if they are under the angle span limit
+    The mode which determines which labels are hidden if they are under the angle span limit
     set with \l {angleSpanVisibleLimit}. Has no effect if \l angleSpanVisibleLimit has not been
     set.
 
@@ -362,22 +364,22 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 
     The mode for label visibility.
 
-    The mode which determines which labels will be hidden if they are under the angle span limit
+    The mode which determines which labels are hidden if they are under the angle span limit
     set with \l {angleSpanVisibleLimit}. Has no effect if \l angleSpanVisibleLimit has not been
     set.
 
     \value PieSeries.LabelVisibility.None
         All of the labels of slices with smaller angle span than the \l angleSpanVisibleLimit
-        will be hidden.
+        are hidden.
     \value PieSeries.LabelVisibility.First
         All except the first label of consecutive slices with smaller angle span than
-        the \l angleSpanVisibleLimit will be hidden. This is the default value.
+        the \l angleSpanVisibleLimit are hidden. This is the default value.
     \value PieSeries.LabelVisibility.Even
         Every other label of consecutive slices with smaller angle span than
-        the \l angleSpanVisibleLimit will be hidden, starting from the second one.
+        the \l angleSpanVisibleLimit is hidden, starting from the second one.
     \value PieSeries.LabelVisibility.Odd
         Every other label of consecutive slices with smaller angle span than
-        the \l angleSpanVisibleLimit will be hidden, starting from the first one.
+        the \l angleSpanVisibleLimit is hidden, starting from the first one.
 
     \sa angleSpanVisibleLimit
 */
@@ -389,7 +391,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 
     Set this property to create pie slices declaratively. The series
     automatically creates one slice per value. Labels can be supplied
-    via \l sliceLabels.
+    by using \l sliceLabels.
 
     \note Mixing declarative and imperative data input is not supported.
 
@@ -402,7 +404,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
     \brief Declarative slice values.
 
     This property can be used to give values declaratively to pie slices.
-    When the property is set, the pie series will automatically create a pie slice
+    When the property is set, the pie series automatically creates a pie slice
     for each value. The Labels for the slices can be given in \l {sliceLabels}.
 
     \note Mixing declarative and imperative data input is not supported.
@@ -415,7 +417,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
     \since 6.12
     \brief Declarative slice labels.
 
-    Provides labels for slices created via \l sliceData. Labels must be
+    Provides labels for slices created from \l sliceData. Labels must be
     in the same order as the values. Extra labels beyond the number of
     slices are ignored.
 
@@ -448,16 +450,16 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 
     \value None
         All of the labels of slices with smaller angle span than the \l angleSpanVisibleLimit
-        will be hidden.
+        are hidden.
     \value First
         All except the first label of consecutive slices with smaller angle span than
-        the \l angleSpanVisibleLimit will be hidden. This is the default value.
+        the \l angleSpanVisibleLimit are hidden. This is the default value.
     \value Even
         Every other label of consecutive slices with smaller angle span than
-        the \l angleSpanVisibleLimit will be hidden, starting from the second one.
+        the \l angleSpanVisibleLimit is hidden, starting from the second one.
     \value Odd
         Every other label of consecutive slices with smaller angle span than
-        the \l angleSpanVisibleLimit will be hidden, starting from the first one.
+        the \l angleSpanVisibleLimit is hidden, starting from the first one.
 
     \sa QPieSeries::angleSpanVisibleLimit
 */
@@ -652,7 +654,7 @@ QPieSlice *QPieSeries::find(const QString &label)
 
 /*!
     Replaces the PieSlice at position \a index with the one specified by \a slice.
-    The original PieSlice will be permanently deleted. Returns \c false if replacing
+    The original PieSlice is permanently deleted. Returns \c false if replacing
     any of the PieSlices fails.
 */
 bool QPieSeries::replace(qsizetype index, QPieSlice *slice)
@@ -695,8 +697,8 @@ bool QPieSeries::replace(qsizetype index, QPieSlice *slice)
 }
 
 /*!
-    Removes multiple PieSlices from the series starting from \a index to a number of \a count.
-    The PieSlices will be permanently deleted.
+    Removes multiple PieSlices from the series starting from \a index to a
+    number of \a count. The PieSlices are permanently deleted.
 */
 void QPieSeries::removeMultiple(qsizetype index, int count)
 {
@@ -713,8 +715,8 @@ void QPieSeries::removeMultiple(qsizetype index, int count)
 }
 
 /*!
-    Removes the PieSlice at the location \a index. The PieSlice will be permanently deleted.
-    Returns \c true if removing is successful.
+    Removes the PieSlice at the location \a index. The PieSlice is permanently
+    deleted. Returns \c true if removing is successful.
 */
 bool QPieSeries::remove(qsizetype index)
 {
@@ -730,7 +732,7 @@ bool QPieSeries::remove(qsizetype index)
 
 /*!
     Replaces the PieSlice \a oldSlice with \a newSlice if found in the series.
-    \a oldSlice will be permanently deleted. Returns \c true if replacing is
+    \a oldSlice is permanently deleted. Returns \c true if replacing is
     successful.
 */
 bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
@@ -780,7 +782,7 @@ bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 
 /*!
     Replaces the entire list of PieSlices in the series with the list specified by \a slices.
-    All the original PieSlices will be permanently deleted. Returns \c true if all PieSlices are
+    All the original PieSlices are permanently deleted. Returns \c true if all PieSlices are
     replaced successfully.
 */
 bool QPieSeries::replace(const QList<QPieSlice *> &slices)

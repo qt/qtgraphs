@@ -160,22 +160,22 @@ QBarCategoryAxis::QBarCategoryAxis(QBarCategoryAxisPrivate &dd, QObject *parent)
 
 /*!
     \qmlmethod void BarCategoryAxis::append(list categories)
-    Appends \a categories to an axis. The maximum value on the axis will be changed
-    to match the last category in \a categories. If no categories were previously defined,
-    the minimum value on the axis will also be changed to match the first category in
-    \a categories.
+    Appends \a categories to an axis. The maximum value on the axis is changed
+    to match the last category in \a categories. If no categories were
+    previously defined, the minimum value on the axis is also changed to match
+    the first category in \a categories.
 
     A category has to be a valid QString and it cannot be duplicated. Duplicated
-    categories will not be appended.
+    categories are not appended.
 */
 /*!
-    Appends \a categories to an axis. The maximum value on the axis will be changed
-    to match the last category in \a categories. If no categories were previously defined,
-    the minimum value on the axis will also be changed to match the first category in
-    \a categories.
+    Appends \a categories to an axis. The maximum value on the axis is changed
+    to match the last category in \a categories. If no categories were
+    previously defined, the minimum value on the axis is also changed to match
+    the first category in \a categories.
 
     A category has to be a valid QString and it cannot be duplicated. Duplicated
-    categories will not be appended.
+    categories are not appended.
 */
 void QBarCategoryAxis::append(const QStringList &categories)
 {
@@ -206,20 +206,20 @@ void QBarCategoryAxis::append(const QStringList &categories)
 
 /*!
     \qmlmethod void BarCategoryAxis::append(string category)
-    Appends \a category to an axis. The maximum value on the axis will be changed
-    to match the last \a category. If no categories were previously defined, the minimum
-    value on the axis will also be changed to match \a category.
+    Appends \a category to an axis. The maximum value on the axis is changed to
+    match the last \a category. If no categories were previously defined, the
+    minimum value on the axis is also changed to match \a category.
 
     A category has to be a valid QString and it cannot be duplicated. Duplicated
-    categories will not be appended.
+    categories are not appended.
 */
 /*!
-    Appends \a category to an axis. The maximum value on the axis will be changed
-    to match the last \a category. If no categories were previously defined, the minimum
-    value on the axis will also be changed to match \a category.
+    Appends \a category to an axis. The maximum value on the axis is changed to
+    match the last \a category. If no categories were previously defined, the
+    minimum value on the axis is also changed to match \a category.
 
     A category has to be a valid QString and it cannot be duplicated. Duplicated
-    categories will not be appended.
+    categories are not appended.
 */
 void QBarCategoryAxis::append(const QString &category)
 {
@@ -244,12 +244,12 @@ void QBarCategoryAxis::append(const QString &category)
 
 /*!
     \qmlmethod void BarCategoryAxis::remove(string category)
-    Removes \a category from the axis. Removing a category that currently sets the
-    maximum or minimum value on the axis will affect the axis range.
+    Removes \a category from the axis. Removing a category that currently sets
+    the maximum or minimum value on the axis affects the axis range.
 */
 /*!
-    Removes \a category from the axis. Removing a category that currently sets the
-    maximum or minimum value on the axis will affect the axis range.
+    Removes \a category from the axis. Removing a category that currently sets
+    the maximum or minimum value on the axis affects the axis range.
 */
 void QBarCategoryAxis::remove(const QString &category)
 {
@@ -273,12 +273,14 @@ void QBarCategoryAxis::remove(const QString &category)
 
 /*!
     \qmlmethod void BarCategoryAxis::remove(int index)
-    Removes a category at \a index from the axis. Removing a category that currently sets the
-    maximum or minimum value on the axis will affect the axis range.
+    Removes a category at \a index from the axis. Removing a category that
+    currently sets the maximum or minimum value on the axis affects the axis
+    range.
 */
 /*!
-    Removes a category at \a index from the axis. Removing a category that currently sets the
-    maximum or minimum value on the axis will affect the axis range.
+    Removes a category at \a index from the axis. Removing a category that
+    currently sets the maximum or minimum value on the axis affects the axis
+    range.
 */
 void QBarCategoryAxis::remove(qsizetype index)
 {
