@@ -42,23 +42,24 @@
 
     The equation can be typed into the text field using the following operators and mathematical
     functions, and the required characters for using those functions:
+
     \table
     \header
     \li Operators
     \li Functions
     \li Characters
     \row
-    \li + - * / % ^
-    \li sin cos tan log exp sqrt
-    \li ( ) ,
+    \li \c{+ - * / % ^}
+    \li \c{sin cos tan log exp sqrt}
+    \li \c{( ) ,}
     \endtable
 
     There is support for \c x and \c y as the parameters, as the data handled has two axes and the
     value. The equation may have spaces around the operators, so both of the following styles are
     fine:
     \list
-    \li x^2+y^2
-    \li x ^ 2 + y ^ 2
+    \li \c{x^2+y^2}
+    \li \c{x ^ 2 + y ^ 2}
     \endlist
 
     The equation is parsed using a JavaScript equation parser and calculator, which is imported

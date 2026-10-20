@@ -19,7 +19,9 @@ QT_BEGIN_NAMESPACE
  * counts to divide the range into.
  *
  * Labels are drawn between each segment, and grid lines are drawn between each
- * segment and each subsegment. \note If visible, there will always be at least
+ * segment and each subsegment.
+ *
+ * \note If visible, there will always be at least
  * two grid lines and labels indicating the minimum and maximum values of
  * the range, as there is always at least one segment.
  */

@@ -147,8 +147,8 @@ QT_BEGIN_NAMESPACE
  *
  * Holds the reference to the data array.
  *
- * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
- * is identical to the previous one.
+ * dataArrayChanged signal is emitted when data array is set, unless the new
+ * data array is identical to the previous one.
  *
  * \note Before doing anything regarding the data array, a series must be created for
  * the relevant proxy.
@@ -420,8 +420,8 @@ float QScatter3DSeries::itemSize() const
  *
  * Holds the reference to the data array.
  *
- * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
- * is identical to the previous one.
+ * dataArrayChanged signal is emitted when data array is set, unless the new
+ * data array is identical to the previous one.
  *
  * \note Before doing anything regarding the data array, a series must be created for
  * the relevant proxy.
@@ -468,8 +468,8 @@ QScatterDataArray QScatter3DSeries::dataArray() &&
  *
  * Holds the reference to the scale array.
  *
- * scaleArrayChanged signal is emitted when scale array is set, unless \a newScaleArray
- * is identical to the previous one.
+ * scaleArrayChanged signal is emitted when scale array is set, unless the new
+ * scale array is identical to the previous one.
  *
  * \note Before doing anything regarding the scale array, a series must be created for
  * the relevant proxy.

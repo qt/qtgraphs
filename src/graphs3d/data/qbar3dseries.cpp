@@ -199,8 +199,8 @@ QT_BEGIN_NAMESPACE
  *
  * Holds the reference of the data array.
  *
- * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
- * is identical to the previous one.
+ * dataArrayChanged signal is emitted when data array is set, unless the new
+ * data array is identical to the previous one.
  *
  * \note Before doing anything regarding the dataArray, a series must be created for
  * the relevant proxy.
@@ -443,8 +443,8 @@ bool QBar3DSeries::isValueColoringEnabled() const
  *
  * Holds the reference of the data array.
  *
- * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
- * is identical to the previous one.
+ * dataArrayChanged signal is emitted when data array is set, unless the new
+ * data array is identical to the previous one.
  *
  * \note Before doing anything regarding the dataArray, a series must be created for
  * the relevant proxy.

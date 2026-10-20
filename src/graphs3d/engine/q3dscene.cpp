@@ -20,13 +20,15 @@ QT_BEGIN_NAMESPACE
  * The 3D scene also keeps track of the viewport in which graph rendering is
  * done, the primary subviewport inside the viewport where the main 3D graphs
  * view resides and the secondary subviewport where the 2D sliced view of the
- * data resides. The subviewports are by default resized by the \a Q3DScene. To
+ * data resides. The subviewports are by default resized by the \c Q3DScene. To
  * override the resize behavior you need to listen to both \l viewportChanged()
  * and \l slicingActiveChanged() signals and recalculate the subviewports
  * accordingly.
  *
  * Also the scene has flag for tracking if the secondary 2D slicing view is
- * currently active or not. \note Not all graphs support the secondary 2D
+ * currently active or not.
+ *
+ * \note Not all graphs support the secondary 2D
  * slicing view.
  */
 
@@ -51,7 +53,9 @@ QT_BEGIN_NAMESPACE
  * data resides.
  *
  * Also the scene has flag for tracking if the secondary 2D slicing view is
- * currently active or not. \note Not all graphs support the secondary 2D
+ * currently active or not.
+ *
+ * \note Not all graphs support the secondary 2D
  * slicing view.
  */
 
@@ -264,8 +268,9 @@ void Q3DScene::setPrimarySubViewport(QRect primarySubViewport)
 }
 
 /*!
- * Returns whether the given \a point resides inside the primary subview or not.
- * \return \c true if the point is inside the primary subview.
+ * Returns \c true if the given \a point resides inside the primary subview;
+ * otherwise returns \c false.
+ *
  * \note If subviews are superimposed, and the given \a point resides inside
  * both, result is \c true only when the primary subview is on top.
  */
@@ -282,10 +287,11 @@ bool Q3DScene::isPointInPrimarySubView(QPoint point)
 }
 
 /*!
- * Returns whether the given \a point resides inside the secondary subview or
- * not. \return \c true if the point is inside the secondary subview. \note If
- * subviews are superimposed, and the given \a point resides inside both, result
- * is \c true only when the secondary subview is on top.
+ * Returns \c true if the given \a point resides inside the secondary subview;
+ * otherwise returns \c false.
+ *
+ * \note If subviews are superimposed, and the given \a point resides inside
+ * both, result is \c true only when the secondary subview is on top.
  */
 bool Q3DScene::isPointInSecondarySubView(QPoint point)
 {
@@ -392,7 +398,7 @@ QPoint Q3DScene::selectionQueryPosition() const
  */
 
 /*!
- * \return a QPoint signifying an invalid selection position.
+ * Returns a QPoint signifying an invalid selection position.
  */
 QPoint Q3DScene::invalidSelectionPoint() const
 {

@@ -135,11 +135,11 @@ QT_BEGIN_NAMESPACE
     \property QAbstractSeries::visible
     \brief Visibility of the series.
 
-    The visibility used for this series. By default, \a visible is set to \c true.
+    The visibility used for this series. By default, the value is \c true.
 */
 /*!
     \qmlproperty bool AbstractSeries::visible
-    The visibility used for this series. By default, \a visible is set to \c true.
+    The visibility used for this series. By default, the value is \c true.
 */
 
 /*!
@@ -147,12 +147,12 @@ QT_BEGIN_NAMESPACE
     \brief Controls if the series is selectable.
 
     Controls if the series can be selected with mouse/touch.
-    By default, \a selectable is set to \c false.
+    By default, the value is \c false.
 */
 /*!
     \qmlproperty bool AbstractSeries::selectable
     Controls if the series can be selected with mouse/touch.
-    By default, \a selectable is set to \c false.
+    By default, the value is \c false.
 */
 
 /*!
@@ -160,12 +160,12 @@ QT_BEGIN_NAMESPACE
     \brief Controls if the series is hoverable.
 
     Controls if the series can be hovered with mouse/touch.
-    By default, \a hoverable is set to \c false.
+    By default, the value is \c false.
 */
 /*!
     \qmlproperty bool AbstractSeries::hoverable
     Controls if the series can be hovered with mouse/touch.
-    By default, \a hoverable is set to \c false.
+    By default, the value is \c false.
 */
 
 /*!

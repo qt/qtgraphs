@@ -13,11 +13,11 @@
 
     \include {module-use.qdocinc} {using the c++ api}
 
-    \section3 Building with CMake
+    \section2 Building with CMake
 
     \include {module-use.qdocinc} {building with cmake} {GraphsWidgets}
 
-    \section3 Building with qmake
+    \section2 Building with qmake
 
     \include {module-use.qdocinc} {building_with_qmake} {graphswidgets}
 

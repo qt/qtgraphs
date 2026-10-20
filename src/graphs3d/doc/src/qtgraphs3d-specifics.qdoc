@@ -18,7 +18,7 @@
     \c SceneEnvironment or \c ExtendedSceneEnvironment in the \c environment
     property of the graph as follows:
 
-    \badcode
+    \qml
     environment: ExtendedSceneEnvironment {
         aoEnabled: true
         aoDither: true
@@ -35,7 +35,7 @@
         lensFlareApplyStarburstTexture: true
         lensFlareBloomBias: 0.4
     }
-    \endcode
+    \endqml
 
     \section2 Non-supported Features
 
@@ -50,7 +50,7 @@
     To integrate a Qt Quick 3D scene into a graph, set the graph's \c importScene
     property to a \c Node with the following settings:
 
-    \badcode
+    \qml
     importScene: Node {
         Model {
             scale: Qt.vector3d(0.01, 0.01, 0.01)
@@ -93,7 +93,7 @@
             ]
         }
     }
-    \endcode
+    \endqml
 
     Adding \l{QtQuick3D::Node}{Nodes} directly as children to the graph will not
     work, because the default child for a graph is the corresponding series.
@@ -445,8 +445,9 @@
     \section2 Camera APIs
 
     As Q3DCamera was removed, the required functions from it were moved.
-    \c{cameraPreset, cameraTargetPosition, cameraXRotation, cameraYRotation,
-    cameraZoomLevel, wrapCameraXRotation, and wrapCameraYRotation} are now the
+    \c cameraPreset, \c cameraTargetPosition, \c cameraXRotation,
+    \c cameraYRotation, \c cameraZoomLevel, \c wrapCameraXRotation, and
+    \c wrapCameraYRotation are now the
     parts of \l GraphsItem3D.
 
     \section2 Theme APIs
@@ -454,7 +455,8 @@
     As Q3DTheme was removed and the theming between 2D and 3D graphs unified,
     some of the required functions from it have been moved, and the rest can be
     found from the replacement, \l{GraphsTheme}.
-    \c{lightColor, ambientLightStrength, lightStrength, and shadowStrength} are
+    \c lightColor, \c ambientLightStrength, \c lightStrength, and
+    \c shadowStrength are
     now implemented on \l GraphsItem3D.
 
     \c windowColor was removed. \c backgroundColor now does what \c windowColor

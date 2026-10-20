@@ -33,9 +33,9 @@
     The speedometer view consists of 3 PieSeries inside a single GraphsView with
     QML Rectangles as needles for both of the dials.
 
-    The \b backgroundVisible property for the GraphsTheme is set to \c false.
+    The \c backgroundVisible property for the GraphsTheme is set to \c false.
     All the \l {PieSlice}{PieSlices} have their own custom colors. To display a circle scale
-    with a hollow center, the example uses PieSeries with different \b holeSize.
+    with a hollow center, the example uses PieSeries with different \c holeSize.
 
     \snippet 2d/cockpit/qml/cockpit/Speedometer.qml 1
 
@@ -43,8 +43,8 @@
 
     The Vibration Panel contains a \l LineSeries which is dynamically updated at
     runtime. After launch, a set of points is added to the series using the QML
-    invoked \b append function. Then on each frame, the values are replaced
-    using the \b replace function with calculated values. Users can change these
+    invoked \c append function. Then on each frame, the values are replaced
+    using the \c replace function with calculated values. Users can change these
     values through the Vibration Graph Panel.
 
     \snippet 2d/cockpit/qml/cockpit/VibrationSensor.qml 1
@@ -59,8 +59,9 @@
     The Navigation Map has two main sections:
 
     \list
-    	\li The left panel contains a number of \l BarSeries with a custom shader
-        that utilizes the \l {BarSet}{BarSets} color to shade each of the bars.
+        \li The left panel contains a number of \l BarSeries with a custom
+        shader that utilizes the \l {BarSet}{BarSets} color to shade each of the
+        bars.
 
         \snippet 2d/cockpit/qml/cockpit/Map.qml 1
 
@@ -73,7 +74,7 @@
                     example, airports, on a map.
                 \li The \e ADD button adds a \l LineSeries whose points can be
                     moved around to create a path. This \l LineSeries uses a
-                    custom shader for the \b pointDelegate and the
+                    custom shader for the \c pointDelegate and the
                     \l ScatterSeries uses an image.
             \endlist
 
