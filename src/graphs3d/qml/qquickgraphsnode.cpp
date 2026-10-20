@@ -257,20 +257,10 @@ QT_BEGIN_NAMESPACE
  * \brief Specifies whether the default or legacy mode is used for rendering optimization.
  *
  * The default mode uses instanced rendering, and provides the full feature set
- * at the best level of performance on most systems. The static mode optimizes
- * graph rendering and is ideal for large non-changing data sets. It is slower
- * with dynamic data changes and item rotations. Selection is not optimized, so
- * using the static mode with massive data sets is not advisable. Legacy mode
- * renders all items in th graph individually, without instancing. It should be
- * used only if default mode does not work, that is the same as if the target
- * system does not support instancing. Defaults to
- * \l{QtGraphs3D::OptimizationHint::Default}{Default}.
- *
- * \note On some environments, large graphs using static optimization may not
- * render, because all of the items are rendered using a single draw call, and
- * different graphics drivers support different maximum vertice counts per call.
- * This is mostly an issue on 32bit and OpenGL ES2 platforms. To work around
- * this issue, choose an item mesh with a low vertex count or use the point mesh.
+ * at the best level of performance on most systems. Legacy mode renders all
+ * items in the graph individually, without instancing. Use it only if the
+ * default mode does not work, that is, if the target system does not support
+ * instancing. Defaults to \l{QtGraphs3D::OptimizationHint::Default}{Default}.
  *
  * \qmlenumeratorsfrom [Graphs3D.OptimizationHint] QtGraphs3D::OptimizationHint
  *
