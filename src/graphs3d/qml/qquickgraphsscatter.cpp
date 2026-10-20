@@ -152,19 +152,19 @@ static const int insertRemoveRecordReserveSize = 31;
  */
 
 /*!
- * \qmlsignal Scatter3D::axisXChanged(ValueAxis3D axis)
+ * \qmlsignal Scatter3D::axisXChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisX changes to \a axis.
  */
 
 /*!
- * \qmlsignal Scatter3D::axisYChanged(ValueAxis3D axis)
+ * \qmlsignal Scatter3D::axisYChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisY changes to \a axis.
  */
 
 /*!
- * \qmlsignal Scatter3D::axisZChanged(ValueAxis3D axis)
+ * \qmlsignal Scatter3D::axisZChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisZ changes to \a axis.
  */

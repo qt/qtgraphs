@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Graphs3D.SelectionMode GraphsNode::selectionMode
+ * \qmlproperty Graphs3D.SelectionFlag GraphsNode::selectionMode
  * The active selection mode in the graph.
  * One of the \l graphs3d.selectionflag enum values.
  */

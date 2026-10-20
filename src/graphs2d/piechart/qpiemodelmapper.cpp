@@ -106,7 +106,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieModelMapperInsertData_exit);
     \sa QPieModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype PieModelMapper::valuesSection
+    \qmlproperty int PieModelMapper::valuesSection
     The column or row of the model that is kept in sync with the values of the pie's slices.
     The default value is -1 (invalid mapping).
 
@@ -122,7 +122,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieModelMapperInsertData_exit);
     \sa QPieModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype PieModelMapper::labelsSection
+    \qmlproperty int PieModelMapper::labelsSection
     The column or row of the model that is kept in sync with the labels of the pie's slices.
     The default value is -1 (invalid mapping).
 
@@ -138,7 +138,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieModelMapperInsertData_exit);
     \sa QPieModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype PieModelMapper::first
+    \qmlproperty int PieModelMapper::first
     The column or row of the model that contains the first slice value.
     The default value is 0.
 
@@ -154,7 +154,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieModelMapperInsertData_exit);
     \sa QPieModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype PieModelMapper::count
+    \qmlproperty int PieModelMapper::count
     The number of columns or rows of the model that are mapped as the data for a pie series.
     The default value is -1 (number limited by the number of rows in the model).
 
@@ -172,7 +172,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieModelMapperInsertData_exit);
     The default value is \c{Qt::Vertical}
 */
 /*!
-    \qmlproperty  orientation PieModelMapper::orientation
+    \qmlproperty Qt.Orientation PieModelMapper::orientation
     Tells the modelmapper how to map data from a model. If
     \c{Qt.Vertical} is used, each of the model's rows defines a pie slice, and the
     model's columns define the label or the value of the pie slice. When the orientation is set to

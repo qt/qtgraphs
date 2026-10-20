@@ -215,14 +215,14 @@ QT_BEGIN_NAMESPACE
     \a angle.
 */
 /*!
-    \qmlsignal Abstract3DAxis::titleVisibilityChanged(bool visible)
+    \qmlsignal Abstract3DAxis::titleVisibleChanged(bool visible)
 
-    This signal is emitted when the title visibility changes to \a visible.
+    This signal is emitted when \l titleVisible changes to \a visible.
 */
 /*!
-    \qmlsignal Abstract3DAxis::labelVisibilityChanged(bool visible)
+    \qmlsignal Abstract3DAxis::labelVisibleChanged(bool visible)
 
-    This signal is emitted when the label visibility changes to \a visible.
+    This signal is emitted when \l labelsVisible changes to \a visible.
 */
 /*!
     \qmlsignal Abstract3DAxis::titleFixedChanged(bool fixed)

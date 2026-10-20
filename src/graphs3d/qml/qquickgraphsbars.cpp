@@ -101,7 +101,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DBarsCreateOffscreenSliceView_exit);
  */
 
 /*!
- * \qmlproperty ValueAxis3D Bars3D::valueAxis
+ * \qmlproperty Value3DAxis Bars3D::valueAxis
  * The active value axis.
  *
  * If an axis is not given, a temporary default axis with no labels and an
@@ -281,7 +281,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DBarsCreateOffscreenSliceView_exit);
  */
 
 /*!
- * \qmlsignal Bars3D::valueAxisChanged(ValueAxis3D axis)
+ * \qmlsignal Bars3D::valueAxisChanged(Value3DAxis axis)
  *
  * This signal is emitted when valueAxis changes to \a axis.
  */

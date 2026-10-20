@@ -116,7 +116,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty Graphs3D.SelectionMode GraphsItem3D::selectionMode
+ * \qmlproperty Graphs3D.SelectionFlag GraphsItem3D::selectionMode
  * The active selection mode in the graph.
  * One of the \l Graphs3D.SelectionFlag enum values.
  */

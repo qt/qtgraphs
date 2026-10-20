@@ -37,7 +37,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ValueAxis3D Bars3DNode::valueAxis
+ * \qmlproperty Value3DAxis Bars3DNode::valueAxis
  * The active value axis.
  *
  * If an axis is not given, a temporary default axis with no labels and an
@@ -207,7 +207,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlsignal Bars3DNode::valueAxisChanged(ValueAxis3D axis)
+ * \qmlsignal Bars3DNode::valueAxisChanged(Value3DAxis axis)
  *
  * This signal is emitted when valueAxis changes to \a axis.
  */

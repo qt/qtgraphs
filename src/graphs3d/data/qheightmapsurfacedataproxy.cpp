@@ -138,7 +138,7 @@ const float defaultMaxValue = 10.0f;
  */
 
 /*!
- * \qmlproperty real HeightMapSurfaceDataProxy::autoScaleY
+ * \qmlproperty bool HeightMapSurfaceDataProxy::autoScaleY
  *
  * Scale height values to Y-axis. Defaults to \c{false}. When this property is
  * set to \c{true}, the height values are scaled to fit on the Y-axis between
