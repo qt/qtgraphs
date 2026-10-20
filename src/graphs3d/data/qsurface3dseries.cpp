@@ -143,13 +143,16 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Shading Surface3DSeries::shading
+ * \qmlproperty enumeration Surface3DSeries::shading
  *
- * Sets surface flat shading to visible. It is preset to \c Surface3DSeries.Shading.Flat by default.
- * When disabled, the normals on the surface are interpolated making the edges
- * look round. When visible, the normals are kept the same on a triangle making
- * the color of the triangle solid. This makes the data more readable from the
- * model.
+ * The shading of the surface, either \c Surface3DSeries.Shading.Smooth or
+ * \c Surface3DSeries.Shading.Flat. Defaults to
+ * \c Surface3DSeries.Shading.Flat.
+ *
+ * With \c Smooth shading, the normals on the surface are interpolated making
+ * the edges look round. With \c Flat shading, the normals are kept the same on
+ * a triangle making the color of the triangle solid. This makes the data more
+ * readable from the model.
  *
  * \note Flat shaded surfaces require at least GLSL version 1.2 with
  * GL_EXT_gpu_shader4 extension. The value of the flatShadingSupported property
@@ -168,11 +171,13 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty DrawFlag Surface3DSeries::drawMode
+ * \qmlproperty enumeration Surface3DSeries::drawMode
  *
  * Sets the drawing mode to one of
  * \l{QSurface3DSeries::DrawFlag}{Surface3DSeries.DrawFlag}{QSurface3DSeries.DrawFilledSurface}.
  * Either DrawWireframe or DrawSurface must be set
+ *
+ * \qmlenumeratorsfrom [Surface3DSeries] QSurface3DSeries::DrawFlag
  */
 
 /*!

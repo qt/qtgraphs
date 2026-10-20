@@ -111,7 +111,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty qsizetype Scatter3DSeries::selectedItem
+ * \qmlproperty int Scatter3DSeries::selectedItem
  *
  * The item that is selected at the index in the data array of the series.
  * Only one item can be selected at a time.
@@ -135,7 +135,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty qsizetype Scatter3DSeries::invalidSelectionIndex
+ * \qmlproperty int Scatter3DSeries::invalidSelectionIndex
  * A constant property providing an invalid index for selection. This index is
  * set to the selectedItem property to clear the selection from this series.
  *

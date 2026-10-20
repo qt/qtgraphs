@@ -172,7 +172,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieModelMapperInsertData_exit);
     The default value is \c{Qt::Vertical}
 */
 /*!
-    \qmlproperty Qt.Orientation PieModelMapper::orientation
+    \qmlproperty enumeration PieModelMapper::orientation
     Tells the modelmapper how to map data from a model. If
     \c{Qt.Vertical} is used, each of the model's rows defines a pie slice, and the
     model's columns define the label or the value of the pie slice. When the orientation is set to

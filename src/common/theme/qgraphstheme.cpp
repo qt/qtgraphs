@@ -494,7 +494,7 @@ Q_LOGGING_CATEGORY(lcGraphsCommonTheme, "qt.graphs.common.theme")
  */
 
 /*!
- * \qmlproperty GraphsTheme.ColorStyle GraphsTheme::colorStyle
+ * \qmlproperty enumeration GraphsTheme::colorStyle
  *
  * The style of the graph colors. One of QGraphsTheme::ColorStyle enum values.
  *
@@ -502,13 +502,17 @@ Q_LOGGING_CATEGORY(lcGraphsCommonTheme, "qt.graphs.common.theme")
  * {Abstract3DSeries.colorStyle} explicitly in the series.
  * \note This property does not have an effect in Qt Graphs for 2D.
  *
+ * \qmlenumeratorsfrom [GraphsTheme.ColorStyle] QGraphsTheme::ColorStyle
+ *
  * \sa QGraphsTheme::ColorStyle
  */
 
 /*!
- * \qmlproperty QGraphsTheme::ColorScheme GraphsTheme::colorScheme
+ * \qmlproperty enumeration GraphsTheme::colorScheme
  *
  * The color scheme of the graph in use.
+ *
+ * \qmlenumeratorsfrom [GraphsTheme.ColorScheme] QGraphsTheme::ColorScheme
  *
  * \sa QGraphsTheme::ColorScheme
  */
@@ -522,7 +526,7 @@ Q_LOGGING_CATEGORY(lcGraphsCommonTheme, "qt.graphs.common.theme")
  */
 
 /*!
- * \qmlproperty GraphsTheme.Theme GraphsTheme::theme
+ * \qmlproperty enumeration GraphsTheme::theme
  *
  * The type of the theme. If no type is set, the type is
  * \l{QGraphsTheme::Theme::QtGreen}{GraphsTheme.Theme.QtGreen}.
@@ -530,6 +534,8 @@ Q_LOGGING_CATEGORY(lcGraphsCommonTheme, "qt.graphs.common.theme")
  * other properties of the theme to what the predefined theme specifies.
  * Changing the theme type of the active theme of the graph will also reset all
  * attached series to use the new theme.
+ *
+ * \qmlenumeratorsfrom [GraphsTheme.Theme] QGraphsTheme::Theme
  */
 
 /*!

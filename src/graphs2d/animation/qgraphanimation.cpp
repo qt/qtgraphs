@@ -21,9 +21,11 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlproperty GraphAnimation::AnimationState GraphAnimation::animating
+    \qmlproperty enumeration GraphAnimation::animating
 
-    Holds the animation state. One of \l {GraphAnimation::AnimationState}.
+    Holds the animation state, one of the \l {GraphAnimation::AnimationState}
+    values: \c GraphAnimation.AnimationState.Playing or
+    \c GraphAnimation.AnimationState.Stopped.
  */
 
 /*!

@@ -35,8 +35,10 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty AbstractDataProxy.DataType AbstractDataProxy::type
+ * \qmlproperty enumeration AbstractDataProxy::type
  * The type of the proxy. One of the QAbstractDataProxy::DataType values.
+ *
+ * \qmlenumeratorsfrom [AbstractDataProxy.DataType] QAbstractDataProxy::DataType
  */
 
 /*!

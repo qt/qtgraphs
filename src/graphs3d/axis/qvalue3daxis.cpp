@@ -39,7 +39,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty qsizetype Value3DAxis::segmentCount
+ * \qmlproperty int Value3DAxis::segmentCount
  *
  * The number of segments on the axis. This indicates how many labels are drawn.
  * The number of grid lines to be drawn is calculated with the following
@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty qsizetype Value3DAxis::subSegmentCount
+ * \qmlproperty int Value3DAxis::subSegmentCount
  *
  * The number of subsegments inside each segment on the axis. Grid lines are
  * drawn between each subsegment, in addition to each segment. The preset

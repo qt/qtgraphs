@@ -174,7 +174,7 @@ QT_BEGIN_NAMESPACE
     Can be Qt::AlignLeft, Qt::AlignRight, Qt::AlignBottom, or Qt::AlignTop.
 */
 /*!
-    \qmlproperty alignment AbstractAxis::alignment
+    \qmlproperty enumeration AbstractAxis::alignment
     \since 6.9
     The alignment of the axis. Can be \l{Qt::AlignLeft}{Qt.AlignLeft},
     \l{Qt::AlignRight}{Qt.AlignRight}, \l{Qt::AlignBottom}{Qt.AlignBottom}, or

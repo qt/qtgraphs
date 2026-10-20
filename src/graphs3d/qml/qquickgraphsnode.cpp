@@ -24,9 +24,11 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Graphs3D.SelectionFlag GraphsNode::selectionMode
+ * \qmlproperty enumeration GraphsNode::selectionMode
  * The active selection mode in the graph.
  * One of the \l Graphs3D.SelectionFlag enum values.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.SelectionFlag] QtGraphs3D::SelectionFlag
  */
 
 /*!
@@ -204,7 +206,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Graphs3D.ElementType GraphsNode::selectedElement
+ * \qmlproperty enumeration GraphsNode::selectedElement
  * \readonly
  *
  * The element selected in the graph.
@@ -215,6 +217,8 @@ QT_BEGIN_NAMESPACE
  *
  * The signal can be used for example for implementing customized input
  * handling, as demonstrated by the \l {Axis Handling} example.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.ElementType] QtGraphs3D::ElementType
  *
  * \sa selectedLabelIndex(), selectedAxis(), selectedCustomItemIndex(),
  * selectedCustomItem(), Bars3DNode::selectedSeries, Scatter3DNode::selectedSeries,
@@ -248,7 +252,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Graphs3D.OptimizationHint GraphsNode::optimizationHint
+ * \qmlproperty enumeration GraphsNode::optimizationHint
  *
  * \brief Specifies whether the default or legacy mode is used for rendering optimization.
  *
@@ -267,6 +271,8 @@ QT_BEGIN_NAMESPACE
  * different graphics drivers support different maximum vertice counts per call.
  * This is mostly an issue on 32bit and OpenGL ES2 platforms. To work around
  * this issue, choose an item mesh with a low vertex count or use the point mesh.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.OptimizationHint] QtGraphs3D::OptimizationHint
  *
  * \sa Abstract3DSeries::mesh, Graphs3D.OptimizationHint
  */
@@ -324,12 +330,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Graphs3D.GridLineType GraphsNode::gridLineType
+ * \qmlproperty enumeration GraphsNode::gridLineType
  *
  * Defines whether the grid lines type is \c Graphs3D.GridLineType.Shader or
  * \c Graphs3D.GridLineType.Geometry.
  *
  * This value affects all grid lines.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.GridLineType] QtGraphs3D::GridLineType
  *
  * \sa Graphs3D.GridLineType
  */

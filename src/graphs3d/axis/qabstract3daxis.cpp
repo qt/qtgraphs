@@ -49,13 +49,17 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Abstract3DAxis.AxisOrientation Abstract3DAxis::orientation
+ * \qmlproperty enumeration Abstract3DAxis::orientation
  * The orientation of the axis.
+ *
+ * \qmlenumeratorsfrom [Abstract3DAxis.AxisOrientation] QAbstract3DAxis::AxisOrientation
  */
 
 /*!
- * \qmlproperty Abstract3DAxis.AxisType Abstract3DAxis::type
+ * \qmlproperty enumeration Abstract3DAxis::type
  * The type of the axis.
+ *
+ * \qmlenumeratorsfrom [Abstract3DAxis.AxisType] QAbstract3DAxis::AxisType
  */
 
 /*!

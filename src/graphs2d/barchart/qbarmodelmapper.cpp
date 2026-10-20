@@ -186,7 +186,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DBarModelMapperRemoveData_exit);
     The default value is \c{Qt::Vertical}
 */
 /*!
-    \qmlproperty Qt.Orientation BarModelMapper::orientation
+    \qmlproperty enumeration BarModelMapper::orientation
     Tells the modelmapper how to map data from a model. If
     \c{Qt.Vertical} is used, each of the model's columns defines a bar set, and the
     model's rows define the categories. When the orientation is set to

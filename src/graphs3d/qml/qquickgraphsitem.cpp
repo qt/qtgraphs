@@ -116,23 +116,29 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty Graphs3D.SelectionFlag GraphsItem3D::selectionMode
+ * \qmlproperty enumeration GraphsItem3D::selectionMode
  * The active selection mode in the graph.
  * One of the \l Graphs3D.SelectionFlag enum values.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.SelectionFlag] QtGraphs3D::SelectionFlag
  */
 
 /*!
- * \qmlproperty Graphs3D.ShadowQuality GraphsItem3D::shadowQuality
+ * \qmlproperty enumeration GraphsItem3D::shadowQuality
  * The quality of shadows. One of the \l Graphs3D.ShadowQuality enum
  * values.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.ShadowQuality] QtGraphs3D::ShadowQuality
  */
 
 /*!
- * \qmlproperty Graphs3D.CameraPreset GraphsItem3D::cameraPreset
+ * \qmlproperty enumeration GraphsItem3D::cameraPreset
  *
  * The currently active camera preset, which is one of
  * \l{Graphs3D.CameraPreset}. If no
  * preset is active, the value is \c {Graphs3D.CameraPreset.NoPreset}.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.CameraPreset] QtGraphs3D::CameraPreset
  */
 
 /*!
@@ -224,13 +230,15 @@ constexpr float polarRoundness = 64.0f;
   */
 
   /*!
-   * \qmlproperty Graphs3D.DragMode GraphsItem3D::dragMode
+   * \qmlproperty enumeration GraphsItem3D::dragMode
    * \since 6.12
    *
    * Determines how drag events on the graph are interpreted, one of
    * \l Graphs3D.DragMode enum values.
    *
    * Defaults to \c{Graphs3D.DragMode.Rotate}.
+   *
+   * \qmlenumeratorsfrom [Graphs3D.DragMode] QtGraphs3D::DragMode
    *
    * \sa panEnabled
    */
@@ -346,13 +354,15 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty Graphs3D.RenderingMode GraphsItem3D::renderingMode
+ * \qmlproperty enumeration GraphsItem3D::renderingMode
  *
  * How the graph will be rendered. Defaults to \c{Indirect}.
  *
  * \note Setting the \c antialiasing property of the graph does not do anything.
  * However, it is set by the graph itself if the current rendering mode uses
  * antialiasing.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.RenderingMode] QtGraphs3D::RenderingMode
  *
  * \sa msaaSamples, Graphs3D.RenderingMode
  */
@@ -640,7 +650,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty Graphs3D.ElementType GraphsItem3D::selectedElement
+ * \qmlproperty enumeration GraphsItem3D::selectedElement
  * \readonly
  *
  * The element selected in the graph.
@@ -651,6 +661,8 @@ constexpr float polarRoundness = 64.0f;
  *
  * The signal can be used for example for implementing customized input
  * handling, as demonstrated by the \l {Axis Handling} example.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.ElementType] QtGraphs3D::ElementType
  *
  * \sa selectedLabelIndex(), selectedAxis(), selectedCustomItemIndex(),
  * selectedCustomItem(), Bars3D::selectedSeries, Scatter3D::selectedSeries,
@@ -692,7 +704,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty Graphs3D.OptimizationHint GraphsItem3D::optimizationHint
+ * \qmlproperty enumeration GraphsItem3D::optimizationHint
  *
  * \brief Specifies whether the default or legacy mode is used for rendering optimization.
  *
@@ -711,6 +723,8 @@ constexpr float polarRoundness = 64.0f;
  * different graphics drivers support different maximum vertice counts per call.
  * This is mostly an issue on 32bit and OpenGL ES2 platforms. To work around
  * this issue, choose an item mesh with a low vertex count or use the point mesh.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.OptimizationHint] QtGraphs3D::OptimizationHint
  *
  * \sa Abstract3DSeries::mesh, Graphs3D.OptimizationHint
  */
@@ -778,12 +792,14 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty Graphs3D.GridLineType GraphsItem3D::gridLineType
+ * \qmlproperty enumeration GraphsItem3D::gridLineType
  *
  * Defines whether the grid lines type is \c Graphs3D.GridLineType.Shader or
  * \c Graphs3D.GridLineType.Geometry.
  *
  * This value affects all grid lines.
+ *
+ * \qmlenumeratorsfrom [Graphs3D.GridLineType] QtGraphs3D::GridLineType
  *
  * \sa Graphs3D.GridLineType
  */
