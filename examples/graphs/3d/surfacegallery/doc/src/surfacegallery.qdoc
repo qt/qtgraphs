@@ -84,7 +84,7 @@
     A spectrogram is a surface graph with a range gradient used to emphasize the different
     values. Typically, spectrograms are shown with two-dimensional surfaces, which are simulated
     with a top-down orthographic view of the graph. To enforce the 2D effect, disable the
-    graph rotation via mouse or touch when in orthographic mode.
+    graph rotation with the mouse or touch when in orthographic mode.
 
     \section2 Creating a Spectrogram
 
@@ -100,15 +100,16 @@
 
     \snippet 3d/surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 1
 
-    Since this viewpoint causes the horizontal axis grid to be mostly obscured by the surface,
-    flip the horizontal grid to be drawn on top of the graph:
+    Because this viewpoint causes the horizontal axis grid to be mostly obscured
+    by the surface, flip the horizontal grid to be drawn on top of the graph:
 
     \snippet 3d/surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 2
 
     \section2 Polar Spectrogram
 
-    Depending on the data, it is sometimes more natural to use a polar graph instead of a cartesian
-    one. This is supported via the \l{GraphsItem3D::polar}{polar} property.
+    Depending on the data, it is sometimes more natural to use a polar graph
+    instead of a cartesian one. This is supported through the
+    \l{GraphsItem3D::polar}{polar} property.
 
     Add a button to switch between polar and cartesian modes:
 
@@ -138,7 +139,7 @@
 
     Item model-based proxies are good for simple or static graphs, but use basic proxies to
     achieve the best performance when displaying data changing in real-time.
-    These are not supported in QML, as the data items they store do not inherit \l{QObject} and,
+    Basic proxies are not supported in QML, because the data items they store do not inherit \l{QObject} and,
     therefore, cannot be directly manipulated from QML code.
     To overcome this limitation, implement a simple \c DataSource class in C++ to populate the
     data proxy of the series.
@@ -160,7 +161,7 @@
 
     \snippet 3d/surfacegallery/datasource.cpp 1
 
-    Even though we are operating on the array pointer previously set to the series,
+    Even though the code operates on the array pointer previously set to the series,
     QSurfaceDataProxy::resetArray() still needs to be called after changing the data in it to prompt
     the graph to render the data.
 
@@ -200,8 +201,8 @@
 
     \snippet 3d/surfacegallery/qml/surfacegallery/SurfaceOscilloscope.qml 2
 
-    Don't specify a proxy for the Surface3DSeries that you attach to the graph. This makes the
-    series utilize the default QSurfaceDataProxy.
+    Don't specify a proxy for the Surface3DSeries that you attach to the graph.
+    This makes the series use the default QSurfaceDataProxy.
 
     Hide the item label with \l{Abstract3DSeries::itemLabelVisible}{itemLabelVisible}. With dynamic,
     fast-changing data, a floating selection label would be distracting and difficult to read.
@@ -227,7 +228,7 @@
 
     \section2 Enabling Direct Rendering
 
-    Since this application potentially deals with a lot of rapidly changing data, it uses direct
+    Because this application can handle large amounts of rapidly changing data, it uses direct
     rendering mode for performance. To enable antialiasing in this mode, change the surface format
     of the application window. The default format used by QQuickView doesn't support antialiasing.
     Use the utility function provided to change the surface format in \c main.cpp:

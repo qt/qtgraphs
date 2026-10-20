@@ -28,8 +28,8 @@
             \list
                 \li Sets up the output PDF file.
 
-                    The function instantiates \l QPdfWriter with a "graph.pdf" file
-                    pointed in the specified folder. The function also specifies the
+                    The function instantiates \l QPdfWriter with a \c graph.pdf file
+                    in the specified folder. The function also specifies the
                     options for the exported PDF file: \e title, \e resolution, \e {page size},
                     and \e margins.
 
@@ -38,10 +38,8 @@
 
                     The static helper \c paintImage function draws the image
                     captured from QML onto an instance of the
-                    \l QPaintDevice class:
-
-
-                    The function creates a \l QPainter referring to the device.
+                    \l QPaintDevice class. The function creates a \l QPainter
+                    that refers to the device.
 
                     To ensure the graph is printed correctly, it is scaled to the
                     painter's viewport size with the original aspect ratio.
@@ -51,7 +49,7 @@
 
                     \snippet common/graphprinting/graphprinter.cpp 1
 
-                    Since \l QPdfWriter and \l QPrinter inherit \l QPaintDevice,
+                    Because \l QPdfWriter and \l QPrinter inherit \l QPaintDevice,
                     the helper function can be called from the \c generatePDF function
                     and the \c print function explained below.
             \endlist
@@ -62,7 +60,7 @@
 
             \snippet common/graphprinting/graphprinter.cpp 3
         \li The \c print function, which works like the \c generatePDF function,
-            but creates a \l QPainter referring a \l QPrinter instance:
+            but creates a \l QPainter that refers to a \l QPrinter instance:
 
             \snippet common/graphprinting/graphprinter.cpp 2
 
@@ -80,7 +78,7 @@
 
     \section1 Setting up the layout and image capture
 
-    The 2D and 3D graphs are laid out in a Stacklayout. Users can navigate it
+    The 2D and 3D graphs are laid out in a \l StackLayout. Users can navigate it
     with a TabBar.
 
     \snippet common/graphprinting/qml/graphprinting/Main.qml 0
@@ -106,9 +104,9 @@
     When either PDF export or printing is triggered, the following code is executed:
 
     \list
-        \li Capture an image using the \c grabToImage method.
-            The current graph is the Stacklayout's item at the current index.
-        \li In the \c grabToImage parameters, we specify the callback as the
+        \li Capture an image using the \c grabToImage method. The current graph
+            is the \l StackLayout item at the current index.
+        \li In the \c grabToImage parameters, specify the callback as the
             \c generatePDF or \c print function in the \c GraphPrinter class.
 
             PDF export:
@@ -117,9 +115,9 @@
             Print:
             \snippet common/graphprinting/qml/graphprinting/Main.qml 3.2
 
-            For the size, the code makes the image render at 4x the actual
-            resolution. For 3D graphs, the item must also be expanded
-            for the duration of printing:
+            For the size, the code makes the image render at four times the
+            actual resolution. For 3D graphs, the item must also be expanded
+            during printing:
 
             \snippet common/graphprinting/qml/graphprinting/Main.qml 3.3
     \endlist

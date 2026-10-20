@@ -13,7 +13,7 @@
     Scatter3D and QML.
 
     For instructions about how to interact with the graph, see
-    \l{Qt Graphs Interacting with Data in 3D}{this page}.
+    \l{Qt Graphs Interacting with Data in 3D}{Interacting with Data in 3D}.
 
     For instructions on how to create a new Qt Quick application of your own, see Qt Creator help.
 
@@ -24,8 +24,8 @@
 
     \section1 Setting up the Layout
 
-    Before diving into the QML code, \c main.cpp sets up the application. The \c main.qml file
-    is read from resource (\c{qrc:})
+    The \c main.cpp file sets up the application. It reads the \c main.qml file
+    from the resources (\c{qrc:}):
 
     \snippet 3d/scatter/main.cpp 0
 
@@ -43,8 +43,8 @@
 
     \snippet 3d/scatter/qml/scatter/main.qml 2
 
-    The layout for this application is going to consist of five different buttons to
-    toggle different visual options for the graph on and off, and of course the graph itself.
+    The layout for this application consists of five different buttons to
+    toggle different visual options for the graph on and off, and the graph itself.
     There are many ways to organize these, one way is to have a \c {GridLayout} containing
     four buttons, the \c {Graph}, and the fifth button, all appearing in a \c {ColumnLayout}.
 
@@ -52,7 +52,7 @@
 
     The \c {GridLayout} is responsive. What this means is that the number of columns used
     depends on the width of the application window. This is done by assigning the \c {columns}
-    property a ternary operator, resolving to either 1, 2 or 4, depending on the window width.
+    property a ternary operator, resolving to either 1, 2, or 4, depending on the window width.
 
     \snippet 3d/scatter/qml/scatter/main.qml 4
 
@@ -63,23 +63,23 @@
 
     \snippet 3d/scatter/qml/scatter/main.qml 5
 
-    \c CustomButton extends the \c RoundButton type, but adds a few additions.
-    Properties such as \c {Layout.minimumWidth}, \c {Layout.fillWidth},
-    \c {radius} and \c {background} are set. These define the styling and layout
-    of the button.
+    \c CustomButton extends the \c RoundButton type and sets properties such as
+    \c {Layout.minimumWidth}, \c {Layout.fillWidth}, \c {radius}, and
+    \c {background}. These properties define the styling and layout of the
+    button.
 
     \snippet 3d/scatter/qml/scatter/main.qml 6
 
     Whereas the \c {contentItem} defines the content of the button, in this case a \c {Row} type
     containing an icon and some text. The icon is imported using an \c {Image} type, and setting
     the \c {source} property. The text is created using a \c {Label} type and set using its \c {text}
-    property. Two aliases are created for these two properties at the top of the custom component,
-    this will allow them to be set when an instance of \c CustomButton is created.
+    property. Two aliases at the top of the custom component expose these properties, so you can set
+    them when you create an instance of \c CustomButton.
 
     \snippet 3d/scatter/qml/scatter/main.qml 7
 
     In the \c GridLayout, four \c {CustomButton}s are created. Three properties
-    need to be set, the two aliases for the icon image and the text, and the
+    need to be set: the two aliases for the icon image and the text, and the
     signal \c {onClicked}.
 
     \snippet 3d/scatter/qml/scatter/main.qml 8
@@ -105,8 +105,8 @@
 
     \section1 Setting up the Data
 
-    The graph shows three datasets, representing the data given in \c {Data.qml}. The datasets are
-    stored in \c {ListModel} types
+    The graph shows three datasets, representing the data given in
+    \c {Data.qml}. The datasets are stored in \c {ListModel} types:
 
     \snippet 3d/scatter/qml/scatter/Data.qml 1
     \dots
@@ -116,7 +116,8 @@
     \dots
     \snippet 3d/scatter/qml/scatter/Data.qml 4
 
-    and exposed to the other files using \c {property alias}es
+    The other files access the datasets through \c {property alias}
+    declarations:
 
     \snippet 3d/scatter/qml/scatter/Data.qml 0
 
@@ -143,7 +144,7 @@
     \dots
     \snippet 3d/scatter/qml/scatter/Graph.qml 8
 
-    Great, the scatter graph is now pointing to the three datasets.
+    The scatter graph now points to the three datasets.
 
     The only thing left to do is to add the remaining button, the \c {theme button}, to our
     \c {ColumnLayout}. The only difference with this button is it is positioned on the

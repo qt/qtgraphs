@@ -32,7 +32,7 @@
     \endlist
 
     For information about interacting with the graph, see
-    \l{Qt Graphs Interacting with Data in 3D}{this page}.
+    \l{Qt Graphs Interacting with Data in 3D}{Interacting with Data in 3D}.
 
     \section2 Creating the Application
 
@@ -95,7 +95,7 @@
 
             \snippet 3d/widgetgraphgallery/graphmodifier.cpp invoke camera preset
 
-        \li The new camera preset is set to the graph:
+        \li Set the new camera preset on the graph:
 
             \snippet 3d/widgetgraphgallery/graphmodifier.cpp change the preset
     \endlist
@@ -181,8 +181,9 @@
 
     \section2 Zooming to Selection
 
-    As an example of adjusting the camera target, implement an animation of zooming to
-    selection via a button press. Animation initializations are done in the constructor:
+    As an example of adjusting the camera target, implement an animation of
+    zooming to selection by pressing a button. Animation initializations are
+    done in the constructor:
 
     \snippet 3d/widgetgraphgallery/graphmodifier.cpp animation setup
 
@@ -214,7 +215,7 @@
     and axes.
 
     \list 1
-    \li We use a \c{std::array<double, 12>} to store the values of a year
+    \li Use a \c{std::array<double, 12>} to store the values of a year
         indexed by month. The static \c readData() helper function reads
         the data, returning a QList of them indexed by year:
 
@@ -222,7 +223,7 @@
      \dots
 
     \li The QList represents a two dimensional array indexed by year and month,
-        respectively. From this, we populate a QRangeModel and pass it to
+        respectively. From this, populate a QRangeModel and pass it to
         a QItemModelBarDataProxy() in the \c RainfallData class:
 
         \snippet 3d/widgetgraphgallery/rainfalldata.cpp 0
@@ -287,7 +288,7 @@
         \dots
         \snippet 3d/widgetgraphgallery/scatterdatamodifier.cpp 5
 
-    \li Finally, tell the proxy to start using the data we gave it:
+    \li Finally, tell the proxy to start using the data:
 
         \snippet 3d/widgetgraphgallery/scatterdatamodifier.cpp 6
 
@@ -412,9 +413,9 @@
     calculated by dividing the largest 24-bit value with the highest point in
     Finland.
 
-    QHeightMapSurfaceDataProxy converts only one-byte values. To utilize the
-    higher accuracy of the data from the National Land Survey of Finland, read
-    the data from the PNG file and decode it into a QSurface3DSeries.
+    QHeightMapSurfaceDataProxy converts only one-byte values. To use the higher
+    accuracy of the data from the National Land Survey of Finland, read the data
+    from the PNG file and decode it into a QSurface3DSeries.
 
     \list 1
     \li Define the encoding multiplier:
@@ -426,7 +427,7 @@
         \snippet 3d/widgetgraphgallery/topographicseries.cpp 1
     \endlist
 
-    Now, a Surface Graph can consume the data via the proxy.
+    Now, a Surface Graph can consume the data through the proxy.
 
     \section2 Selecting the Data Set
 
@@ -491,10 +492,10 @@
 
     \section2 Custom Surface Gradients
 
-    With the \uicontrol {Sqrt & Sin} data set, custom surface gradients can be
-    taken into use with two push buttons. Define the gradient with
-    QLinearGradient, where the desired colors are set. Also, change the color
-    style to \l{QGraphsTheme::ColorStyle}{ColorStyle::RangeGradient} to use the gradient.
+    With the \uicontrol {Sqrt & Sin} data set, you can use custom surface
+    gradients with two push buttons. Define the gradient with QLinearGradient,
+    and set the desired colors. Also, change the color style to
+    \l{QGraphsTheme::ColorStyle}{ColorStyle::RangeGradient} to use the gradient.
 
     \snippet 3d/widgetgraphgallery/surfacegraphmodifier.cpp 8
 
@@ -649,7 +650,7 @@
     Since the \c HighlightSeries is a QSurface3DSeries, all the decoration
     methods a series can have are available. In this example, add a gradient to
     emphasize the elevation. Because the suitable gradient style depends on the
-    range of the Y axis and we change the range when zooming, the gradient color
+    range of the Y axis, and the range changes when zooming, the gradient color
     positions need to be adjusted as the range changes. Do this by
     defining proportional values for the gradient color positions:
 

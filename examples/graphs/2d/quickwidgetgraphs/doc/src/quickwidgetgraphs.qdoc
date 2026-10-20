@@ -29,8 +29,8 @@
         \snippet 2d/quickwidgetgraphs/piewidget.cpp 0
         \dots 0
 
-    \li The \c PieGraph class is used to handle logic for adding and removing
-        slices, and have other functionalities.
+    \li The \c PieGraph class handles the logic for adding and removing slices,
+        and for other operations on the pie series.
 
         \snippet 2d/quickwidgetgraphs/piewidget.cpp 1
         \dots 0
@@ -85,9 +85,9 @@
         \l QPieSlice::setExploded() to \c true or \c false depending on current
         state.
 
-    \li In the \c clearSeries function, call \l QPieSeries::clear(). This will
-        delete all slices from your pie series. Note that this function does not
-        delete the pie series itself.
+    \li In the \c clearSeries function, call \l QPieSeries::clear(). This
+        deletes all slices from your pie series. Note that this function does
+        not delete the pie series itself.
     \endlist
 
     \section1 Initializing the GraphsView

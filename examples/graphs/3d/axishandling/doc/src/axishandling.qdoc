@@ -35,7 +35,7 @@
     \snippet 3d/axishandling/qml/axishandling/AxisDragging.qml 0
     \dots
 
-    Then, add a MouseArea and set it to fill the parent, which is the same \c Item our
+    Then, add a MouseArea and set it to fill the parent, which is the same \c Item the
     \c scatterGraph is contained in. Also, set it to accept only left mouse button presses,
     as in this example the other buttons are not needed:
 
@@ -47,13 +47,13 @@
     \snippet 3d/axishandling/qml/axishandling/AxisDragging.qml 2
 
     The \c{onPositionChanged} signal handler catches the current mouse position
-    that will be needed for the move distance calculation:
+    that you need for the move distance calculation:
 
     \snippet 3d/axishandling/qml/axishandling/AxisDragging.qml 3
     \dots
 
-    At the end of \c{onPositionChanged}, save the previous mouse position for move distance
-    calculation that will be introduced later:
+    At the end of \c{onPositionChanged}, save the previous mouse position for
+    move distance calculation that the next paragraphs introduce:
 
     \dots 0
     \snippet 3d/axishandling/qml/axishandling/AxisDragging.qml 4
@@ -106,8 +106,8 @@
 
     \section1 Axis Formatters
 
-    In the \uicontrol {Axis Formatting} tab, create a custom axis formatter. It also illustrates how
-    to use predefined axis formatters.
+    In the \uicontrol {Axis Formatting} tab, create a custom axis formatter. The
+    tab also illustrates how to use predefined axis formatters.
 
     \section2 Custom Axis Formatter
 
@@ -161,7 +161,7 @@
 
     \snippet 3d/axishandling/customformatter.cpp 3
 
-    To expose our new custom formatter to QML, declare it and make it a QML
+    To expose the new custom formatter to QML, declare it and make it a QML
     module. For information about how to do this, see \l{Surface Graph Gallery}.
 
     \section2 QML

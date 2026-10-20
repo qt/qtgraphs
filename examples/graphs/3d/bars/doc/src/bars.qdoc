@@ -81,12 +81,13 @@
 
     In \c main.qml, set up the graph and various UI elements. There are three interesting
     code blocks to highlight here. The first one shows how to change the visualized data between
-    income, expenses, and both, by simply changing the visibility of the two series:
+    income, expenses, and both, by changing the visibility of the two series:
 
     \snippet 3d/bars/qml/bars/main.qml 0
 
-    The axis label format and item selection label formats are tweaked to get the negative sign
-    showing properly for expenses, which were actually resolved as positive values.
+    The axis label format and item selection label formats are tweaked to get
+    the negative sign showing properly for expenses, which were resolved as
+    positive values.
 
     The second interesting block is where the visualized data is changed by adjusting the proxy
     properties:
@@ -95,11 +96,11 @@
 
     To show the yearly totals, combine the twelve months of each year into a single bar.
     This is achieved by specifying a \c columnRolePattern that matches all model items. In this way,
-    the series will only have a single column. The cumulative \c multiMatchBehavior
+    the series has only one column. The cumulative \c multiMatchBehavior
     specified earlier for the proxy becomes relevant now, causing the values of all twelve months
     of each year to be added up into a single bar.
 
-    To show just a subset of years, set \c autoRowCategories to false on the ItemModelBarDataProxy
+    To show just a subset of years, set \c autoRowCategories to \c false on the ItemModelBarDataProxy
     item and define the row categories explicitly. This way, only the items in the specified row
     categories are visualized.
 

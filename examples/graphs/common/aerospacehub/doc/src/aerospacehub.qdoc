@@ -21,7 +21,7 @@
 
     \section1 Overview of the Application
 
-    The example demonstrates a wind turbine monitoring dashboard, referred to as the AeroScope
+    The example demonstrates a wind turbine monitoring dashboard, called AeroScope
     Hub, which displays simulated data from an imaginary wind turbine field. A variety of graph
     types are employed to visualize different kinds of data. For example, a 2D graph with a
     spline series illustrates hourly power output, while an accompanying area series represents
@@ -79,18 +79,19 @@
     Each subclass is a QML element that targets a specific series type:
 
     \list
-    \li \c LineSimulator — populates \l QSplineSeries with the generated values.
-    \li \c BarSimulator — populates \l QBarSeries, grouping values into bar sets according
-        to the \c numberOfCategory property.
-    \li \c PieSimulator — populates \l QPieSeries, creating one slice per generated value.
-    \li \c Data3DSimulator — feeds a \c SimulatedDataModel (\l QAbstractListModel) used by
+    \li \c LineSimulator populates \l QSplineSeries with the generated values.
+    \li \c BarSimulator populates \l QBarSeries and groups values into bar sets
+        according to the \c numberOfCategory property.
+    \li \c PieSimulator populates \l QPieSeries and creates one slice per
+        generated value.
+    \li \c Data3DSimulator feeds a \c SimulatedDataModel (\l QAbstractListModel) used by
         the 3D graph types. The \c numberOfRows and \c numberOfColumns properties define
         the grid dimensions of the data.
     \endlist
 
     \section1 Implementation Details
 
-    Everything in the application has been designed in a modular fashion. Main view, which is
+    Everything in the application has been designed to be modular. Main view, which is
     the \c {Main.qml} file, is an \l {ApplicationWindow}, which instantiates the data simulators
     for each graph, as well as the root \l Item holding all of the UI elements.
 
@@ -145,13 +146,15 @@
     \snippet common/aerospacehub/Main.qml rootitem
     \dots
 
-    Most of the elements have been taken out of the \c {Main.qml} file itself into their own
-    QML components to be used in the layouts, like the \c ToolBarItem in the snippet below:
+    Most of the elements have been moved out of the \c {Main.qml} file
+    into their own QML components to be used in the layouts, such as the
+    \c ToolBarItem in the snippet below:
 
     \snippet common/aerospacehub/Main.qml toolbar
     \dots
 
-    Transitions between different view is handled using \c states and \c {transitions}:
+    The application handles transitions between views with \c states and
+    \c {transitions}:
 
     \snippet common/aerospacehub/Main.qml states
     \dots
@@ -177,7 +180,8 @@
     \snippet common/aerospacehub/qml/StatusPane.qml statuspane
     \dots
 
-    The implementation of these is not relevant, so that part will be skipped.
+    The implementation of these components is not relevant here, so the example
+    skips it.
 
     \section3 Dashboard Pane
 
@@ -200,8 +204,8 @@
     SmallGraphItem has:
     \list
     \li A header element
-    \li An instance of each graph type, for which visibility is set to false by default using an
-        opacity trigger
+    \li An instance of each graph type, for which visibility is set to \c false
+        by default using an opacity trigger
     \li A rectangle to darken the preview
     \li A mouse area to handle hover and mouse clicks on the preview
     \endlist
@@ -209,7 +213,7 @@
     \snippet common/aerospacehub/qml/SmallGraphItem.qml previewgraphs
     \dots 0
 
-    Opacities are used for transition animations, which is why they have been set to 0 in the
+    Opacities are used for transition animations, which is why they have been set to \c 0 in the
     previews by default. When opacity is animated above 0.5, the preview graph itself is set
     visible:
 
@@ -230,8 +234,8 @@
     \snippet common/aerospacehub/qml/BigGraphItem.qml graphs
     \dots 0
 
-    Other elements included are a dropdown combobox for selecting the graph type, control
-    buttons for rotating, panning, and zooming - depending on the graph type - and  a tooltip
+    Other elements included are a combo box for selecting the graph type, control
+    buttons for rotating, panning, and zooming (depending on the graph type), and a tooltip
     for the buttons. Like \c {SmallGraphItem}, the graph type shown is decided based on
     the state.
 
