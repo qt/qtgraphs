@@ -40,8 +40,8 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty string Custom3DItem::textureFile
  *
- * The texture file name for the item. If left unset, a solid gray texture will
- * be used.
+ * The texture file name for the item. If left unset, a solid gray texture is
+ * used.
  *
  * \note To conserve memory, the QImage loaded from the file is cleared after a
  * texture is created.
@@ -60,7 +60,7 @@ QT_BEGIN_NAMESPACE
  * \note Items positioned outside any axis range are not rendered if
  * positionAbsolute is \c{false}, unless the item is a Custom3DVolume that would
  * be partially visible and scalingAbsolute is also \c{false}. In that case, the
- * visible portion of the volume will be rendered.
+ * visible portion of the volume is rendered.
  *
  * \sa positionAbsolute, scalingAbsolute
  */
@@ -99,8 +99,8 @@ QT_BEGIN_NAMESPACE
 /*! \qmlproperty bool Custom3DItem::scalingAbsolute
  *
  * Defines whether item scaling is to be handled in data values or in absolute
- * values. Defaults to \c{true}. Items with absolute scaling will be rendered at
- * the same size, regardless of axis ranges. Items with data scaling will change
+ * values. Defaults to \c{true}. Items with absolute scaling are rendered at
+ * the same size, regardless of axis ranges. Items with data scaling change
  * their apparent size according to the axis ranges. If positionAbsolute is
  * \c{true}, this property is ignored and scaling is interpreted as an absolute
  * value. If the item has rotation, the data scaling is calculated on the
@@ -111,7 +111,7 @@ QT_BEGIN_NAMESPACE
  * custom items used in \l{GraphsItem3D::polar}{polar} graphs.
  *
  * \note The custom item's mesh must be normalized to the range \c{[-1, 1]}, or
- * the data scaling will not be accurate.
+ * the data scaling is not accurate.
  *
  * \sa scaling, positionAbsolute
  */
@@ -126,8 +126,8 @@ QT_BEGIN_NAMESPACE
  *  \since 6.11
  *
  * Defines whether item rotation is to be handled in data values or in absolute
- * values. Defaults to \c{true}. Items with absolute rotation will be rotated with
- * the default coordinates, regardless of axis. Items with data rotation will rotate
+ * values. Defaults to \c{true}. Items with absolute rotation are rotated with
+ * the default coordinates, regardless of axis. Items with data rotation rotate
  * according to the axis coordinates.
  *
  * \sa rotation
@@ -290,7 +290,7 @@ QString QCustom3DItem::meshFile() const
  * \note Items positioned outside any axis range are not rendered if
  * positionAbsolute is \c{false}, unless the item is a QCustom3DVolume that
  * would be partially visible and scalingAbsolute is also \c{false}. In that
- * case, the visible portion of the volume will be rendered.
+ * case, the visible portion of the volume is rendered.
  *
  * \sa positionAbsolute
  */
@@ -320,7 +320,7 @@ QVector3D QCustom3DItem::position() const
  * \brief Whether item position is to be handled in data coordinates or in
  * absolute coordinates.
  *
- * Defaults to \c{false}. Items with absolute coordinates will always be
+ * Defaults to \c{false}. Items with absolute coordinates are always
  * rendered, whereas items with data coordinates are only rendered if they are
  * within axis ranges.
  *
@@ -393,8 +393,8 @@ QVector3D QCustom3DItem::scaling() const
  *
  * Defaults to \c{true}.
  *
- * Items with absolute scaling will be rendered at the same
- * size, regardless of axis ranges. Items with data scaling will change their
+ * Items with absolute scaling are rendered at the same
+ * size, regardless of axis ranges. Items with data scaling change their
  * apparent size according to the axis ranges. If positionAbsolute is \c{true},
  * this property is ignored and scaling is interpreted as an absolute value. If
  * the item has rotation, the data scaling is calculated on the unrotated item.
@@ -405,7 +405,7 @@ QVector3D QCustom3DItem::scaling() const
  * custom items used in \l{Q3DGraphsWidgetItem::polar}{polar} graphs.
  *
  * \note The custom item's mesh must be normalized to the range \c{[-1, 1]}, or
- * the data scaling will not be accurate.
+ * the data scaling is not accurate.
  *
  * \sa scaling, positionAbsolute
  */
@@ -468,8 +468,8 @@ QQuaternion QCustom3DItem::rotation()
  * coordinates.
  *
  * Defines whether item rotation is to be handled in data values or in absolute
- * values. Defaults to \c{true}. Items with absolute rotation will be rotated with
- * the default coordinates, regardless of axis. Items with data rotation will rotate
+ * values. Defaults to \c{true}. Items with absolute rotation are rotated with
+ * the default coordinates, regardless of axis. Items with data rotation rotate
  * according to the axis coordinates.
  *
  * \sa rotation
@@ -597,8 +597,8 @@ void QCustom3DItem::setTextureImage(const QImage &textureImage)
  *
  * \brief The texture file name for the item.
  *
- * If both this property and the texture image are unset, a solid
- * gray texture will be used.
+ * If both this property and the texture image are unset, a solid gray texture
+ * is used.
  *
  * \note To conserve memory, the QImage loaded from the file is cleared after a
  * texture is created.

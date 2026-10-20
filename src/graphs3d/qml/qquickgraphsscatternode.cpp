@@ -16,11 +16,11 @@ QT_BEGIN_NAMESPACE
  *
  * This type enables developers to render a scatter graph node in 3D with Qt Quick.
  *
- * You will need to import Qt Graphs module to use this type:
+ * To use this type, import the Qt Graphs module:
  *
  * \snippet doc_src_qmlnodes.qml 0
  *
- * After that you can use Scatter3DNode in your qml files:
+ * After that, you can use Scatter3DNode in your QML files:
  *
  * \snippet doc_src_qmlnodes.qml 2
  *
@@ -78,7 +78,7 @@ QT_BEGIN_NAMESPACE
  * \qmlmethod void Scatter3DNode::addSeries(Scatter3DSeries series)
  * Adds the \a series to the graph. A graph can contain multiple series, but has
  * only one set of axes. If the newly added series has specified a selected
- * item, it will be highlighted and any existing selection will be cleared. Only
+ * item, it is highlighted and any existing selection is cleared. Only
  * one added series can have an active selection.
  * \sa GraphsNode::hasSeries()
  */

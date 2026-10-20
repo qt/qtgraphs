@@ -43,8 +43,8 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DCustomVolumeRenderSlice_exit)
  * volume contents, consider turning the high definition shader off by setting
  * the useHighDefShader property to \c{false}.
  *
- * \note Volumetric objects utilize 3D textures, which are not supported in
- * OpenGL ES2 environments.
+ * \note Volumetric objects use 3D textures, which are not supported in OpenGL
+ * ES2 environments.
  *
  * \note Only two formats are supported:
  * QImage::Format_Indexed8 and QImage::Format_ARGB32. If an indexed format is
@@ -80,8 +80,8 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DCustomVolumeRenderSlice_exit)
  * supported from QML. Create a hybrid QML/C++ application if you want to use
  * volume objects with a Qt Quick UI.
  *
- * \note Volumetric objects utilize 3D textures, which are not supported in
- * OpenGL ES2 environments.
+ * \note Volumetric objects use 3D textures, which are not supported in OpenGL
+ * ES2 environments.
  *
  * \sa useHighDefShader
  */
@@ -188,8 +188,8 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DCustomVolumeRenderSlice_exit)
  * \qmlproperty bool Custom3DVolume::drawSlices
  *
  * If this property value is \c{true}, the slices indicated by slice index
- * properties will be drawn instead of the full volume. If it is \c{false}, the
- * full volume will always be drawn. Defaults to \c{false}.
+ * properties are drawn instead of the full volume. If it is \c{false}, the full
+ * volume is always drawn. Defaults to \c{false}.
  *
  * \note The slices are always drawn along the item axes, so if the item is
  * rotated, the slices are rotated as well.
@@ -201,8 +201,8 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DCustomVolumeRenderSlice_exit)
  * \qmlproperty bool Custom3DVolume::drawSliceFrames
  *
  * If this property value is \c{true}, the frames of slices indicated by slice
- * index properties will be drawn around the volume. If it is \c{false}, no
- * slice frames will be drawn. Drawing slice frames is independent of drawing
+ * index properties are drawn around the volume. If it is \c{false}, no
+ * slice frames are drawn. Drawing slice frames is independent of drawing
  * slices, so you can show the full volume and still draw the slice frames
  * around it. Defaults to \c{false}.
  *
@@ -726,9 +726,9 @@ void QCustom3DVolume::setTextureData(QList<uchar> *data)
  * textureData for this volume object. The texture dimensions are also set
  * according to image and array dimensions. All of the images in the array must
  * be the same size. If the images are not all in the QImage::Format_Indexed8
- * format, all texture data will be converted into the QImage::Format_ARGB32
+ * format, all texture data is converted into the QImage::Format_ARGB32
  * format. If the images are in the QImage::Format_Indexed8 format, the
- * colorTable value for the entire volume will be taken from the first image.
+ * colorTable value for the entire volume is taken from the first image.
  *
  * Returns a pointer to the newly created array.
  *
@@ -909,7 +909,7 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
  * and the textureWidth value is not divisible by four, padding bytes might need
  * to be added to each x-dimension line of the image to properly align it. The
  * padding bytes should indicate a fully transparent color to avoid rendering
- * artifacts. It is not guaranteed that QImage will do this automatically.
+ * artifacts. It is not guaranteed that QImage does this automatically.
  *
  * \sa textureData, renderSlice()
  */
@@ -1115,8 +1115,8 @@ bool QCustom3DVolume::useHighDefShader() const
  * \brief Whether the specified slices are drawn instead of the full volume.
  *
  * If this property value is \c{true}, the slices indicated by slice index
- * properties will be drawn instead of the full volume. If it is \c{false}, the
- * full volume will always be drawn. Defaults to \c{false}.
+ * properties are drawn instead of the full volume. If it is \c{false}, the full
+ * volume is always drawn. Defaults to \c{false}.
  *
  * \note The slices are always drawn along the item axes, so if the item is
  * rotated, the slices are rotated as well.
@@ -1149,8 +1149,8 @@ bool QCustom3DVolume::drawSlices() const
  * \brief Whether slice frames are drawn around the volume.
  *
  * If this property value is \c{true}, the frames of slices indicated by slice
- * index properties will be drawn around the volume. If it is \c{false}, no
- * slice frames will be drawn.
+ * index properties are drawn around the volume. If it is \c{false}, no slice
+ * frames are drawn.
  *
  * Drawing slice frames is independent of drawing slices, so you can show the
  * full volume and still draw the slice frames around it. This is useful when

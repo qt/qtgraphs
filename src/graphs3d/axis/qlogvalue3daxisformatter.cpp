@@ -39,7 +39,7 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty real LogValue3DAxisFormatter::base
  *
  * The base of the logarithm used to map axis values. If the base is non-zero,
- * the parent axis segment count will be ignored when the grid line and label
+ * the parent axis segment count is ignored when the grid line and label
  * positions are calculated. If you want the range to be divided into equal
  * segments like a normal value axis, set this property value to zero.
  *
@@ -134,7 +134,7 @@ QLogValue3DAxisFormatter::~QLogValue3DAxisFormatter() {}
  * \brief The base of the logarithm used to map axis values.
  *
  * If the base is non-zero, the parent axis
- * segment count will be ignored when the grid line and label positions are
+ * segment count is ignored when the grid line and label positions are
  * calculated. If you want the range to be divided into equal segments like a
  * normal value axis, set this property value to zero.
  *

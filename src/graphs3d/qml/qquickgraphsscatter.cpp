@@ -76,11 +76,11 @@ static const int insertRemoveRecordReserveSize = 31;
  *
  * This type enables developers to render scatter graphs in 3D with Qt Quick.
  *
- * You will need to import Qt Graphs module to use this type:
+ * To use this type, import the Qt Graphs module:
  *
  * \snippet doc_src_qmlgraphs.cpp 0
  *
- * After that you can use Scatter3D in your qml files:
+ * After that, you can use Scatter3D in your QML files:
  *
  * \snippet doc_src_qmlgraphs.cpp 2
  *
@@ -140,7 +140,7 @@ static const int insertRemoveRecordReserveSize = 31;
  * \qmlmethod void Scatter3D::addSeries(Scatter3DSeries series)
  * Adds the \a series to the graph. A graph can contain multiple series, but has
  * only one set of axes. If the newly added series has specified a selected
- * item, it will be highlighted and any existing selection will be cleared. Only
+ * item, it is highlighted and any existing selection is cleared. Only
  * one added series can have an active selection.
  * \sa GraphsItem3D::hasSeries()
  */

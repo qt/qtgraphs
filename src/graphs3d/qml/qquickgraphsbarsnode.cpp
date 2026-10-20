@@ -16,11 +16,11 @@ QT_BEGIN_NAMESPACE
  *
  * This type enables developers to render a bar graph node in 3D with Qt Quick.
  *
- * You will need to import Qt Graphs module to use this type:
+ * To use this type, import the Qt Graphs module:
  *
  * \snippet doc_src_qmlnodes.qml 0
  *
- * After that you can use Bars3DNode in your qml files:
+ * After that, you can use Bars3DNode in your QML files:
  *
  * \snippet doc_src_qmlnodes.qml 1
  *
@@ -118,7 +118,7 @@ QT_BEGIN_NAMESPACE
  * set to the axes.
  *
  * If the specified series is not yet added to the graph, setting it as the
- * primary series will also implicitly add it to the graph.
+ * primary series also implicitly adds it to the graph.
  *
  * If the primary series itself is removed from the graph, this property
  * resets to default.
@@ -132,19 +132,21 @@ QT_BEGIN_NAMESPACE
  *
  * The floor level for the bar graph in Y-axis data coordinates.
  *
- * The actual floor level will be restricted by the Y-axis minimum and maximum
+ * The actual floor level is restricted by the Y-axis minimum and maximum
  * values.
  * Defaults to zero.
  */
 
 /*!
  * \qmlmethod void Bars3DNode::addSeries(Bar3DSeries series)
- * Adds the \a series to the graph. A graph can contain multiple series, but only one set of axes,
- * so the rows and columns of all series must match for the visualized data to be meaningful.
- * If the graph has multiple visible series, only the first one added will
- * generate the row or column labels on the axes in cases where the labels are not explicitly set
- * to the axes. If the newly added series has specified a selected bar, it will be highlighted and
- * any existing selection will be cleared. Only one added series can have an active selection.
+ * Adds the \a series to the graph. A graph can contain multiple series, but
+ * only one set of axes, so the rows and columns of all series must match for
+ * the visualized data to be meaningful. If the graph has multiple visible
+ * series, only the first one added generates the row or column labels on the
+ * axes in cases where the labels are not explicitly set to the axes. If the
+ * newly added series has specified a selected bar, it is highlighted and any
+ * existing selection is cleared. Only one added series can have an active
+ * selection.
  * \sa GraphsNode::hasSeries()
  */
 

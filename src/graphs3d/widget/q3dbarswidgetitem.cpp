@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
  * selection by tap-and-hold, and zooming by pinch.
  *
  * If no axes are set explicitly for Q3DBarsWidgetItem, temporary default axes without
- * labels are created. These default axes can be modified via axis accessors,
+ * labels are created. These default axes can be modified through axis accessors,
  * but as soon as any axis is set explicitly for the orientation, the default
  * axis for that orientation is destroyed.
  *
@@ -44,22 +44,22 @@ QT_BEGIN_NAMESPACE
  * \snippet doc_src_q3dbars_construction.cpp 4
  *
  * After constructing Q3DBarsWidgetItem, you can set the data window by changing the range
- * on the row and column axes. It is not mandatory, as the data window will default
+ * on the row and column axes. It is not mandatory, as the data window defaults
  * to showing all of the data in the series. If the amount of data is large, it
  * is usually preferable to show just a portion of it. For example, let's set
  * the data window to display the first five rows and columns:
  *
  * \snippet doc_src_q3dbars_construction.cpp 0
  *
- * Now, Q3DBarsWidgetItem is ready to receive data to be rendered. Create a series with one
- * row of 5 values:
+ * Now, Q3DBarsWidgetItem is ready to receive data to be rendered. Create a
+ * series with one row of five values:
  *
  * \snippet doc_src_q3dbars_construction.cpp 1
  *
- * \note We set the data window to 5 x 5, but we are adding only one row of
- * data. This is okay; the rest of the rows will just be blank.
+ * \note The data window is set to five by five, but only one row of data is
+ * added. The rest of the rows are blank.
  *
- * Finally you will need to set it visible:
+ * Finally, make the graph visible:
  *
  * \snippet doc_src_q3dbars_construction.cpp 2
  *
@@ -101,7 +101,7 @@ Q3DBarsWidgetItem::~Q3DBarsWidgetItem() {}
  * set to the axes.
  *
  * If the specified series is not yet added to the graph, setting it as the
- * primary series will also implicitly add it to the graph.
+ * primary series also implicitly adds it to the graph.
  *
  * If the primary series itself is removed from the graph, this property
  * resets to default.
@@ -125,10 +125,10 @@ QBar3DSeries *Q3DBarsWidgetItem::primarySeries() const
  * Adds the \a series to the graph. A graph can contain multiple series, but
  * only one set of axes, so the rows and columns of all series must match for
  * the visualized data to be meaningful. If the graph has multiple visible
- * series, only the primary series will generate the row or column labels on the
+ * series, only the primary series generates the row or column labels on the
  * axes in cases where the labels are not explicitly set for the axes. If the
- * newly added series has specified a selected bar, it will be highlighted and
- * any existing selection will be cleared. Only one added series can have an
+ * newly added series has specified a selected bar, it is highlighted and
+ * any existing selection is cleared. Only one added series can have an
  * active selection.
  *
  * \sa seriesList(), primarySeries, Q3DGraphsWidgetItem::hasSeries()
@@ -379,7 +379,7 @@ QBar3DSeries *Q3DBarsWidgetItem::selectedSeries() const
  *
  * \brief The floor level for the bar graph in Y-axis data coordinates.
  *
- * The actual floor level will be restricted by the Y-axis minimum and maximum
+ * The actual floor level is restricted by the Y-axis minimum and maximum
  * values.
  * Defaults to zero.
  */
@@ -400,9 +400,9 @@ bool Q3DBarsWidgetItem::event(QEvent *event)
 }
 
 /*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken into
- * use, addAxis is simply used to give the ownership of the \a axis to the
- * graph. The \a axis must not be null or added to another graph.
+ * Adds \a axis to the graph. The axes added through addAxis are not yet taken
+ * into use, addAxis is used to give the ownership of the \a axis to the graph.
+ * The \a axis must not be null or added to another graph.
  *
  * \sa releaseAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
  */
@@ -413,7 +413,7 @@ void Q3DBarsWidgetItem::addAxis(QAbstract3DAxis *axis)
 
 /*!
  * Releases the ownership of the \a axis back to the caller, if it is added to
- * this graph. If the released \a axis is in use, a new default axis will be
+ * this graph. If the released \a axis is in use, a new default axis is
  * created and set active.
  *
  * If the default axis is released and added back later, it behaves as any other

@@ -28,14 +28,14 @@ QT_BEGIN_NAMESPACE
  * graph.
  *
  * QBarDataProxy optionally keeps track of row and column labels, which
- * QCategory3DAxis can utilize to show axis labels.
+ * QCategory3DAxis can use to show axis labels.
  *
  * The row and column labels are stored in a separate array from the data in the
- * series rather. Row processing methods are available in the proxy and provide
+ * series. Row processing methods are available in the proxy and provide
  * alternative versions that do not affect row labels. This enables
  * the option of having row labels that relate to the position of the data in
- * the array rather than the data itself. Since the series holds the data and
- * row and column labels, it is necessary to create a series associated with the
+ * the array rather than the data itself. Because the series holds the data and
+ * row and column labels, you must create a series associated with the
  * proxy before using these functions for them.
  *
  * \sa {Qt Graphs Data Handling with 3D}
@@ -64,9 +64,9 @@ QT_BEGIN_NAMESPACE
  * \brief The data proxy for a 3D bars graph.
  *
  * This type handles adding, inserting, changing, and removing rows of data with
- * Qt Quick 2.
+ * Qt Quick.
  *
- * This type cannot be instantiated, but contains properties that are exposed via
+ * This type cannot be instantiated, but contains properties that are exposed through
  * subtypes.
  *
  * For a more complete description, see QBarDataProxy.
@@ -348,8 +348,8 @@ qsizetype QBarDataProxy::addRows(QBarDataArray rows, QStringList labels)
  * If \a rowIndex is equal to the array size, the rows are added to the end of
  * the array.
  * The existing row labels are not affected.
- * \note The row labels array will be out of sync with the row array after this
- * call if there were labeled rows beyond the inserted row.
+ * \note The row labels array is out of sync with the row array after this call
+ * if there were labeled rows beyond the inserted row.
  */
 void QBarDataProxy::insertRow(qsizetype rowIndex, QBarDataRow row)
 {
@@ -378,8 +378,8 @@ void QBarDataProxy::insertRow(qsizetype rowIndex, QBarDataRow row, QString label
  * Inserts new \a rows into \a rowIndex.
  * If \a rowIndex is equal to the array size, the rows are added to the end of
  * the array. The existing row labels are not affected.
- * \note The row labels array will be out of sync with the row array after this
- * call if there were labeled rows beyond the inserted rows.
+ * \note The row labels array is out of sync with the row array after this call
+ * if there were labeled rows beyond the inserted rows.
  */
 void QBarDataProxy::insertRows(qsizetype rowIndex, QBarDataArray rows)
 {
@@ -409,8 +409,8 @@ void QBarDataProxy::insertRows(qsizetype rowIndex, QBarDataArray rows, QStringLi
  * position \a rowIndex. Attempting to remove rows past the end of the
  * array does nothing. If \a removeLabels is \c true, the corresponding row
  * labels are also removed. Otherwise, the row labels are not affected.
- * \note If \a removeLabels is \c false, the row labels array will be out of
- * sync with the row array if there are labeled rows beyond the removed rows.
+ * \note If \a removeLabels is \c false, the row labels array is out of sync
+ * with the row array if there are labeled rows beyond the removed rows.
  */
 void QBarDataProxy::removeRows(qsizetype rowIndex, qsizetype removeCount, RemoveLabels removeLabels)
 {

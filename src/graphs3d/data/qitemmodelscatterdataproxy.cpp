@@ -42,7 +42,7 @@ QT_BEGIN_NAMESPACE
  * how the replacement using regular expressions works, see the
  * QString::replace(const QRegularExpression &rx, const QString &after)
  * function documentation. Note that using regular expressions has an impact on
- * performance, so it's more efficient to utilize item models where doing search
+ * performance, so it's more efficient to use item models where doing search
  * and replace is not necessary to get the desired values.
  *
  * For example about using the search patterns in conjunction with the roles,
@@ -102,8 +102,8 @@ QT_BEGIN_NAMESPACE
  * The model may supply the value for rotation as either variant that is
  * directly convertible to \l [QtQuick] quaternion, or as one of the string
  * representations: \c{"scalar,x,y,z"} or \c{"@angle,x,y,z"}. The first format
- * will construct the \l [QtQuick] quaternion directly with given values, and
- * the second one will construct the \l [QtQuick] quaternion using
+ * constructs the \l [QtQuick] quaternion directly with given values, and
+ * the second one constructs the \l [QtQuick] quaternion using
  * QQuaternion::fromAxisAndAngle() method.
  */
 
@@ -500,8 +500,8 @@ QString QItemModelScatterDataProxy::zPosRole() const
  *
  * The model may supply the value for rotation as either a variant that is
  * directly convertible to QQuaternion or as one of the string representations:
- * \c{"scalar,x,y,z"} or \c{"@angle,x,y,z"}. The first will construct the
- * quaternion directly with the given values, and the second one will construct
+ * \c{"scalar,x,y,z"} or \c{"@angle,x,y,z"}. The first constructs the
+ * quaternion directly with the given values, and the second one constructs
  * the quaternion using the QQuaternion::fromAxisAndAngle() method.
  */
 void QItemModelScatterDataProxy::setRotationRole(const QString &role)
