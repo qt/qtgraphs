@@ -761,7 +761,7 @@ void QXYSeries::setValues(QVariantList values)
 
     This enum describes how plain numbers in \l values are interpreted.
 
-    \value X Each number is the X value; Y is generated from the index
+    \value X Each number is the X value; Y is generated from \l valueMin
            and \l stepSize.
     \value Y Each number is the Y value; X is generated from \l valueMin
            and \l stepSize.
@@ -806,8 +806,8 @@ void QXYSeries::setValueMapping(ValueMapping newHint)
     \brief The minimum X (or Y) value used when generating points from
     plain numbers in \l values.
 
-    Used together with \l stepSize when \l valueMapping is
-    \c ValueMapping::Y to generate the X values for each point.
+    Used together with \l stepSize to generate the missing coordinate
+    (X or Y, depending on \l valueMapping) of each point.
 
     The default value is 0.
 

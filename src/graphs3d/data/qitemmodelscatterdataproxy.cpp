@@ -111,8 +111,8 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty string ItemModelScatterDataProxy::scaleRole
  *
  * The model may supply the value for scale as either a variant that is
- * \c{"x,y,z"}. The first will construct the
- * vector3d directly with the given values.
+ * directly convertible to \l [QtQuick] vector3d, or as a string in the
+ * format \c{"x,y,z"}, where x, y, and z are the scale values.
  */
 
 /*!
@@ -528,8 +528,8 @@ QString QItemModelScatterDataProxy::rotationRole() const
  * \brief The item model role to map into item scale.
  *
  * The model may supply the value for scale as either a variant that is
- * \c{"x,y,z"}. The first will construct the
- * vector3d directly with the given values.
+ * directly convertible to \l [QtQuick] vector3d, or as a string in the
+ * format \c{"x,y,z"}, where x, y, and z are the scale values.
  */
 void QItemModelScatterDataProxy::setScaleRole(const QString &role)
 {

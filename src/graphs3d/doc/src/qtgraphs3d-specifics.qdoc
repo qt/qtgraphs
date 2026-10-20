@@ -496,7 +496,7 @@
  *
  * // ...
  *
- * QSurfaceFormat::setDefaultFormat(qDefaultSurfaceFormat(true));
+ * QSurfaceFormat::setDefaultFormat(qDefaultSurfaceFormat(false));
  * \endcode
  *
  * For example, enable antialiasing for direct rendering modes on QML application:

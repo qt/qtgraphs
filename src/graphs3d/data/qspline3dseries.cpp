@@ -91,7 +91,7 @@ QT_BEGIN_NAMESPACE
  * The number of vertices per spline segment,
  * which is defined as the part between two points.
  * 
- * Must be a value above \c 2. 
+ * Must be \c 2 or above.
  * The default value is \c 10.
  */
 
@@ -330,7 +330,7 @@ QColor QSpline3DSeries::splineColor() const
  * The number of vertices per spline segment,
  * which is defined as the part between two points.
  * 
- * Must be a value above \c 2. 
+ * Must be \c 2 or above.
  * The default value is \c 10.
  */
 

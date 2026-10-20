@@ -173,9 +173,11 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty enumeration Surface3DSeries::drawMode
  *
- * Sets the drawing mode to one of
- * \l{QSurface3DSeries::DrawFlag}{Surface3DSeries.DrawFlag}{QSurface3DSeries.DrawFilledSurface}.
- * Either DrawWireframe or DrawSurface must be set
+ * The drawing mode, as a combination of the following flags. Either
+ * \c Surface3DSeries.DrawWireframe or \c Surface3DSeries.DrawSurface must be
+ * set. Clearing all flags is not allowed.
+ *
+ * Defaults to \c Surface3DSeries.DrawSurfaceAndWireframe.
  *
  * \qmlenumeratorsfrom [Surface3DSeries] QSurface3DSeries::DrawFlag
  */
