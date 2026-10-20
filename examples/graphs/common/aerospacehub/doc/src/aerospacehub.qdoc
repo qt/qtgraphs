@@ -21,7 +21,7 @@
 
     \section1 Overview of the Application
 
-    The example demonstrates a wind turbine monitoring dashboard, referred to as the Aerospace
+    The example demonstrates a wind turbine monitoring dashboard, referred to as the AeroScope
     Hub, which displays simulated data from an imaginary wind turbine field. A variety of graph
     types are employed to visualize different kinds of data. For example, a 2D graph with a
     spline series illustrates hourly power output, while an accompanying area series represents

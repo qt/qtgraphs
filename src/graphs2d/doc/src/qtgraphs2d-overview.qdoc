@@ -8,9 +8,10 @@
 
     The Qt Graphs module provides a way to develop rapidly responding, complex,
     and dynamic 2D graphs for analytically demanding industries such as academic
-    research and medicine. Qt Graphs provides 2D bars, lines, and scatter
-    graphs. Combining user interaction and real-time 2D drawing graphs enables
-    the creation of user interfaces that use space effectively.
+    research and medicine. Qt Graphs provides 2D area, bar, line, pie, scatter,
+    spline, and custom graphs. Combining user interaction and real-time 2D
+    drawing graphs enables the creation of user interfaces that use space
+    effectively.
 
     See \l{AreaSeries}, \l{BarSeries}, \l{LineSeries}, \l{PieSeries},
     \l{ScatterSeries}, and \l{SplineSeries} for details.

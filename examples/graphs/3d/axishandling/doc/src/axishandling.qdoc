@@ -106,7 +106,7 @@
 
     \section1 Axis Formatters
 
-    In the \uicontrol {Axis Formatter} tab, create a custom axis formatter. It also illustrates how
+    In the \uicontrol {Axis Formatting} tab, create a custom axis formatter. It also illustrates how
     to use predefined axis formatters.
 
     \section2 Custom Axis Formatter

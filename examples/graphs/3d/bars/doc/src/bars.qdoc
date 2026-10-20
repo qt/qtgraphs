@@ -49,7 +49,7 @@
     In this case, replace the entire field content with just the year or the month,
     which is the first captured substring for both rows and columns.
     For more information about the replace functionality with regular expressions, see
-    the QString::replace(const QRegExp &rx, const QString &after) function documentation.
+    the \l QString::replace() function documentation.
 
     The \c multiMatchBehavior property specifies what to do in case multiple item model items match
     the same row/column combination. In this case, add their values together.
