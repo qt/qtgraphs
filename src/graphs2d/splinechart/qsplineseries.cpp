@@ -51,11 +51,11 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateSplinePoints_exit);
 /*!
     \property QSplineSeries::width
 
-    The width of the spline line in pixels. The default value is 2.0.
+    The width of the spline line in pixels. The default value is 1.0.
 */
 /*!
     \qmlproperty real SplineSeries::width
-    The width of the line. By default, the width is 2.0.
+    The width of the line. By default, the width is 1.0.
 */
 
 /*!

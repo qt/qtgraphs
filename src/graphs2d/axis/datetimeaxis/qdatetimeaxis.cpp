@@ -50,7 +50,8 @@ QT_BEGIN_NAMESPACE
 
  This value can be lower or higher than the maximum.
  The DateTime is stored as UTC internally.
- The default value is new Date(1970,1,1)
+ The default value is January 1, 1970, UTC
+ (\c {QDateTime(QDate(1970, 1, 1), QTime(0, 0), QTimeZone::UTC)}).
 */
 /*!
  \qmlproperty real DateTimeAxis::min
@@ -58,7 +59,8 @@ QT_BEGIN_NAMESPACE
 
  This value can be lower or higher than the maximum.
  The DateTime is stored as UTC internally.
- The default value is new Date(1970,1,1)
+ The default value is January 1, 1970, UTC
+ (\c {new Date(Date.UTC(1970, 0, 1))}).
 */
 
 /*!
@@ -67,7 +69,8 @@ QT_BEGIN_NAMESPACE
 
  This value can be lower or higher than the minimum.
  The DateTime is stored as UTC internally.
- The default value is new Date(1980,1,1)
+ The default value is January 1, 1980, UTC
+ (\c {QDateTime(QDate(1980, 1, 1), QTime(0, 0), QTimeZone::UTC)}).
 */
 /*!
  \qmlproperty real DateTimeAxis::max
@@ -75,7 +78,8 @@ QT_BEGIN_NAMESPACE
 
  This value can be lower or higher than the minimum.
  The DateTime is stored as UTC internally.
- The default value is new Date(1980,1,1)
+ The default value is January 1, 1980, UTC
+ (\c {new Date(Date.UTC(1980, 0, 1))}).
 */
 /*!
  \property QDateTimeAxis::subTickCount

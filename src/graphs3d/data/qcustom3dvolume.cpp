@@ -653,7 +653,7 @@ void QCustom3DVolume::setSliceIndices(int x, int y, int z)
  * If the texture format is not indexed, this array is not used and can be
  * empty.
  *
- * Defaults to \c{0}.
+ * Defaults to an empty list.
  *
  * \sa textureData, setTextureFormat(), QImage::colorTable()
  */
@@ -706,7 +706,7 @@ QList<QRgb> QCustom3DVolume::colorTable() const
  * count. The padding bytes should indicate a fully transparent color to avoid
  * rendering artifacts.
  *
- * Defaults to \c{0}.
+ * Defaults to \c nullptr.
  *
  * \sa colorTable, setTextureFormat(), setSubTextureData(), textureDataWidth()
  */

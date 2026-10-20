@@ -784,7 +784,7 @@ void QItemModelBarDataProxy::remap(const QString &rowRole,
 
 /*!
  * Returns the index of the specified \a category in row categories list.
- * If the row categories list is empty, -1 is returned.
+ * If the category is not found, -1 is returned.
  * \note If the automatic row categories generation is in use, this method will
  * not return a valid index before the data in the model is resolved for the
  * first time.

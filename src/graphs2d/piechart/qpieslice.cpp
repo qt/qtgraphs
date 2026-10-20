@@ -1306,7 +1306,7 @@ void QPieSlice::setSubSlicesRatio(qreal subSlicesRatio)
 
     The relative size of the sub slices compared to the parent slice. The value ranges from 0.0 to 1.0,
     where 1.0 means that the sub slices take up the same amount of space as the parent slice would
-    without sub slices. The default value is 0.6.
+    without sub slices. The default value is 0.7.
 */
 qreal QPieSlice::subSlicesRatio() const
 {

@@ -119,7 +119,7 @@ QT_BEGIN_NAMESPACE
 /*! \qmlproperty quaternion Custom3DItem::rotation
  *
  * The item rotation as a \l [QtQuick] quaternion. Defaults to
- * \c {quaternion(0.0, 0.0, 0.0, 0.0)}.
+ * \c {quaternion(1.0, 0.0, 0.0, 0.0)}.
  */
 
 /*! \qmlproperty bool Custom3DItem::rotationAbsolute
@@ -438,7 +438,7 @@ bool QCustom3DItem::isScalingAbsolute() const
  *
  * \brief The item rotation as a QQuaternion.
  *
- * Defaults to \c {QQuaternion(0.0, 0.0, 0.0, 0.0)}.
+ * Defaults to \c {QQuaternion(1.0, 0.0, 0.0, 0.0)}.
  */
 void QCustom3DItem::setRotation(const QQuaternion &rotation)
 {
