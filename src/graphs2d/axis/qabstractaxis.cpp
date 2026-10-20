@@ -91,15 +91,15 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \property QAbstractAxis::labelDelegate
-    \brief A custom QML Component used as a label for the axis.
-    This component should either be a \a Text component or contain "property string text",
-    so that this property will be assigned the value of the label.
+    \brief A custom QML Component used as a label for the axis. This component
+    should either be a \l Text component or contain "property string text", so
+    that this property will be assigned the value of the label.
 */
 /*!
     \qmlproperty Component AbstractAxis::labelDelegate
-    A custom QML Component used as a label for the axis.
-    This component should either be a \a Text component or contain "property string text",
-    so that this property will be assigned the value of the label.
+    A custom QML Component used as a label for the axis. This component should
+    either be a \l Text component or contain "property string text", so that
+    this property will be assigned the value of the label.
 */
 
 /*!

@@ -358,30 +358,14 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty Graphs3D.TransparencyTechnique GraphsItem3D::transparencyTechnique
+ * \qmlproperty enumeration GraphsItem3D::transparencyTechnique
  * \since 6.9
  *
  * Specifies which transparency technique to use. The Default value is \c{Default}.
  * When rendering transparent surface graphs, use \c{Approximate} or \c{Accurate}.
  * \c Default should be used for other graph types.
  *
- * \value Default
- *        Indicates that order-independent transparency techniques are not used.
- *        Offers the best performance. Use when graphs don't contain
- *        transparency or when a bar or scatter graph is also using instancing,
- *        that is, when \l optimizationHint is
- *        \l{Graphs3D.OptimizationHint}{OptimizationHint.Default}.
- *
- * \value Approximate
- *        Indicates that a graph attempts an approximation of order-independent
- *        transparency. This method is faster than \c Accurate and works on older
- *        hardware but may yield inaccurate results. Use when the order-independent
- *        transparency is needed, but the performance cost has to be lower than
- *        when using accurate order-independent transparency.
- *
- * \value Accurate
- *        Indicates that accurate order-independent transparency is used.
- *        Use when perfect transparency rendering is needed.
+ * \qmlenumeratorsfrom [Graphs3D.TransparencyTechnique] QtGraphs3D::TransparencyTechnique
  */
 
 /*!
@@ -461,7 +445,7 @@ constexpr float polarRoundness = 64.0f;
 
  /*!
  * \qmlmethod void GraphsItem3D::setDefaultInputHandler()
- * @brief Restores the default input handling mechanism.
+ * Restores the default input handling mechanism.
  *
  * This method reactivates the internal, pre-defined input handlers.
  * Use this to revert to default behavior after previously calling
@@ -471,7 +455,7 @@ constexpr float polarRoundness = 64.0f;
 
  /*!
  * \qmlmethod void GraphsItem3D::unsetDefaultInputHandler()
- * @brief Disables the default input handling mechanism.
+ * Disables the default input handling mechanism.
  *
  * This method deactivates the pre-defined all default input handlers.
  * Call this method when you intend to override the default behaviors.
@@ -480,7 +464,7 @@ constexpr float polarRoundness = 64.0f;
 
  /*!
  * \qmlmethod void GraphsItem3D::unsetDefaultTapHandler()
- * @brief Disables the default tap event handler.
+ * Disables the default tap event handler.
  *
  * This specifically unsets the built-in response to tap or click events,
  * allowing for custom tap handling logic.
@@ -489,7 +473,7 @@ constexpr float polarRoundness = 64.0f;
 
  /*!
  * \qmlmethod void GraphsItem3D::unsetDefaultDragHandler()
- * @brief Disables the default drag event handler.
+ * Disables the default drag event handler.
  *
  * This specifically unsets the built-in response to drag gestures.
  * Use this if you need to implement a custom handler for dragging.
@@ -498,7 +482,7 @@ constexpr float polarRoundness = 64.0f;
 
  /*!
  * \qmlmethod void GraphsItem3D::unsetDefaultWheelHandler()
- * @brief Disables the default mouse wheel event handler.
+ * Disables the default mouse wheel event handler.
  *
  * This specifically unsets the built-in response to mouse wheel scrolling.
  * Use this when implementing custom wheel behavior.
@@ -507,7 +491,7 @@ constexpr float polarRoundness = 64.0f;
 
  /*!
  * \qmlmethod void GraphsItem3D::unsetDefaultPinchHandler()
- * @brief Disables the default pinch gesture handler.
+ * Disables the default pinch gesture handler.
  *
  * This specifically unsets the built-in response to pinch gestures.
  * Use this to implement custom pinch gesture handler.
@@ -516,7 +500,7 @@ constexpr float polarRoundness = 64.0f;
 
   /*!
  * \qmlmethod void GraphsItem3D::setDragButton(Qt::MouseButtons button)
- * @brief Sets the mouse button used to trigger drag events.
+ * Sets the mouse button used to trigger drag events.
  *
  * This method allows changing the mouse button required to initiate
  * a drag operation to \a button.
@@ -526,7 +510,7 @@ constexpr float polarRoundness = 64.0f;
  /*!
 * \qmlmethod void GraphsItem3D::setPanButton(Qt::MouseButtons button)
 * \since 6.12
-* @brief Sets the mouse button used to trigger pan events.
+* Sets the mouse button used to trigger pan events.
 *
 * This method allows changing the mouse button required to initiate
 * a drag operation to \a button.
@@ -549,8 +533,9 @@ constexpr float polarRoundness = 64.0f;
  * Adds a Custom3DItem \a item to the graph. Graph takes ownership of the added
  * item.
  *
- * \return index to the added item if add was successful, -1 if trying to add a
- * null item, and index of the item if trying to add an already added item.
+ * Returns the index to the added item if add was successful, -1 if trying to
+ * add a null item, and the index of the item if trying to add an already added
+ * item.
  *
  * \sa removeCustomItems(), removeCustomItem(), removeCustomItemAt()
  */
@@ -610,7 +595,7 @@ constexpr float polarRoundness = 64.0f;
  * \c selectedElementChanged signal with any label type. Selection is valid
  * until the next \c selectedElementChanged signal.
  *
- * \return index of the selected label, or -1.
+ * Returns the index of the selected label, or -1.
  *
  * \sa selectedElement
  */
@@ -622,7 +607,7 @@ constexpr float polarRoundness = 64.0f;
  * signal with any label type. Selection is valid until the next
  * \c selectedElementChanged signal.
  *
- * \return the selected axis, or null.
+ * Returns the selected axis, or null.
  *
  * \sa selectedElement
  */
@@ -635,7 +620,7 @@ constexpr float polarRoundness = 64.0f;
  * \l{QtGraphs3D::ElementType::CustomItem}{ElementType.CustomItem} type.
  * Selection is valid until the next \c selectedElementChanged signal.
  *
- * \return index of the selected custom item, or -1.
+ * Returns the index of the selected custom item, or -1.
  *
  * \sa selectedElement
  */
@@ -649,7 +634,7 @@ constexpr float polarRoundness = 64.0f;
  * Ownership of the item remains with the graph.
  * Selection is valid until the next \c selectedElementChanged signal.
  *
- * \return the selected custom item, or null.
+ * Returns the selected custom item, or null.
  *
  * \sa selectedElement
  */

@@ -702,7 +702,7 @@ QList<QRgb> QCustom3DVolume::colorTable() const
  * \note Each x-dimension line of the data needs to be 32-bit aligned.
  * If textureFormat is QImage::Format_Indexed8 and the textureWidth value is not
  * divisible by four, padding bytes might need to be added to each x-dimension
- * line of the \a data. The textureDataWidth() function returns the padded byte
+ * line of the data. The textureDataWidth() function returns the padded byte
  * count. The padding bytes should indicate a fully transparent color to avoid
  * rendering artifacts.
  *

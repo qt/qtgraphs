@@ -149,7 +149,9 @@ QT_BEGIN_NAMESPACE
  * When disabled, the normals on the surface are interpolated making the edges
  * look round. When visible, the normals are kept the same on a triangle making
  * the color of the triangle solid. This makes the data more readable from the
- * model. \note Flat shaded surfaces require at least GLSL version 1.2 with
+ * model.
+ *
+ * \note Flat shaded surfaces require at least GLSL version 1.2 with
  * GL_EXT_gpu_shader4 extension. The value of the flatShadingSupported property
  * indicates whether flat shading is supported at runtime.
  */
@@ -200,8 +202,8 @@ QT_BEGIN_NAMESPACE
  *
  * Holds the reference of the data array.
  *
- * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
- * is identical to the previous one.
+ * dataArrayChanged signal is emitted when data array is set, unless the new
+ * data array is identical to the previous one.
  *
  * \note Before doing anything regarding the dataArray, a series must be created for
  * the relevant proxy.
@@ -384,7 +386,9 @@ QPoint QSurface3DSeries::invalidSelectionPosition()
  * When disabled, the normals on the surface are interpolated making the edges
  * look round. When visible, the normals are kept the same on a triangle making
  * the color of the triangle solid. This makes the data more readable from the
- * model. \note Flat shaded surfaces require at least GLSL version 1.2 with
+ * model.
+ *
+ * \note Flat shaded surfaces require at least GLSL version 1.2 with
  * GL_EXT_gpu_shader4 extension. The value of the flatShadingSupported property
  * indicates whether flat shading is supported at runtime.
  */
@@ -413,7 +417,9 @@ QSurface3DSeries::Shading QSurface3DSeries::shading() const
  *
  * Flat shading for surfaces requires at least GLSL version 1.2 with
  * GL_EXT_gpu_shader4 extension. If \c true, flat shading for surfaces is
- * supported. \note This read-only property is set to its correct value after
+ * supported.
+ *
+ * \note This read-only property is set to its correct value after
  * the first render pass. Until then it is always \c true.
  */
 bool QSurface3DSeries::isFlatShadingSupported() const
@@ -544,7 +550,8 @@ QColor QSurface3DSeries::wireframeColor() const
  *
  *  \brief Whether to perform row sanitization.
  *
- *  When \a sanitized is \c{true}, removes rows in the series that do not contain valid data.
+ *  When this property is \c{true}, removes rows in the series that do not
+ *  contain valid data.
  *  \note This may incur a small performance penalty.
  */
 void QSurface3DSeries::setRowsSanitized(bool sanitized)
@@ -571,8 +578,8 @@ bool QSurface3DSeries::rowsSanitized() const {
  *
  * Holds the reference of the data array.
  *
- * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
- * is identical to the previous one.
+ * dataArrayChanged signal is emitted when data array is set, unless the new
+ * data array is identical to the previous one.
  *
  * \note Before doing anything regarding the dataArray, a series must be created for
  * the relevant proxy.

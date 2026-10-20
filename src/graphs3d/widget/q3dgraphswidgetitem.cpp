@@ -130,25 +130,7 @@ QList<QGraphsTheme *> Q3DGraphsWidgetItem::themes() const
  * use \c{Approximate} or \c{Accurate}. \c Default should be used for other
  * graph types.
  *
- * \value Default
- *        Indicates that order-independent transparency techniques are not used.
- *        Offers the best performance. Use when graphs don't contain
- *        transparency or when a bar or scatter graph is also using instancing,
- *        that is, when \l optimizationHint is
- *        \l{QtGraphs3D::OptimizationHint}{OptimizationHint::Default}.
- *
- * \value Approximate
- *        Indicates that a graph attempts an approximation of order-independent
- *        transparency. This method is faster than \c Accurate and works on older
- *        hardware but may yield inaccurate results. Use when the order-independent
- *        transparency is needed, but the performance cost has to be lower than
- *        when using accurate order-independent transparency.
- *
- * \value Accurate
- *        Indicates that accurate order-independent transparency is used.
- *        Use when perfect transparency rendering is needed.
- *
- * \sa QtGraphs3D::TransparencyTechnique
+ * For the possible values, see \l QtGraphs3D::TransparencyTechnique.
  */
 QtGraphs3D::TransparencyTechnique Q3DGraphsWidgetItem::transparencyTechnique() const
 {

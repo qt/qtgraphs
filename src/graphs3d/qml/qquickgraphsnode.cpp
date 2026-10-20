@@ -97,8 +97,9 @@ QT_BEGIN_NAMESPACE
  * Adds a Custom3DItem \a item to the graph. Graph takes ownership of the added
  * item.
  *
- * \return index to the added item if add was successful, -1 if trying to add a
- * null item, and index of the item if trying to add an already added item.
+ * Returns the index to the added item if add was successful, -1 if trying to
+ * add a null item, and the index of the item if trying to add an already added
+ * item.
  *
  * \sa removeCustomItems(), removeCustomItem(), removeCustomItemAt()
  */
@@ -158,7 +159,7 @@ QT_BEGIN_NAMESPACE
  * \c selectedElementChanged signal with any label type. Selection is valid
  * until the next \c selectedElementChanged signal.
  *
- * \return index of the selected label, or -1.
+ * Returns the index of the selected label, or -1.
  *
  * \sa selectedElement
  */
@@ -170,7 +171,7 @@ QT_BEGIN_NAMESPACE
  * signal with any label type. Selection is valid until the next
  * \c selectedElementChanged signal.
  *
- * \return the selected axis, or null.
+ * Returns the selected axis, or null.
  *
  * \sa selectedElement
  */
@@ -183,7 +184,7 @@ QT_BEGIN_NAMESPACE
  * \l{QtGraphs3D::ElementType::CustomItem}{ElementType.CustomItem} type.
  * Selection is valid until the next \c selectedElementChanged signal.
  *
- * \return index of the selected custom item, or -1.
+ * Returns the index of the selected custom item, or -1.
  *
  * \sa selectedElement
  */
@@ -197,7 +198,7 @@ QT_BEGIN_NAMESPACE
  * Ownership of the item remains with the graph.
  * Selection is valid until the next \c selectedElementChanged signal.
  *
- * \return the selected custom item, or null.
+ * Returns the selected custom item, or null.
  *
  * \sa selectedElement
  */
