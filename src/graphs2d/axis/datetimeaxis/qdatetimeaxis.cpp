@@ -54,7 +54,7 @@ QT_BEGIN_NAMESPACE
  (\c {QDateTime(QDate(1970, 1, 1), QTime(0, 0), QTimeZone::UTC)}).
 */
 /*!
- \qmlproperty real DateTimeAxis::min
+ \qmlproperty date DateTimeAxis::min
  The minimum value on the axis.
 
  This value can be lower or higher than the maximum.
@@ -73,7 +73,7 @@ QT_BEGIN_NAMESPACE
  (\c {QDateTime(QDate(1980, 1, 1), QTime(0, 0), QTimeZone::UTC)}).
 */
 /*!
- \qmlproperty real DateTimeAxis::max
+ \qmlproperty date DateTimeAxis::max
  The maximum value on the axis.
 
  This value can be lower or higher than the minimum.
@@ -176,7 +176,7 @@ QT_BEGIN_NAMESPACE
  panned or zoomed. The default value is \l{QDateTimeAxis::min}
 */
 /*!
- \qmlproperty real DateTimeAxis::visualMin
+ \qmlproperty date DateTimeAxis::visualMin
  \readonly
  \since 6.11
  The visual minimum value of the axis.
@@ -195,7 +195,7 @@ QT_BEGIN_NAMESPACE
  panned or zoomed. The default value is \l{QDateTimeAxis::max}
 */
 /*!
- \qmlproperty real DateTimeAxis::visualMax
+ \qmlproperty date DateTimeAxis::visualMax
  \readonly
  \since 6.11
  The visual maximum value of the axis.
@@ -226,7 +226,7 @@ QT_BEGIN_NAMESPACE
  value is 0.
 */
 /*!
- \qmlproperty real DateTimeAxis::tickCount
+ \qmlproperty int DateTimeAxis::tickCount
  \since 6.12
  The amount of major ticks placed on an axis. If the value is 0 or lower,
  the axis automatically calculates the appropriate amount of ticks.

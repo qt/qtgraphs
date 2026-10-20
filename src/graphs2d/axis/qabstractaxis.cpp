@@ -253,9 +253,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal AbstractAxis::minorGridVisibleChanged(bool visible)
-    This signal is emitted when the visibility of the minor grid lines of the axis
-    changes to \a visible.
+    \qmlsignal AbstractAxis::subGridVisibleChanged(bool visible)
+    This signal is emitted when \l subGridVisible changes to \a visible.
 */
 
 /*!

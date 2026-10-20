@@ -111,15 +111,15 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal Custom3DLabel::borderEnabledChanged(bool enabled)
+    \qmlsignal Custom3DLabel::borderVisibleChanged(bool visible)
 
-    This signal is emitted when borderEnabled changes to \a enabled.
+    This signal is emitted when \l borderVisible changes to \a visible.
 */
 
 /*!
-    \qmlsignal Custom3DLabel::backgroundEnabledChanged(bool enabled)
+    \qmlsignal Custom3DLabel::backgroundVisibleChanged(bool visible)
 
-    This signal is emitted when backgroundEnabled changes to \a enabled.
+    This signal is emitted when \l backgroundVisible changes to \a visible.
 */
 
 /*!

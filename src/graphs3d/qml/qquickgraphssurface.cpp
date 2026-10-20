@@ -162,12 +162,6 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddFillModel_exit);
  */
 
 /*!
- * \qmlmethod void Surface3D::removeSeries(Surface3DSeries series)
- * Removes the \a series from the graph.
- * \sa GraphsItem3D::hasSeries()
- */
-
-/*!
  * \qmlmethod void Surface3D::renderSliceToImage(int index, int requestedIndex, QtGraphs3D::SliceCaptureType sliceType, QUrl filePath)
  * \since 6.10
  *
@@ -179,19 +173,19 @@ Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddFillModel_exit);
  */
 
 /*!
- * \qmlsignal Surface3D::axisXChanged(ValueAxis3D axis)
+ * \qmlsignal Surface3D::axisXChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisX changes to \a axis.
  */
 
 /*!
- * \qmlsignal Surface3D::axisYChanged(ValueAxis3D axis)
+ * \qmlsignal Surface3D::axisYChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisY changes to \a axis.
  */
 
 /*!
- * \qmlsignal Surface3D::axisZChanged(ValueAxis3D axis)
+ * \qmlsignal Surface3D::axisZChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisZ changes to \a axis.
  */

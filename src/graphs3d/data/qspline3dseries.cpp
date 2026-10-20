@@ -103,39 +103,39 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-    \qmlsignal Scatter3DSeries::splineVisibilityChanged(bool visible)
+    \qmlsignal Spline3DSeries::splineVisibilityChanged(bool visible)
 
-    This signal is emitted when splineVisible changes to \a visible.
+    This signal is emitted when \l splineVisible changes to \a visible.
 */
 
 /*!
-    \qmlsignal Scatter3DSeries::splineTensionChanged(real tension)
+    \qmlsignal Spline3DSeries::splineTensionChanged(real tension)
 
-    This signal is emitted when splineTension changes to \a tension.
+    This signal is emitted when \l splineTension changes to \a tension.
 */
 
 /*!
-    \qmlsignal Scatter3DSeries::splineKnottingChanged(real knotting)
+    \qmlsignal Spline3DSeries::splineKnottingChanged(real knotting)
 
-    This signal is emitted when splineKnotting changes to \a knotting.
+    This signal is emitted when \l splineKnotting changes to \a knotting.
 */
 
 /*!
-    \qmlsignal Scatter3DSeries::splineLoopingChanged(bool looping)
+    \qmlsignal Spline3DSeries::splineLoopingChanged(bool looping)
 
-    This signal is emitted when splineLooping changes to \a looping.
+    This signal is emitted when \l splineLooping changes to \a looping.
 */
 
 /*!
-    \qmlsignal Scatter3DSeries::splineColorChanged(color color)
+    \qmlsignal Spline3DSeries::splineColorChanged(color color)
 
-    This signal is emitted when splineColor changes to \a color.
+    This signal is emitted when \l splineColor changes to \a color.
 */
 
 /*!
-    \qmlsignal Scatter3DSeries::splineResolutionChanged(int resolution)
+    \qmlsignal Spline3DSeries::splineResolutionChanged(int resolution)
 
-    This signal is emitted when splineResolution changes to \a resolution.
+    This signal is emitted when \l splineResolution changes to \a resolution.
 */
 
 /*!

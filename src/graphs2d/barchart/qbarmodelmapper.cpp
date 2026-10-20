@@ -118,7 +118,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DBarModelMapperRemoveData_exit);
     \sa QBarModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype BarModelMapper::firstBarSetSection
+    \qmlproperty int BarModelMapper::firstBarSetSection
     The section of the model that is used as the data source for the first bar set. The default value
     is -1 (invalid mapping).
 
@@ -134,7 +134,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DBarModelMapperRemoveData_exit);
     \sa QBarModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype BarModelMapper::lastBarSetSection
+    \qmlproperty int BarModelMapper::lastBarSetSection
     The section of the model that is used as the data source for the last bar set. The default
     value is -1 (invalid mapping).
 
@@ -150,7 +150,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DBarModelMapperRemoveData_exit);
     \sa QBarModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype BarModelMapper::first
+    \qmlproperty int BarModelMapper::first
     The row or column of the model that contains the first values of the bar sets in the bar series.
     The default value is 0.
 
@@ -167,7 +167,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DBarModelMapperRemoveData_exit);
     \sa QBarModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype BarModelMapper::count
+    \qmlproperty int BarModelMapper::count
     The number of rows or columns of the model that are mapped as the data for the bar
     series. The default value is \c{-1} which is also the minimum. The count is
     limited by the number of model's rows/columns.
@@ -186,7 +186,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DBarModelMapperRemoveData_exit);
     The default value is \c{Qt::Vertical}
 */
 /*!
-    \qmlproperty  orientation BarModelMapper::orientation
+    \qmlproperty Qt.Orientation BarModelMapper::orientation
     Tells the modelmapper how to map data from a model. If
     \c{Qt.Vertical} is used, each of the model's columns defines a bar set, and the
     model's rows define the categories. When the orientation is set to

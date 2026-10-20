@@ -83,8 +83,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal XYSeries::pointMarkerChanged()
-    This signal is emitted when a point is changed.
+    \qmlsignal XYSeries::pointDelegateChanged()
+    This signal is emitted when \l pointDelegate changes.
 */
 
 /*!

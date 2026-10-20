@@ -109,7 +109,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
     \sa QXYModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype XYModelMapper::xSection
+    \qmlproperty int XYModelMapper::xSection
     the section of the model that contains the x-coordinates of data points.
     The default value is -1 (invalid mapping).
 
@@ -126,7 +126,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
     \sa QXYModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype XYModelMapper::ySection
+    \qmlproperty int XYModelMapper::ySection
     the section of the model that contains the y-coordinates of data points.
     The default value is -1 (invalid mapping).
 
@@ -143,7 +143,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
     \sa QXYModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype XYModelMapper::first
+    \qmlproperty int XYModelMapper::first
     The row of the model that contains the data for the first point of the series.
     The default value is 0.
 
@@ -160,7 +160,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
     \sa QXYModelMapper::orientation
 */
 /*!
-    \qmlproperty qsizetype XYModelMapper::count
+    \qmlproperty int XYModelMapper::count
     The number of rows of the model that are mapped as the data for series. The default value is
     -1 (the number is limited by the number of rows in the model).
 
@@ -178,7 +178,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
     The default value is \c{Qt::Vertical}
 */
 /*!
-    \qmlproperty orientation XYModelMapper::orientation
+    \qmlproperty Qt.Orientation XYModelMapper::orientation
     Tells the modelmapper how to map data from a model. If
     \c{Qt.Vertical} is used, the model has \e X and \e Y columns, and the
     model's rows define the data points. When the orientation is set to

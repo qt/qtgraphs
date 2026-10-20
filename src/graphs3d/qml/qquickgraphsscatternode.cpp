@@ -90,19 +90,19 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlsignal Scatter3DNode::axisXChanged(ValueAxis3D axis)
+ * \qmlsignal Scatter3DNode::axisXChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisX changes to \a axis.
  */
 
 /*!
- * \qmlsignal Scatter3DNode::axisYChanged(ValueAxis3D axis)
+ * \qmlsignal Scatter3DNode::axisYChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisY changes to \a axis.
  */
 
 /*!
- * \qmlsignal Scatter3DNode::axisZChanged(ValueAxis3D axis)
+ * \qmlsignal Scatter3DNode::axisZChanged(Value3DAxis axis)
  *
  * This signal is emitted when axisZ changes to \a axis.
  */

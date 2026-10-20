@@ -284,9 +284,9 @@ QT_BEGIN_NAMESPACE
     This signal is emitted when itemLabelFormat changes to \a format.
 */
 /*!
-    \qmlsignal Abstract3DSeries::visibilityChanged(bool visible)
+    \qmlsignal Abstract3DSeries::visibleChanged(bool visible)
 
-    This signal is emitted when the series visibility changes to \a visible.
+    This signal is emitted when \l visible changes to \a visible.
 */
 /*!
     \qmlsignal Abstract3DSeries::meshChanged(Abstract3DSeries.Mesh mesh)
@@ -360,9 +360,9 @@ QT_BEGIN_NAMESPACE
     This signal is emitted when itemLabel changes to \a label.
 */
 /*!
-    \qmlsignal Abstract3DSeries::itemLabelVisibilityChanged(bool visible)
+    \qmlsignal Abstract3DSeries::itemLabelVisibleChanged(bool visible)
 
-    This signal is emitted when itemLabelVisibility changes to \a visible.
+    This signal is emitted when \l itemLabelVisible changes to \a visible.
 */
 
 /*!
