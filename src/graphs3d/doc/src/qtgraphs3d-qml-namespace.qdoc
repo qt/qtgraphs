@@ -32,12 +32,13 @@
            Combination flag for highlighting item, row, and column.
     \value Slice
            Setting this mode flag indicates that the graph should take care of the slice view handling
-           automatically. If you wish to control the slice view yourself via Q3DScene, do not set this
+           automatically. If you want to control the slice view yourself through Q3DScene, do not set this
            flag. When setting this mode flag, either \c Row or \c Column must also
            be set, but not both. Slicing is supported by Bars3D and Surface3D only.
            When this flag is set, slice mode is entered in the following situations:
            \list
-           \li When selection is changed explicitly via series API to a visible item
+           \li When selection is changed explicitly through series API to a
+               visible item
            \li When selection is changed by clicking on the graph
            \li When the selection mode changes and the selected item is visible
            \endlist
@@ -162,18 +163,18 @@
     \section1 Graphs3D.RenderingMode
 
     \value DirectToBackground
-           Indicates that the graph will be rendered directly on the window
+           Indicates that the graph is rendered directly on the window
     background and QML items are rendered on top of it. Using non-transparent QML
-    item as a background will hide the graph. Clears the whole window before
+    item as a background hides the graph. Clears the whole window before
     rendering the graph, including the areas outside the graph. If the surface
-    format of the window supports antialiasing, it will be used (see
+    format of the window supports antialiasing, it is used (see
     \l {QQuick3D::idealSurfaceFormat()}).
     This rendering mode offers the best performance at the expense of
     non-standard QML behavior. For example, the graphs do not obey the z ordering
     of QML items and the opacity value has no effect on them.
 
     \value Indirect
-           Indicates the graph will be first rendered to an offscreen surface
+           Indicates the graph is first rendered to an offscreen surface
     that is then drawn during normal QML item rendering. The rendered image is
     antialiased using the multisampling method if it is supported in the current
     environment and the \l {GraphsItem3D::msaaSamples}{msaaSamples} property

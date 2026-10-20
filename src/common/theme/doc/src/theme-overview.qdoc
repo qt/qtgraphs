@@ -6,33 +6,51 @@
     \page qtgraphs-overview-theme.html
     \brief An overview of the theme in the Qt Graphs module.
 
-    A theme is a built-in collection of UI style-related settings applied to all
-    the visual elements of a graph, such as the colors, fonts, and visibility of
-    the elements, as well as the strength of the light and ambient light.
+    A theme is a built-in collection of style settings for all visual elements
+    of a graph, such as colors, fonts, and visibility, and the strength of the
+    light and ambient light.
 
-    Qt Graphs comes with the following predefined themes that can be used as
-    basis for custom themes:
+    Qt Graphs provides these predefined themes, which you can use as a basis for
+    custom themes:
 
-    \list
-        \li \e {QtGreen} is a theme with green as the base color.
-        \li \e {QtGreenNeon} is a theme with neon green as the base color.
-        \li \e {MixSeries} is a theme with a mixture of several color series as
-            the base color.
-        \li \e {OrangeSeries} is a theme with orange as the base color.
-        \li \e {YellowSeries} is a theme with yellow as the base color.
-        \li \e {BlueSeries} is a theme with blue as the base color.
-        \li \e {PurpleSeries} is a theme with purple as the base color.
-        \li \e {GreySeries} is a theme with grey as the base color.
-        \li \e {User defined} is the theme that is meant to be
-            customized.
-    \endlist
+\table
+\header
+    \li Theme
+    \li Base color
+\row
+    \li \c QtGreen
+    \li Green
+\row
+    \li \c QtGreenNeon
+    \li Neon green
+\row
+    \li \c MixSeries
+    \li A mixture of several color series
+\row
+    \li \c OrangeSeries
+    \li Orange
+\row
+    \li \c YellowSeries
+    \li Yellow
+\row
+    \li \c BlueSeries
+    \li Blue
+\row
+    \li \c PurpleSeries
+    \li Purple
+\row
+    \li \c GreySeries
+    \li Grey
+\endtable
 
-    Custom themes can also be created from scratch.
+Use \c UserDefined to create a custom theme.
 
-    If a graph displays the data from several data series, some settings can be
-    specified separately for each series. For example, different gradients can
-    be specified for different layers of the 3D graph to make it look more
-    realistic. For an example, see \l{Surface Graph Gallery}.
+    You can also define a custom theme.
 
-    See \l{GraphsTheme} for details.
+    If a graph displays data from several series, you can specify some settings
+    for each series. For example, specify different gradients for different
+    layers of a 3D graph to make it look more realistic. For an example, see
+    \l{Surface Graph Gallery}.
+
+    See \l{GraphsTheme} and \l{QGraphsTheme} for details.
 */

@@ -6,8 +6,8 @@
     \page qtgraphswidgets-index.html
     \brief Provides functionality for 3D graphs used with widgets.
 
-    Widget support is included in its own module to avoid a hard dependency on QtWidgets
-    when building only QML applications.
+    Widget support lives in its own module, so QML-only applications do not
+    depend on Qt Widgets.
 
     \section1 Using the Module
 
