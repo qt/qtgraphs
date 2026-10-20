@@ -308,7 +308,7 @@ QVector3D QScatterDataProxy::scaleAt(qsizetype index) const
 /*!
  * \fn void QScatterDataProxy::itemsRemoved(qsizetype startIndex, qsizetype count)
  *
- * This signal is emitted when the number of rows specified by \a count are
+ * This signal is emitted when the number of items specified by \a count are
  * removed, starting at the position \a startIndex.
  * The index may be larger than the current array size if items are removed from
  * the end. If items are removed from the array without calling removeItems(),

@@ -397,7 +397,6 @@ QCustom3DVolume::~QCustom3DVolume() {}
  *
  * \note The textureData value may need to be resized or recreated if this value
  * is changed.
- * Defaults to \c{0}.
  *
  * \sa textureData, textureHeight, textureDepth, setTextureFormat(),
  * textureDataWidth()
@@ -435,7 +434,6 @@ int QCustom3DVolume::textureWidth() const
  *
  * \note The textureData value may need to be resized or recreated if this value
  * is changed.
- * Defaults to \c{0}.
  *
  * \sa textureData, textureWidth, textureDepth, setTextureFormat()
  */
@@ -472,7 +470,6 @@ int QCustom3DVolume::textureHeight() const
  *
  * \note The textureData value may need to be resized or recreated if this value
  * is changed.
- * Defaults to \c{0}.
  *
  * \sa textureData, textureWidth, textureHeight, setTextureFormat()
  */
