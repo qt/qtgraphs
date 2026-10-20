@@ -55,7 +55,7 @@ QT_BEGIN_NAMESPACE
 
   When setting this property, the maximum value is adjusted if necessary, to ensure that
   the range remains valid.
-  The default value is 0.0
+  The default value is 1.0.
 */
 /*!
   \qmlproperty real LogValueAxis::min
@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
 
   When setting this property, the maximum value is adjusted if necessary, to ensure that
   the range remains valid.
-  The default value is 0.0
+  The default value is 1.0.
 */
 
 /*!

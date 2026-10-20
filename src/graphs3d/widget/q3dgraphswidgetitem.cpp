@@ -1009,7 +1009,7 @@ void Q3DGraphsWidgetItem::setWrapCameraXRotation(bool wrap)
  * If \c true, the Y-rotation of the camera is wrapped from minimum to maximum
  * and from maximum to minimum. If \c false, the Y-rotation of the camera is
  * limited to the sector determined by the minimum and maximum values.
- * Set to \c true by default.
+ * Set to \c false by default.
  */
 bool Q3DGraphsWidgetItem::wrapCameraYRotation() const
 {
