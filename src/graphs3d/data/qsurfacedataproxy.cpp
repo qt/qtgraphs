@@ -197,7 +197,7 @@ void QSurfaceDataProxy::setRow(qsizetype rowIndex, QSurfaceDataRow row)
 
 /*!
  * Changes existing rows by replacing the rows starting at the position
- * \a rowIndex with the new rows specifies by \a rows.
+ * \a rowIndex with the new rows specified by \a rows.
  * The rows in the \a rows array can be the same as the existing rows already
  * stored at the \a rowIndex. The new rows must have the same number of columns
  * as the rows they are replacing.

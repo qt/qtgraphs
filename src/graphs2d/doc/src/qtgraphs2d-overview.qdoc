@@ -99,7 +99,7 @@
     \section2 2D Spline Graphs
 
     A spline graph is used to show information as a series of data points
-    connected by smooth spline segments that moves through all the points
+    connected by smooth spline segments that move through all the points
     defined in the graph.
 
     \image graphs2d-spline-graph.png {Spline graph with smooth curve through data points}

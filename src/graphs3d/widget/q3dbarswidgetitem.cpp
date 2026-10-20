@@ -400,7 +400,7 @@ bool Q3DBarsWidgetItem::event(QEvent *event)
 }
 
 /*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken to
+ * Adds \a axis to the graph. The axes added via addAxis are not yet taken into
  * use, addAxis is simply used to give the ownership of the \a axis to the
  * graph. The \a axis must not be null or added to another graph.
  *

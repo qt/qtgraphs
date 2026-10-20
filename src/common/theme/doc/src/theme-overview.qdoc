@@ -16,8 +16,8 @@
     \list
         \li \e {QtGreen} is a theme with green as the base color.
         \li \e {QtGreenNeon} is a theme with neon green as the base color.
-        \li \e {MixSeries} is a theme with mixture of several color series as the base
-            color.
+        \li \e {MixSeries} is a theme with a mixture of several color series as
+            the base color.
         \li \e {OrangeSeries} is a theme with orange as the base color.
         \li \e {YellowSeries} is a theme with yellow as the base color.
         \li \e {BlueSeries} is a theme with blue as the base color.

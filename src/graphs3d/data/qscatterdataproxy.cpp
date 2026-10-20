@@ -201,7 +201,7 @@ qsizetype QScatterDataProxy::addItems(QScatterDataArray items)
 }
 
 /*!
- * Inserts the item \a item to the position \a index. If the index is equal to
+ * Inserts the item \a item at the position \a index. If the index is equal to
  * the data array size, the item is added to the array.
  */
 void QScatterDataProxy::insertItem(qsizetype index, QScatterDataItem item)
@@ -213,7 +213,7 @@ void QScatterDataProxy::insertItem(qsizetype index, QScatterDataItem item)
 }
 
 /*!
- * Inserts the items specified by \a items to the position \a index. If the
+ * Inserts the items specified by \a items at the position \a index. If the
  * index is equal to data array size, the items are added to the array.
  */
 void QScatterDataProxy::insertItems(qsizetype index, QScatterDataArray items)

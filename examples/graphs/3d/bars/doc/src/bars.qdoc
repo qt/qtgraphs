@@ -28,7 +28,7 @@
     \snippet 3d/bars/qml/bars/Data.qml 0
     \dots
 
-    Each data item has three roles: timestamp, income, and expenses. The timestamp value is in
+    Each data item has three roles: timestamp, income, and expenses. The timestamp value is in the
     format: \c{<four digit year>-<two digit month>}. Usually, you would map years and months to rows
     and columns of a bar graph, but you can only show either income or expenses as the value.
 

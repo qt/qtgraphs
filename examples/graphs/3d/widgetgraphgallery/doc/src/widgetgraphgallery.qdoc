@@ -205,8 +205,8 @@
 
     \section2 Model Proxy for Data
 
-    When you toggle \uicontrol {Model Proxy Data} data mode on, the graph in
-    the example uses an item model based dataset and the corresponding proxy.
+    When you toggle the \uicontrol {Model Proxy Data} mode on, the graph in the
+    example uses an item model based dataset and the corresponding proxy.
 
     \section3 RainfallData
 
@@ -398,7 +398,7 @@
 
     Add the other surface layers the same way, by creating a proxy and a series
     for them using height map images.
--
+
     \section2 Topographic Map Data
 
     The topographic data is obtained from the National Land Survey of Finland.
@@ -500,7 +500,7 @@
 
     \section2 Adding Custom Meshes to the Application
 
-    To add custom meshes tp the application:
+    To add custom meshes to the application:
 
     \list
     \li \b{For a cmake build}. Add the mesh files to \c{CMakeLists.txt}:
@@ -638,7 +638,7 @@
     \snippet 3d/widgetgraphgallery/highlightseries.cpp 0
 
     When the signal triggers, check that the position is valid. Then, calculate
-    he ranges for the copied area, and check that they stay within the bounds.
+    the ranges for the copied area, and check that they stay within the bounds.
     Finally, fill the data array of the highlight series with the range from the
     data array of the topography series:
 

@@ -228,7 +228,7 @@ QT_BEGIN_NAMESPACE
 /*!
  \qmlproperty int DateTimeAxis::tickCount
  \since 6.12
- The amount of major ticks placed on an axis. If the value is 0 or lower,
+ The number of major ticks placed on an axis. If the value is 0 or lower,
  the axis automatically calculates the appropriate amount of ticks.
  The default value is 0.
 */

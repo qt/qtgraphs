@@ -92,7 +92,7 @@
 
     \section1 Using OpenGL ES for Rendering Data
 
-    Qt Graphs is based on QtQuick3D, that means Qt Graphs uses the native
+    Qt Graphs is based on QtQuick3D, which means Qt Graphs uses the native
     backend of the target platform for rendering. However, if OpenGL ES2 ends up
     being used in targets that do not support anything above it, such as OpenGL
     ES3 or Vulkan, the following features are not supported:

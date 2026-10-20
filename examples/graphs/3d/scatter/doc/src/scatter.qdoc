@@ -73,17 +73,19 @@
     Whereas the \c {contentItem} defines the content of the button, in this case a \c {Row} type
     containing an icon and some text. The icon is imported using an \c {Image} type, and setting
     the \c {source} property. The text is created using a \c {Label} type and set using its \c {text}
-    property. Two alliases are created for these two properties at the top of the custom component,
+    property. Two aliases are created for these two properties at the top of the custom component,
     this will allow them to be set when an instance of \c CustomButton is created.
 
     \snippet 3d/scatter/qml/scatter/main.qml 7
 
-    In the \c GridLayout, four \c {CustomButton}s are created. Three properties need to be
-    set, the two alliases for the icon image and the text, and the signal \c {onClicked}.
+    In the \c GridLayout, four \c {CustomButton}s are created. Three properties
+    need to be set, the two aliases for the icon image and the text, and the
+    signal \c {onClicked}.
 
     \snippet 3d/scatter/qml/scatter/main.qml 8
 
-    For example, the shadow button sets the \c onClicked sign to toggle the shadow on and off.
+    For example, the shadow button sets the \c onClicked signal handler to
+    toggle the shadow on and off.
 
     \section1 Setting up the Graph
 

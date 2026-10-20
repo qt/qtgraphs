@@ -57,7 +57,7 @@ Q3DGraphsWidgetItem::~Q3DGraphsWidgetItem()
 
 /*!
  * Adds the given \a theme to the graph. The themes added via addTheme are not
- * taken in to use directly. Only the ownership of the theme is given to the
+ * taken into use directly. Only the ownership of the theme is given to the
  * graph. The \a theme must not be null or already added to another graph.
  *
  * \sa releaseTheme(), setActiveTheme()

@@ -105,8 +105,8 @@
     accurate representation of even the finer details of the volume.
     However, this is computationally very expensive, so the frame rate suffers.
     If rendering speed is more important than pixel-perfect accuracy of the volume contents, take
-    the much faster low-definition shader into use by setting QCustom3DVolume::useHighDefShader
-    property \c{false}. The low-definition shader achieves the speed by making compromises on
+    the much faster low-definition shader into use by setting the QCustom3DVolume::useHighDefShader
+    property to \c{false}. The low-definition shader achieves the speed by making compromises on
     accuracy, so it doesn't guarantee that every voxel of the volume will be sampled. This can lead
     to flickering or other rendering artifacts on the finer details of the volume.
 
