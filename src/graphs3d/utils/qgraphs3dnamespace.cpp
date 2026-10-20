@@ -8,8 +8,7 @@ QT_BEGIN_NAMESPACE
     \namespace QtGraphs3D
     \inmodule QtGraphs
     \ingroup graphs_3D
-    \brief The QtGraphs3D module provides enums used by QtGraphs' 3D API.
-
+    \brief The QtGraphs3D namespace provides enums used by QtGraphs' 3D API.
 */
 
 /*!

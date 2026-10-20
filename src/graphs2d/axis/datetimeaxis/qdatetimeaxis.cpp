@@ -46,7 +46,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  \property QDateTimeAxis::min
- \brief The minimum value on the axis
+ \brief The minimum value on the axis.
 
  This value can be lower or higher than the maximum.
  The DateTime is stored as UTC internally.
@@ -65,7 +65,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  \property QDateTimeAxis::max
- \brief The maximum value on the axis
+ \brief The maximum value on the axis.
 
  This value can be lower or higher than the minimum.
  The DateTime is stored as UTC internally.
@@ -93,20 +93,22 @@ QT_BEGIN_NAMESPACE
 */
 /*!
  \property QDateTimeAxis::tickInterval
- \brief The amount of major ticks are placed on an axis. If value is 0 or lower, axis will
- automatically calculate appropriate amount of ticks. The default value is 0.
+ \brief The number of major ticks on the axis. If the value is 0 or lower, the
+ axis calculates the appropriate number of ticks automatically. The default
+ value is 0.
  \deprecated [6.15] use tickCount instead.
 */
 /*!
  \qmlproperty real DateTimeAxis::tickInterval
- \brief The amount of major ticks are placed on an axis. If value is 0 or lower, axis will
- automatically calculate appropriate amount of ticks. The default value is 0.
+ \brief The number of major ticks on the axis. If the value is 0 or lower, the
+ axis calculates the appropriate number of ticks automatically. The default
+ value is 0.
  \deprecated [6.15] use tickCount instead.
  */
 /*!
  \property QDateTimeAxis::timeZone
- \brief The time zone that will be used to display labels of the axis.
- The accepted values are based on IANA time zone IDs. The default time zone is UTC.
+ \brief The time zone used to display labels of the axis. The accepted values
+ are based on IANA time zone IDs. The default time zone is UTC.
  \since 6.11
 */
 /*!
@@ -219,8 +221,9 @@ QT_BEGIN_NAMESPACE
 /*!
  \property QDateTimeAxis::tickCount
  \since 6.12
- \brief The amount of major ticks placed on an axis. If the value is 0 or lower, the axis
- automatically calculates the appropriate amount of ticks. The default value is 0.
+ \brief The number of major ticks on the axis. If the value is 0 or lower, the
+ axis automatically calculates the appropriate amount of ticks. The default
+ value is 0.
 */
 /*!
  \qmlproperty real DateTimeAxis::tickCount

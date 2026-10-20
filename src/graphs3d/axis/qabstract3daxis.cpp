@@ -29,6 +29,7 @@ QT_BEGIN_NAMESPACE
  * \ingroup graphs_qml_3D
  * \nativetype QAbstract3DAxis
  * \brief A base type for the axes of a 3D graph.
+ *
  * For Abstract3DAxis enums, see \l QAbstract3DAxis::AxisOrientation and
  * \l{QAbstract3DAxis::AxisType}.
  */
@@ -324,6 +325,7 @@ QString QAbstract3DAxis::title() const
  * \property QAbstract3DAxis::labels
  *
  * \brief The labels for the axis.
+ *
  * \note Setting this property for QValue3DAxis does nothing, as it generates
  * labels automatically.
  */
@@ -534,8 +536,8 @@ float QAbstract3DAxis::max() const
 /*!
  * \property QAbstract3DAxis::autoAdjustRange
  *
- * \brief Whether the axis will automatically adjust the range so that all data
- * fits in it.
+ * \brief Whether the axis automatically adjusts the range so that all data fits
+ * in it.
  *
  * \sa setRange(), setMin(), setMax()
  */
@@ -561,8 +563,8 @@ bool QAbstract3DAxis::isAutoAdjustRange() const
 /*!
  * \property QAbstract3DAxis::scaleLabelsByCount
  * \since 6.9
- * \brief Whether the labels will automatically adjust their size
- * based on the total amount of labels
+ * \brief Whether the labels automatically adjust their size based on the total
+ * amount of labels.
  *
  * \sa labelSize()
  */
@@ -589,7 +591,7 @@ bool QAbstract3DAxis::isScaleLabelsByCount() const
 /*!
  * \property QAbstract3DAxis::labelSize
  * \since 6.9
- * \brief Size of the label
+ * \brief Size of the label.
  *
  * The size of the label.
  * The default for this value is \c 1.0.
@@ -618,8 +620,9 @@ qreal QAbstract3DAxis::labelSize() const
 /*!
  * \property QAbstract3DAxis::titleOffset
  *
- * The position of the axis title on the axis.
- * The value must be between \c -1.0f and \c 1.0f
+ * \brief The position of the axis title on the axis.
+ *
+ * The value must be between \c -1.0f and \c 1.0f.
  *
  * \sa title, titleFixed
  */

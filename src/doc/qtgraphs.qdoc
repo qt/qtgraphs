@@ -133,7 +133,7 @@
     \group graphs_examples
     \title Qt Graphs Examples
 
-    \brief Examples for the Qt Graphs.
+    \brief Examples for Qt Graphs.
 
     For some code examples, see one of the Qt Graphs examples:
 */
@@ -143,7 +143,7 @@
     \group graphs_examples_3D
     \ingroup graphs_examples
 
-    \brief Examples for the Qt Graphs for 3D.
+    \brief Examples for Qt Graphs for 3D.
 
     For some code examples, see one of the Qt Graphs for 3D examples:
 
@@ -159,7 +159,7 @@
     \group graphs_examples_2D
     \ingroup graphs_examples
 
-    \brief Examples for the Qt Graphs for 2D.
+    \brief Examples for Qt Graphs for 2D.
 
     For some code examples, see one of the Qt Graphs for 2D examples:
 

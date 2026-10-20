@@ -153,9 +153,11 @@ QList<QCustomSeriesData *> QCustomSeries::dataItems() const
 /*!
     \property QCustomSeries::delegate
 
-    The delegate is used to insert elements to QML corresponding to provided
-    custom data. Data is defined in the CustomSeries itself and given to
-    the delegated elements through the "data" property.
+    \brief The delegate used to insert QML elements for the custom data.
+
+    The delegate inserts elements into QML that correspond to the provided
+    custom data. Data is defined in the CustomSeries itself and given to the
+    delegated elements through the "data" property.
 */
 /*!
     \qmlproperty Component CustomSeries::delegate

@@ -414,7 +414,8 @@ void QBar3DSeries::setRowColors(const QList<QColor> &colors)
  * \property QBar3DSeries::valueColoringEnabled
  * \since 6.9
  *
- * \brief Use the given value to color the whole bar based on the range gradient
+ * \brief Whether the whole bar is colored based on its value and the range
+ * gradient.
  *
  * This property can be used to color each
  * bar separately based on its value and given range gradient.
@@ -611,7 +612,8 @@ QList<QColor> QBar3DSeries::rowColors() const
  * \property QBar3DSeries::rowAxis
  * \since 6.11
  *
- * \brief Holds an additional row axis for the series
+ * \brief Holds an additional row axis for the series.
+ *
  * \note The additional axis does not adjust the
  * fitting of the graph, but allows for an extra set of
  * labels and an axis grid.
@@ -651,7 +653,8 @@ void QBar3DSeries::resetRowAxis()
  * \property QBar3DSeries::valueAxis
  * \since 6.11
  *
- * \brief Holds an additional value axis for the series
+ * \brief Holds an additional value axis for the series.
+ *
  *  If an axis is given, the series will be fitted
  *  to the minimum and maximum values of the axis.
  */
@@ -689,7 +692,8 @@ void QBar3DSeries::resetValueAxis()
  * \property QBar3DSeries::columnAxis
  * \since 6.11
  *
- * \brief Holds an additional column axis for the series
+ * \brief Holds an additional column axis for the series.
+ *
  * \note The additional axis does not adjust the
  * fitting of the graph, but allows for an extra set of
  * labels and an axis grid.

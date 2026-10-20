@@ -322,7 +322,7 @@ bool QCustom3DLabel::isBackgroundVisible() const
 
 /*! \property QCustom3DLabel::facingCamera
  *
- * \brief Whether the label will always face the camera.
+ * \brief Whether the label always faces the camera.
  *
  * Defaults to \c{false}. If set to \c{true}, rotation()
  * has no effect.

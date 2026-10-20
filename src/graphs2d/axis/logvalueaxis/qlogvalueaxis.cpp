@@ -85,7 +85,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \property QLogValueAxis::base
-  This base of the logarithm.
+  \brief The base of the logarithm.
 
   The value has to be greater than 0 and cannot equal 1.
   The default value is 10.0
@@ -117,7 +117,9 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \property QLogValueAxis::tickCount
-  This property holds the number of tick marks on the axis. This value is read-only.
+  \brief The number of tick marks on the axis.
+
+  This value is read-only.
 */
 /*!
   \qmlproperty int LogValueAxis::tickCount

@@ -1190,8 +1190,8 @@ QString QItemModelSurfaceDataProxy::xPosRoleReplace() const
 /*!
  * \property QItemModelSurfaceDataProxy::yPosRoleReplace
  *
- * \brief The replacement content to be used in conjunction with an y position role
- * pattern.
+ * \brief The replacement content to be used in conjunction with a y position
+ * role pattern.
  *
  * Defaults to an empty string. For more information on how the search and
  * replace using regular expressions works, see the

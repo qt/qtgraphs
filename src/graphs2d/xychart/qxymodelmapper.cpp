@@ -118,7 +118,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
 
 /*!
     \property QXYModelMapper::ySection
-    \brief the section of the model that contains the y-coordinates of data
+    \brief The section of the model that contains the y-coordinates of data
     points.
 
     The default value is -1 (invalid mapping).
