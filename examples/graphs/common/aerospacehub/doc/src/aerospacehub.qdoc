@@ -244,7 +244,7 @@
     \dots
 
     Settings view holds another \c BigGraphItem for displaying the graph, and a settings pane
-    for adjusting either the \l GraphsTheme properties or some properties sepcific to the
+    for adjusting either the \l GraphsTheme properties or some properties specific to the
     selected graph type.
 
     \snippet common/aerospacehub/qml/SettingsItem.qml settingsview

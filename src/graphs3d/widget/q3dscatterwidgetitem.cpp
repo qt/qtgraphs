@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
  *
  * If no axes are set explicitly to Q3DScatterWidgetItem, temporary default axes with no
  * labels are created. These default axes can be modified via axis accessors,
- * but as soon any axis is set explicitly for the orientation, the default axis
+ * but as soon as any axis is set explicitly for the orientation, the default axis
  * for that orientation is destroyed.
  *
  * Q3DScatterWidgetItem supports more than one series visible at the same time.
@@ -212,7 +212,7 @@ bool Q3DScatterWidgetItem::event(QEvent *event)
 }
 
 /*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken to
+ * Adds \a axis to the graph. The axes added via addAxis are not yet taken into
  * use, addAxis is simply used to give the ownership of the \a axis to the
  * graph. The \a axis must not be null or added to another graph.
  *

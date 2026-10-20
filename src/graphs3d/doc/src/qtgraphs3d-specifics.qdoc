@@ -40,7 +40,7 @@
     \section2 Non-supported Features
 
     Overriding antialiasing mode or scene clear color doesn't work, which means
-    that setting value for \c{SceneEnvironment.antialiasingMode} and
+    that setting a value for \c{SceneEnvironment.antialiasingMode} and
     \c{SceneEnvironment.clearColor} does nothing. However, if the
     \c backgroundMode is not set to \c{SceneEnvironment.Color}, background
     will be affected by the settings.
@@ -447,8 +447,7 @@
     As Q3DCamera was removed, the required functions from it were moved.
     \c cameraPreset, \c cameraTargetPosition, \c cameraXRotation,
     \c cameraYRotation, \c cameraZoomLevel, \c wrapCameraXRotation, and
-    \c wrapCameraYRotation are now the
-    parts of \l GraphsItem3D.
+    \c wrapCameraYRotation are now part of \l GraphsItem3D.
 
     \section2 Theme APIs
 

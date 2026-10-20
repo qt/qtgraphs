@@ -42,30 +42,33 @@ QT_BEGIN_NAMESPACE
     \property QAreaSeries::color
     \brief The fill color of the area.
     The default value is \c Qt::transparent, meaning the color is defined by the theme.
-    \note If \l AreaSeries::gradient is set to something other than \c null, these
-    will take precedence over \c color. The \c color will be ignored in this case.
+    \note If \l AreaSeries::gradient is set to something other than \c null, it
+    will take precedence over \c color. The \c color will be ignored in this
+    case.
 */
 /*!
     \qmlproperty color AreaSeries::color
     The fill color of the area.
     The default value is \c transparent, meaning the color is defined by the theme.
-    \note If \l gradient is set to something other than \c null, these
-    will take precedence over \c color. The \c color will be ignored in this case.
+    \note If \l gradient is set to something other than \c null, it will take
+    precedence over \c color. The \c color will be ignored in this case.
 */
 
 /*!
     \property QAreaSeries::selectedColor
     \brief The fill color of the area when selected.
     The default value is \c Qt::transparent, meaning the selected color is defined by the theme.
-    \note If \l AreaSeries::selectedGradient is set to something other than \c null, these
-    will take precedence over \c selectedColor. The \c selectedColor will be ignored in this case.
+    \note If \l AreaSeries::selectedGradient is set to something other than
+    \c null, it will take precedence over \c selectedColor. The \c selectedColor
+    will be ignored in this case.
 */
 /*!
     \qmlproperty color AreaSeries::selectedColor
     The fill color of the area when selected.
     The default value is \c transparent, meaning the selected color is defined by the theme.
-    \note If \l selectedGradient is set to something other than \c null, these
-    will take precedence over \c selectedColor. The \c selectedColor will be ignored in this case.
+    \note If \l selectedGradient is set to something other than \c null, it will
+    take precedence over \c selectedColor. The \c selectedColor will be ignored
+    in this case.
 */
 
 /*!

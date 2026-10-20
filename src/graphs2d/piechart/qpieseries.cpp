@@ -402,7 +402,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
     \brief Declarative slice values.
 
     This property can be used to give values declaratively to pie slices.
-    When the property is set, the pieseries will automatically create a pie slice
+    When the property is set, the pie series will automatically create a pie slice
     for each value. The Labels for the slices can be given in \l {sliceLabels}.
 
     \note Mixing declarative and imperative data input is not supported.
@@ -729,8 +729,9 @@ bool QPieSeries::remove(qsizetype index)
 }
 
 /*!
-    Replaces the PieSlice \a oldSlice with \a newSlice if found in the series.\a oldSlice will
-    be permanently deleted. Returns \c true if replacing is successful.
+    Replaces the PieSlice \a oldSlice with \a newSlice if found in the series.
+    \a oldSlice will be permanently deleted. Returns \c true if replacing is
+    successful.
 */
 bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 {

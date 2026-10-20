@@ -10,8 +10,8 @@
     \ingroup qtgraphs_examples
     \brief Using Qt Graphs for 2D in a Qt Widgets-based application.
 
-    Graphs 2D support only Qt Quick applications. This example shows how to
-    display a simple 2D pie graph in a Qt Widgets applications using a
+    Qt Graphs for 2D supports only Qt Quick applications. This example shows how
+    to display a simple 2D pie graph in a Qt Widgets application using a
     \l QQuickWidget.
 
     \image quickwidgetgraphs-example.png
@@ -87,7 +87,7 @@
 
     \li In the \c clearSeries function, call \l QPieSeries::clear(). This will
         delete all slices from your pie series. Note that this function does not
-        delete a pie series itself.
+        delete the pie series itself.
     \endlist
 
     \section1 Initializing the GraphsView

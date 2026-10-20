@@ -54,7 +54,7 @@
     Use the buttons to control other Surface3D features.
 
     The first button toggles the surface grid on and off. The draw mode cannot
-    be cleared completely; so unless the surface itself is visible, the surface grid cannot be
+    be cleared completely, so unless the surface itself is visible, the surface grid cannot be
     hidden:
 
     \snippet 3d/surfacegallery/qml/surfacegallery/SurfaceHeightMap.qml 3
@@ -69,8 +69,8 @@
 
     \snippet 3d/surfacegallery/qml/surfacegallery/SurfaceHeightMap.qml 5
 
-    The fourth sets the for shading mode. If you are running the example on OpenGL ES system, flat
-    shading is not available:
+    The fourth sets the shading mode. If you are running the example on an
+    OpenGL ES system, flat shading is not available:
 
     \snippet 3d/surfacegallery/qml/surfacegallery/SurfaceHeightMap.qml 6
 

@@ -34,8 +34,8 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty string Custom3DItem::meshFile
  *
- * The item mesh file name. The item in the file must be mesh format.
- * The mesh files are recommended to include vertices, normals, and UVs.
+ * The item mesh file name. The item in the file must be in mesh format. The
+ * mesh files are recommended to include vertices, normals, and UVs.
  */
 
 /*! \qmlproperty string Custom3DItem::textureFile
@@ -110,7 +110,7 @@ QT_BEGIN_NAMESPACE
  * \note Only absolute scaling is supported for Custom3DLabel items or for
  * custom items used in \l{GraphsItem3D::polar}{polar} graphs.
  *
- * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or
+ * \note The custom item's mesh must be normalized to the range \c{[-1, 1]}, or
  * the data scaling will not be accurate.
  *
  * \sa scaling, positionAbsolute
@@ -404,7 +404,7 @@ QVector3D QCustom3DItem::scaling() const
  * \note Only absolute scaling is supported for QCustom3DLabel items or for
  * custom items used in \l{Q3DGraphsWidgetItem::polar}{polar} graphs.
  *
- * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or
+ * \note The custom item's mesh must be normalized to the range \c{[-1, 1]}, or
  * the data scaling will not be accurate.
  *
  * \sa scaling, positionAbsolute

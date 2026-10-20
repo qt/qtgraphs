@@ -236,7 +236,7 @@ void QBarDataProxy::setRow(qsizetype rowIndex, QBarDataRow row, QString label)
 
 /*!
  * Changes existing rows by replacing the rows starting at the position
- * \a rowIndex with the new rows specifies by \a rows.
+ * \a rowIndex with the new rows specified by \a rows.
  * Existing row labels are not affected. The rows in the \a rows array can be
  * the same as the existing rows already stored at \a rowIndex.
  */
@@ -249,7 +249,7 @@ void QBarDataProxy::setRows(qsizetype rowIndex, QBarDataArray rows)
 
 /*!
  * Changes existing rows by replacing the rows starting at the position
- * \a rowIndex with the new rows specifies by \a rows.
+ * \a rowIndex with the new rows specified by \a rows.
  * The row labels are changed to \a labels. The rows in the \a rows array can be
  * the same as the existing rows already stored at \a rowIndex.
  */
@@ -298,7 +298,7 @@ qsizetype QBarDataProxy::addRow(QBarDataRow row)
 }
 
 /*!
- * Adds a the new row \a row with the label \a label to the end of an array.
+ * Adds a new row \a row with the label \a label to the end of an array.
  *
  * Returns the index of the added row.
  */

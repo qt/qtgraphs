@@ -10,7 +10,7 @@
     \brief Visualizing mathematical equations.
 
     \e {Mathematical Equations} shows how to visualize mathematical equations in QML with
-    all the available graph types. It also shows how to integrate QtQuick3D scene into a graph
+    all the available graph types. It also shows how to integrate a QtQuick3D scene into a graph
     and how to adjust the outlook of the graph using \l{ExtendedSceneEnvironment}.
 
     \image equation-example.png
@@ -83,8 +83,9 @@
     \snippet 3d/equation/qml/equation/Main.qml replace x and y
     \dots 4
 
-    The equation is then passed to the JavaScript calculator to get the result, which is then added
-    to the data model by inserting them into the defined roles:
+    The equation is then passed to the JavaScript calculator to get the result,
+    which is then added to the data model by inserting it into the defined
+    roles:
 
     \snippet 3d/equation/qml/equation/Main.qml  calculate and add data
 
@@ -130,7 +131,7 @@
     \l{Integrating a QtQuick3D scene}{QtQuick3D integrations}.
 
     First, it will use a different gradient from the other two. Then, a dark color scheme is forced
-    on, unlike the other two, which use system preference. Finally, plot area background, labels,
+    on, unlike the other two, which use the system preference. Finally, plot area background, labels,
     and grid are hidden by setting their visibility to false.
 
     Scatter graph is good at showing a large number of data points, which is why 3 data points

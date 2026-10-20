@@ -56,14 +56,14 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \fn void QXYSeries::pointsAdded(qsizetype start, qsizetype end)
-    This signal is emitted when a list of points is appended.
-    The indexes of the new added points are between \a start and \a end.
+    This signal is emitted when a list of points is appended. The indexes of the
+    newly added points are between \a start and \a end.
     \since 6.9
 */
 /*!
     \qmlsignal XYSeries::pointsAdded(int start, int end)
-    This signal is emitted when a list of points is appended.
-    The indexes of the new added points are between \a start and \a end.
+    This signal is emitted when a list of points is appended. The indexes of the
+    newly added points are between \a start and \a end.
     \since 6.9
 */
 

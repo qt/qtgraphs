@@ -42,8 +42,8 @@
     \section1 Vibration Panel
 
     The Vibration Panel contains a \l LineSeries which is dynamically updated at
-    runtime. After launch, a set of points is added to the series using the QML
-    invoked \c append function. Then on each frame, the values are replaced
+    runtime. After launch, a set of points is added to the series using the
+    QML-invoked \c append function. Then on each frame, the values are replaced
     using the \c replace function with calculated values. Users can change these
     values through the Vibration Graph Panel.
 
