@@ -65,22 +65,26 @@ BarsRenderer::~BarsRenderer() {}
 void BarsRenderer::paintSnapshot(const PaintSnapshot &snapshot,
                                  QCanvasPainter *p)
 {
-    for (const auto &dataList : snapshot) {
-        for (const auto &d : dataList) {
-            p->setFillStyle(d.color);
-            p->setStrokeStyle(d.borderColor);
-            p->setLineWidth(d.borderWidth);
-            p->beginPath();
-            p->rect(d.rect);
-            p->fill();
-            p->stroke();
-        }
+    for (const auto &d : snapshot) {
+        p->setFillStyle(d.color);
+        p->setStrokeStyle(d.borderColor);
+        p->setLineWidth(d.borderWidth);
+        p->beginPath();
+        p->rect(d.rect);
+        p->fill();
+        p->stroke();
     }
 }
 
 void BarsRenderer::synchronizeData()
 {
-    m_paintSnapshot = m_seriesData;
+    m_paintSnapshot.clear();
+    for (auto it = m_seriesData.cbegin(), end = m_seriesData.cend(); it != end; ++it) {
+        // Bars drawn with a barDelegate are real items, not painted with QCanvasPainter
+        if (it.key()->barDelegate())
+            continue;
+        m_paintSnapshot.append(it.value());
+    }
 }
 
 BarsRenderer::PaintSnapshot BarsRenderer::paintSnapshot() const
