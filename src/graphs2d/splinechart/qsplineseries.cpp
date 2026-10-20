@@ -71,7 +71,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateSplinePoints_exit);
     \sa Qt::PenCapStyle
 */
 /*!
-    \qmlproperty Qt::PenCapStyle SplineSeries::capStyle
+    \qmlproperty enumeration SplineSeries::capStyle
     Controls the cap style of the line. Set to one of \l{Qt::FlatCap}{Qt.FlatCap},
     \l{Qt::SquareCap}{Qt.SquareCap} or \l{Qt::RoundCap}{Qt.RoundCap}. By
     default the cap style is Qt.SquareCap.

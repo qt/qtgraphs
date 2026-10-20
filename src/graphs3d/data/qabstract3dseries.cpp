@@ -108,9 +108,11 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Abstract3DSeries.SeriesType Abstract3DSeries::type
+ * \qmlproperty enumeration Abstract3DSeries::type
  * The type of the series. One of the QAbstract3DSeries::SeriesType values.
  *
+ *
+ * \qmlenumeratorsfrom [Abstract3DSeries.SeriesType] QAbstract3DSeries::SeriesType
  */
 
 /*!
@@ -129,13 +131,15 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Abstract3DSeries.Mesh Abstract3DSeries::mesh
+ * \qmlproperty enumeration Abstract3DSeries::mesh
  *
  * The mesh of the items in the series, or the selection pointer in case of
  * Surface3DSeries. If the mesh is
  * \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined},
  * then the userDefinedMesh property must also be set for items to render
  * properly. The default value depends on the graph type.
+ *
+ * \qmlenumeratorsfrom [Abstract3DSeries.Mesh] QAbstract3DSeries::Mesh
  *
  * \sa QAbstract3DSeries::Mesh
  */
@@ -173,9 +177,11 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty GraphsTheme.ColorStyle Abstract3DSeries::colorStyle
+ * \qmlproperty enumeration Abstract3DSeries::colorStyle
  *
  * The color style for the series.
+ *
+ * \qmlenumeratorsfrom [GraphsTheme.ColorStyle] QGraphsTheme::ColorStyle
  *
  * \sa {QGraphsTheme::ColorStyle}{GraphsTheme.ColorStyle}
  */
@@ -231,11 +237,13 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Abstract3DSeries.LightingMode Abstract3DSeries::lightingMode
+ * \qmlproperty enumeration Abstract3DSeries::lightingMode
  * \since 6.10
  *
  * The lighting mode of the items in the series.
  * The default value is \l{QAbstract3DSeries::LightingMode::Shaded}
+ *
+ * \qmlenumeratorsfrom [Abstract3DSeries.LightingMode] QAbstract3DSeries::LightingMode
  *
  * \sa QAbstract3DSeries::LightingMode
  */

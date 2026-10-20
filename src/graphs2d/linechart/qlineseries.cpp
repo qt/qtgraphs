@@ -64,7 +64,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlproperty Qt::PenCapStyle LineSeries::capStyle
+    \qmlproperty enumeration LineSeries::capStyle
     Controls the cap style of the line. Set to one of \l{Qt::FlatCap}{Qt.FlatCap},
     \l{Qt::SquareCap}{Qt.SquareCap} or \l{Qt::RoundCap}{Qt.RoundCap}. By
     default the cap style is Qt.SquareCap. Invalid values are automatically set
@@ -74,7 +74,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlproperty Qt::PenJoinStyle LineSeries::joinStyle
+    \qmlproperty enumeration LineSeries::joinStyle
     \since 6.11
     Controls the join style of the line. Set to one of \l{Qt::BevelJoin}{Qt.BevelJoin},
     \l{Qt::MiterJoin}{Qt.MiterJoin} or \l{Qt::RoundJoin}{Qt.RoundJoin}. By
@@ -85,12 +85,14 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlproperty QLineSeries::LineStyle LineSeries::lineStyle
+    \qmlproperty enumeration LineSeries::lineStyle
     \since 6.11
     Controls the line style of the line. Set to one of \l{QLineSeries::Straight}{LineSeries.Straight},
     \l{QLineSeries::StepLeft}{LineSeries.StepLeft}, \l{QLineSeries::StepRight}{LineSeries.StepRight}
     or \l{QLineSeries::StepCenter}{LineSeries.StepCenter}. By default the line style is LineSeries.Straight.
     Invalid values are automatically set to the default value.
+
+    \qmlenumeratorsfrom [LineSeries.LineStyle] QLineSeries::LineStyle
 
     \sa QLineSeries::LineStyle
 */

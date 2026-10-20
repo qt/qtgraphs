@@ -178,7 +178,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
     The default value is \c{Qt::Vertical}
 */
 /*!
-    \qmlproperty Qt.Orientation XYModelMapper::orientation
+    \qmlproperty enumeration XYModelMapper::orientation
     Tells the modelmapper how to map data from a model. If
     \c{Qt.Vertical} is used, the model has \e X and \e Y columns, and the
     model's rows define the data points. When the orientation is set to

@@ -1654,7 +1654,7 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
     The default value is \l {Qt::Vertical}{Qt::Vertical}.
 */
 /*!
-    \qmlproperty Qt.Orientation GraphsView::orientation
+    \qmlproperty enumeration GraphsView::orientation
     Determines the orientation of the GraphsView. When the orientation is
     \l {Qt::Horizontal}{Qt.Horizontal}, \l axisX and \l axisY will switch the
     positions so that \l axisX is rendered vertically and \l axisY horizontally.
