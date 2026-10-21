@@ -115,7 +115,7 @@ else()
 
     qt_internal_extend_target(Graphs
         LIBRARIES
-           Graphs2DImpl
+           Qt::Graphs2DImpl
     )
 
     set(LOCAL_TRACE_SOURCE_2D
