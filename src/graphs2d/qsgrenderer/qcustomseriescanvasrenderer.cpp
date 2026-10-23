@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \class QCustomSeriesCanvasRenderer
     \inmodule QtGraphs
+    \ingroup graphs_2D
     \brief The QCustomSeriesCanvasRenderer class allows implementing
     customized rendering for a QCustomSeries when the high-performance
     canvas painter backend is in use.
