@@ -21,9 +21,6 @@
 #include <QList>
 #include <QList>
 #include <QtQuick/private/qquicktext_p.h>
-#include <private/axisgrid_p.h>
-#include <private/axisticker_p.h>
-#include <private/axisline_p.h>
 #include <private/qgraphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -36,6 +33,9 @@ class QGraphsTheme;
 class QDateTimeAxis;
 class QQuickDragHandler;
 class QAbstractSeries;
+class AbstractAxisGrid;
+class AbstractAxisTicker;
+class AbstractAxisLine;
 
 class AxisRenderer : public QQuickItem
 {
@@ -68,10 +68,10 @@ private:
 
         QList<QQuickItem *> textItems;
         QQuickText *title = nullptr;
-        AxisTicker *ticker = nullptr;
-        AxisLine *line = nullptr;
-        AxisTicker *tickerShadow = nullptr;
-        AxisLine *lineShadow = nullptr;
+        AbstractAxisTicker *ticker = nullptr;
+        AbstractAxisLine *line = nullptr;
+        AbstractAxisTicker *tickerShadow = nullptr;
+        AbstractAxisLine *lineShadow = nullptr;
 
         // Max value
         double maxValue = 20;
@@ -169,8 +169,8 @@ private:
     QList<AxisProperties> *m_horzAxes = &m_axes1;
     QList<AxisProperties> *m_vertAxes = &m_axes2;
 
-    AxisGrid *m_axisGrid = nullptr;
-    AxisGrid *m_axisGridShadow = nullptr;
+    AbstractAxisGrid *m_axisGrid = nullptr;
+    AbstractAxisGrid *m_axisGridShadow = nullptr;
 
     bool m_gridHorizontalLinesVisible = true;
     bool m_gridVerticalLinesVisible = true;

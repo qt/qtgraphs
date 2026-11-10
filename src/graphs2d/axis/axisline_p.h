@@ -16,11 +16,12 @@
 // We mean it.
 
 #include <QtQuick/private/qquickshadereffect_p.h>
+#include <QtGraphs/private/abstractaxisline_p.h>
 #include <QQmlEngine>
 
 QT_BEGIN_NAMESPACE
 
-class AxisLine : public QQuickShaderEffect
+class AxisLine : public QQuickShaderEffect, public AbstractAxisLine
 {
     Q_OBJECT
     Q_PROPERTY(QVector3D iResolution READ iResolution NOTIFY iResolutionChanged FINAL)
@@ -30,22 +31,24 @@ class AxisLine : public QQuickShaderEffect
     Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setIsHorizontal NOTIFY isHorizontalChanged FINAL)
 public:
     explicit AxisLine(QQuickItem *parent = nullptr);
-    ~AxisLine() override;
     void setupShaders();
 
     QVector3D iResolution() const;
 
-    qreal smoothing() const;
-    void setSmoothing(qreal newSmoothing);
+    qreal smoothing() const override;
+    void setSmoothing(qreal newSmoothing) override;
 
     QColor color() const;
-    void setColor(QColor newColor);
+    void setColor(QColor newColor) override;
 
-    qreal lineWidth() const;
-    void setLineWidth(qreal newLineWidth);
+    qreal lineWidth() const override;
+    void setLineWidth(qreal newLineWidth) override;
 
     bool isHorizontal() const;
-    void setIsHorizontal(bool newIsHorizontal);
+    void setIsHorizontal(bool newIsHorizontal) override;
+
+    QQuickItem *item() override;
+    void completeItem() override;
 
 protected:
     void componentComplete() override;

@@ -16,10 +16,11 @@
 // We mean it.
 
 #include <QtQuick/private/qquickshadereffect_p.h>
+#include <QtGraphs/private/abstractaxisgrid_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class AxisGrid : public QQuickShaderEffect
+class AxisGrid : public QQuickShaderEffect, public AbstractAxisGrid
 {
     Q_OBJECT
     Q_PROPERTY(QVector3D iResolution READ iResolution NOTIFY iResolutionChanged FINAL)
@@ -45,61 +46,63 @@ class AxisGrid : public QQuickShaderEffect
     Q_PROPERTY(qreal horizontalBase READ horizontalBase WRITE setHorizontalBase NOTIFY horizontalBaseChanged REVISION(6, 12))
 public:
     AxisGrid(QQuickItem *parent = nullptr);
-    ~AxisGrid() override;
     void setupShaders();
 
     QVector3D iResolution() const;
 
-    qreal smoothing() const;
-    void setSmoothing(qreal newSmoothing);
+    qreal smoothing() const override;
+    void setSmoothing(qreal newSmoothing) override;
 
-    int origo() const;
-    void setOrigo(int newOrigo);
+    int origo() const override;
+    void setOrigo(int newOrigo) override;
 
-    QVector4D gridVisibility() const;
-    void setGridVisibility(const QVector4D &newGridVisibility);
+    QVector4D gridVisibility() const override;
+    void setGridVisibility(const QVector4D &newGridVisibility) override;
 
-    qreal gridWidth() const;
-    void setGridWidth(qreal newGridWidth);
+    qreal gridWidth() const override;
+    void setGridWidth(qreal newGridWidth) override;
 
-    qreal gridHeight() const;
-    void setGridHeight(qreal newGridHeight);
+    qreal gridHeight() const override;
+    void setGridHeight(qreal newGridHeight) override;
 
-    QPointF gridMovement() const;
-    void setGridMovement(QPointF newGridMovement);
+    QPointF gridMovement() const override;
+    void setGridMovement(QPointF newGridMovement) override;
 
-    QColor subGridColor() const;
-    void setSubGridColor(QColor newSubGridColor);
+    QColor subGridColor() const override;
+    void setSubGridColor(QColor newSubGridColor) override;
 
-    QColor gridColor() const;
-    void setGridColor(QColor newGridColor);
+    QColor gridColor() const override;
+    void setGridColor(QColor newGridColor) override;
 
-    QColor plotAreaBackgroundColor() const;
-    void setPlotAreaBackgroundColor(QColor color);
+    QColor plotAreaBackgroundColor() const override;
+    void setPlotAreaBackgroundColor(QColor color) override;
 
-    qreal subGridLineWidth() const;
-    void setSubGridLineWidth(qreal newSubGridLineWidth);
+    qreal subGridLineWidth() const override;
+    void setSubGridLineWidth(qreal newSubGridLineWidth) override;
 
-    qreal gridLineWidth() const;
-    void setGridLineWidth(qreal newGridLineWidth);
+    qreal gridLineWidth() const override;
+    void setGridLineWidth(qreal newGridLineWidth) override;
 
-    qreal verticalSubGridScale() const;
-    void setVerticalSubGridScale(qreal newVerticalSubGridScale);
+    qreal verticalSubGridScale() const override;
+    void setVerticalSubGridScale(qreal newVerticalSubGridScale) override;
 
-    qreal horizontalSubGridScale() const;
-    void setHorizontalSubGridScale(qreal newHorizontalSubGridScale);
+    qreal horizontalSubGridScale() const override;
+    void setHorizontalSubGridScale(qreal newHorizontalSubGridScale) override;
 
-    bool isVerticalLogarithmic() const;
-    void setVerticalLogarithmic(bool newLogarithmic);
+    bool isVerticalLogarithmic() const override;
+    void setVerticalLogarithmic(bool newLogarithmic) override;
 
-    bool isHorizontalLogarithmic() const;
-    void setHorizontalLogarithmic(bool newLogarithmic);
+    bool isHorizontalLogarithmic() const override;
+    void setHorizontalLogarithmic(bool newLogarithmic) override;
 
-    qreal verticalBase() const;
-    void setVerticalBase(qreal newBase);
+    qreal verticalBase() const override;
+    void setVerticalBase(qreal newBase) override;
 
-    qreal horizontalBase() const;
-    void setHorizontalBase(qreal newBase);
+    qreal horizontalBase() const override;
+    void setHorizontalBase(qreal newBase) override;
+
+    QQuickItem *item() override;
+    void completeItem() override;
 
 protected:
     void componentComplete() override;

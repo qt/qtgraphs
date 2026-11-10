@@ -14,12 +14,10 @@ AxisTicker::AxisTicker(QQuickItem *parent) :
 {
 }
 
-AxisTicker::~AxisTicker() {}
-
 void AxisTicker::componentComplete()
 {
-    QQuickShaderEffect::componentComplete();
     setupShaders();
+    QQuickShaderEffect::componentComplete();
 }
 
 void AxisTicker::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
@@ -282,6 +280,13 @@ void AxisTicker::setBase(qreal newBase)
     m_base = newBase;
     emit baseChanged();
 }
+
+QQuickItem *AxisTicker::item()
+{
+    return this;
+}
+
+void AxisTicker::completeItem() { componentComplete(); }
 
 QT_END_NAMESPACE
 

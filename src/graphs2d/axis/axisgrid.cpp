@@ -14,12 +14,11 @@ AxisGrid::AxisGrid(QQuickItem *parent) :
 {
 }
 
-AxisGrid::~AxisGrid() {}
 
 void AxisGrid::componentComplete()
 {
-    QQuickShaderEffect::componentComplete();
     setupShaders();
+    QQuickShaderEffect::componentComplete();
 }
 
 void AxisGrid::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
@@ -305,6 +304,14 @@ void AxisGrid::setHorizontalBase(qreal newBase)
     m_horizontalBase = newBase;
     emit verticalBaseChanged(newBase);
 }
+
+QQuickItem *AxisGrid::item()
+{
+    return this;
+}
+
+void AxisGrid::completeItem() { componentComplete(); }
+
 QT_END_NAMESPACE
 
 #include "moc_axisgrid_p.cpp"

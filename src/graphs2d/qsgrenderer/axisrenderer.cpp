@@ -20,6 +20,9 @@
 #include <QtQuick/private/qquickdraghandler_p.h>
 #include <qfontmetrics.h>
 #include <qtgraphs_tracepoints_p.h>
+#include <QtGraphs/private/axisticker_p.h>
+#include <QtGraphs/private/axisline_p.h>
+#include <QtGraphs/private/axisgrid_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -95,30 +98,30 @@ void AxisRenderer::initialize()
     }
 
     if (m_axisGrid)
-        m_axisGrid->componentComplete();
+        m_axisGrid->completeItem();
     if (m_axisGridShadow)
-        m_axisGridShadow->componentComplete();
+        m_axisGridShadow->completeItem();
 
     for (auto&& ax : *m_horzAxes) {
         if (ax.line)
-            ax.line->componentComplete();
+            ax.line->completeItem();
         if (ax.ticker)
-            ax.ticker->componentComplete();
+            ax.ticker->completeItem();
         if (ax.lineShadow)
-            ax.lineShadow->componentComplete();
+            ax.lineShadow->completeItem();
         if (ax.tickerShadow)
-            ax.tickerShadow->componentComplete();
+            ax.tickerShadow->completeItem();
     }
 
     for (auto&& ax : *m_vertAxes) {
         if (ax.line)
-            ax.line->componentComplete();
+            ax.line->completeItem();
         if (ax.ticker)
-            ax.ticker->componentComplete();
+            ax.ticker->completeItem();
         if (ax.lineShadow)
-            ax.lineShadow->componentComplete();
+            ax.lineShadow->completeItem();
         if (ax.tickerShadow)
-            ax.tickerShadow->componentComplete();
+            ax.tickerShadow->completeItem();
     }
 
     m_initialized = true;
@@ -415,13 +418,13 @@ void AxisRenderer::populateAxisItems()
             if (ax.title)
                 ax.title->deleteLater();
             if (ax.line)
-                ax.line->deleteLater();
+                ax.line->item()->deleteLater();
             if (ax.ticker)
-                ax.ticker->deleteLater();
+                ax.ticker->item()->deleteLater();
             if (ax.lineShadow)
-                ax.lineShadow->deleteLater();
+                ax.lineShadow->item()->deleteLater();
             if (ax.tickerShadow)
-                ax.tickerShadow->deleteLater();
+                ax.tickerShadow->item()->deleteLater();
             for (auto&& item : ax.textItems)
                 item->deleteLater();
         }
@@ -430,13 +433,13 @@ void AxisRenderer::populateAxisItems()
             if (ax.title)
                 ax.title->deleteLater();
             if (ax.line)
-                ax.line->deleteLater();
+                ax.line->item()->deleteLater();
             if (ax.ticker)
-                ax.ticker->deleteLater();
+                ax.ticker->item()->deleteLater();
             if (ax.lineShadow)
-                ax.lineShadow->deleteLater();
+                ax.lineShadow->item()->deleteLater();
             if (ax.tickerShadow)
-                ax.tickerShadow->deleteLater();
+                ax.tickerShadow->item()->deleteLater();
             for (auto&& item : ax.textItems)
                 item->deleteLater();
         }
@@ -492,14 +495,14 @@ void AxisRenderer::populateAxisItems()
 
     if (!m_axisGrid) {
         m_axisGrid = new AxisGrid(this);
-        m_axisGrid->setZ(-1);
-        m_axisGrid->setupShaders();
+        m_axisGrid->item()->setZ(-1);
+        m_axisGrid->completeItem();
         m_axisGrid->setOrigo(0);
     }
     if (!m_axisGridShadow) {
         m_axisGridShadow = new AxisGrid(this);
-        m_axisGridShadow->setZ(-3);
-        m_axisGridShadow->setupShaders();
+        m_axisGridShadow->item()->setZ(-3);
+        m_axisGridShadow->completeItem();
         m_axisGridShadow->setOrigo(0);
     }
 
@@ -521,13 +524,13 @@ void AxisRenderer::populateAxisItems()
             if (ax.title)
                 ax.title->deleteLater();
             if (ax.line)
-                ax.line->deleteLater();
+                ax.line->item()->deleteLater();
             if (ax.ticker)
-                ax.ticker->deleteLater();
+                ax.ticker->item()->deleteLater();
             if (ax.lineShadow)
-                ax.lineShadow->deleteLater();
+                ax.lineShadow->item()->deleteLater();
             if (ax.tickerShadow)
-                ax.tickerShadow->deleteLater();
+                ax.tickerShadow->item()->deleteLater();
             for (auto&& item : ax.textItems)
                 item->deleteLater();
             m_axes1.removeAt(i);
@@ -554,13 +557,13 @@ void AxisRenderer::populateAxisItems()
             if (ax.title)
                 ax.title->deleteLater();
             if (ax.line)
-                ax.line->deleteLater();
+                ax.line->item()->deleteLater();
             if (ax.ticker)
-                ax.ticker->deleteLater();
+                ax.ticker->item()->deleteLater();
             if (ax.lineShadow)
-                ax.lineShadow->deleteLater();
+                ax.lineShadow->item()->deleteLater();
             if (ax.tickerShadow)
-                ax.tickerShadow->deleteLater();
+                ax.tickerShadow->item()->deleteLater();
             for (auto&& item : ax.textItems)
                 item->deleteLater();
             m_axes2.removeAt(i);
@@ -574,29 +577,29 @@ void AxisRenderer::populateAxisItems()
 
         if (!ax.line) {
             ax.line = new AxisLine(this);
-            ax.line->setZ(-1);
-            ax.line->setupShaders();
+            ax.line->item()->setZ(-1);
+            ax.line->completeItem();
         }
         if (!ax.ticker) {
             ax.ticker = new AxisTicker(this);
-            ax.ticker->setZ(-2);
+            ax.ticker->item()->setZ(-2);
             ax.ticker->setOrigo(0);
             // TODO: Configurable in theme or axis?
             ax.ticker->setSubTickLength(0.5);
-            ax.ticker->setupShaders();
+            ax.ticker->completeItem();
         }
         if (!ax.lineShadow) {
             ax.lineShadow = new AxisLine(this);
-            ax.lineShadow->setZ(-3);
-            ax.lineShadow->setupShaders();
+            ax.lineShadow->item()->setZ(-3);
+            ax.lineShadow->completeItem();
         }
         if (!ax.tickerShadow) {
             ax.tickerShadow = new AxisTicker(this);
-            ax.tickerShadow->setZ(-3);
+            ax.tickerShadow->item()->setZ(-3);
             ax.tickerShadow->setOrigo(0);
             // TODO: Configurable in theme or axis?
             ax.tickerShadow->setSubTickLength(ax.ticker->subTickLength());
-            ax.tickerShadow->setupShaders();
+            ax.tickerShadow->completeItem();
         }
     }
 
@@ -605,32 +608,33 @@ void AxisRenderer::populateAxisItems()
 
         if (!ax.line) {
             ax.line = new AxisLine(this);
-            ax.line->setZ(-1);
+            ax.line->item()->setZ(-1);
             ax.line->setIsHorizontal(true);
-            ax.line->setupShaders();
+            ax.line->completeItem();
         }
         if (!ax.ticker) {
             ax.ticker = new AxisTicker(this);
-            ax.ticker->setZ(-2);
+            ax.ticker->item()->setZ(-2);
             ax.ticker->setIsHorizontal(true);
             ax.ticker->setOrigo(0);
             // TODO: Configurable in theme or axis?
             ax.ticker->setSubTickLength(0.2);
-            ax.ticker->setupShaders();
+            ax.ticker->completeItem();
         }
         if (!ax.lineShadow) {
             ax.lineShadow = new AxisLine(this);
-            ax.lineShadow->setZ(-3);
-            ax.lineShadow->setupShaders();
+            ax.lineShadow->item()->setZ(-3);
+            ax.lineShadow->setIsHorizontal(true);
+            ax.lineShadow->completeItem();
         }
         if (!ax.tickerShadow) {
             ax.tickerShadow = new AxisTicker(this);
-            ax.tickerShadow->setZ(-3);
+            ax.tickerShadow->item()->setZ(-3);
             ax.tickerShadow->setIsHorizontal(true);
             ax.tickerShadow->setOrigo(0);
             // TODO: Configurable in theme or axis?
             ax.tickerShadow->setSubTickLength(ax.ticker->subTickLength());
-            ax.tickerShadow->setupShaders();
+            ax.tickerShadow->completeItem();
         }
     }
 }
@@ -1196,13 +1200,13 @@ void AxisRenderer::updateAxisTickers()
                 // TODO Only when changed
                 ax.ticker->setDisplacement(ax.displacement);
                 QRectF &rect = yAxisRect;
-                ax.ticker->setX(rect.x());
-                ax.ticker->setY(rect.y());
-                ax.ticker->setWidth(rect.width());
-                ax.ticker->setHeight(rect.height());
+                ax.ticker->item()->setX(rect.x());
+                ax.ticker->item()->setY(rect.y());
+                ax.ticker->item()->setWidth(rect.width());
+                ax.ticker->item()->setHeight(rect.height());
                 ax.ticker->setFlipped(ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom);
 
-                ax.ticker->setSpacing((ax.ticker->height() - topPadding - bottomPadding)
+                ax.ticker->setSpacing((ax.ticker->item()->height() - topPadding - bottomPadding)
                                        / (ax.valueRange / ax.valueStep));
                 ax.ticker->setSubTicksVisible(!qFuzzyCompare(ax.subGridScale, 1.0));
                 ax.ticker->setSubTickScale(ax.subGridScale);
@@ -1210,7 +1214,7 @@ void AxisRenderer::updateAxisTickers()
                 ax.ticker->setLogarithmic(ax.isLogarithmic);
                 ax.ticker->setBase(ax.logBase);
 
-                ax.ticker->setVisible(ax.axis->isVisible());
+                ax.ticker->item()->setVisible(ax.axis->isVisible());
 
                 // Axis line
                 if (ax.axis->color().isValid())
@@ -1222,17 +1226,17 @@ void AxisRenderer::updateAxisTickers()
 
                 float xMovement = 0.5 * (ax.line->lineWidth() + ax.line->smoothing());
                 if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom)
-                    ax.line->setX(ax.ticker->x() - xMovement);
+                    ax.line->item()->setX(ax.ticker->item()->x() - xMovement);
                 else
-                    ax.line->setX(ax.ticker->x() + ax.ticker->width() - xMovement);
-                ax.line->setY(ax.ticker->y());
-                ax.line->setWidth(ax.line->lineWidth() + ax.line->smoothing());
-                ax.line->setHeight(ax.ticker->height());
-                ax.line->setVisible(ax.axis->isLineVisible());
+                    ax.line->item()->setX(ax.ticker->item()->x() + ax.ticker->item()->width() - xMovement);
+                ax.line->item()->setY(ax.ticker->item()->y());
+                ax.line->item()->setWidth(ax.line->lineWidth() + ax.line->smoothing());
+                ax.line->item()->setHeight(ax.ticker->item()->height());
+                ax.line->item()->setVisible(ax.axis->isLineVisible());
         } else {
             // Hide all parts of vertical axis
-            ax.ticker->setVisible(false);
-            ax.line->setVisible(false);
+            ax.ticker->item()->setVisible(false);
+            ax.line->item()->setVisible(false);
             for (auto &textItem : ax.textItems)
                 textItem->setVisible(false);
         }
@@ -1261,13 +1265,13 @@ void AxisRenderer::updateAxisTickers()
             // TODO Only when changed
             ax.ticker->setDisplacement(ax.displacement);
             QRectF &rect = xAxisRect;
-            ax.ticker->setX(rect.x());
-            ax.ticker->setY(rect.y());
-            ax.ticker->setWidth(rect.width());
-            ax.ticker->setHeight(rect.height());
+            ax.ticker->item()->setX(rect.x());
+            ax.ticker->item()->setY(rect.y());
+            ax.ticker->item()->setWidth(rect.width());
+            ax.ticker->item()->setHeight(rect.height());
             ax.ticker->setFlipped(ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft);
 
-            ax.ticker->setSpacing((ax.ticker->width() - leftPadding - rightPadding)
+            ax.ticker->setSpacing((ax.ticker->item()->width() - leftPadding - rightPadding)
                                              / (ax.valueRange / ax.valueStep));
             ax.ticker->setSubTicksVisible(!qFuzzyCompare(ax.subGridScale, 1.0));
             ax.ticker->setSubTickScale(ax.subGridScale);
@@ -1275,7 +1279,7 @@ void AxisRenderer::updateAxisTickers()
             ax.ticker->setLogarithmic(ax.isLogarithmic);
             ax.ticker->setBase(ax.logBase);
 
-            ax.ticker->setVisible(ax.axis->isVisible());
+            ax.ticker->item()->setVisible(ax.axis->isVisible());
             // Axis line
             if (ax.axis->color().isValid())
                 ax.line->setColor(ax.axis->color());
@@ -1283,19 +1287,19 @@ void AxisRenderer::updateAxisTickers()
                 ax.line->setColor(theme()->axisX().mainColor());
             ax.line->setLineWidth(theme()->axisX().mainWidth());
             ax.line->setSmoothing(m_graph->axisXSmoothing());
-            ax.line->setX(ax.ticker->x());
+            ax.line->item()->setX(ax.ticker->item()->x());
             float yMovement = 0.5 * (ax.line->lineWidth() + ax.line->smoothing());
             if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft)
-                ax.line->setY(ax.ticker->y() + ax.ticker->height() - yMovement);
+                ax.line->item()->setY(ax.ticker->item()->y() + ax.ticker->item()->height() - yMovement);
             else
-                ax.line->setY(ax.ticker->y() - yMovement);
-            ax.line->setWidth(ax.ticker->width());
-            ax.line->setHeight(ax.line->lineWidth() + ax.line->smoothing());
-            ax.line->setVisible(ax.axis->isLineVisible());
+                ax.line->item()->setY(ax.ticker->item()->y() - yMovement);
+            ax.line->item()->setWidth(ax.ticker->item()->width());
+            ax.line->item()->setHeight(ax.line->lineWidth() + ax.line->smoothing());
+            ax.line->item()->setVisible(ax.axis->isLineVisible());
         } else {
             // Hide all parts of horizontal axis
-            ax.ticker->setVisible(false);
-            ax.line->setVisible(false);
+            ax.ticker->item()->setVisible(false);
+            ax.line->item()->setVisible(false);
             for (auto &textItem : ax.textItems)
                 textItem->setVisible(false);
         }
@@ -1316,11 +1320,11 @@ void AxisRenderer::updateAxisTickersShadow()
 
             // TODO Only when changed
             ax.tickerShadow->setDisplacement(ax.ticker->displacement());
-            ax.tickerShadow->setX(ax.ticker->x() + m_graph->shadowXOffset());
-            ax.tickerShadow->setY(ax.ticker->y() + m_graph->shadowYOffset()
+            ax.tickerShadow->item()->setX(ax.ticker->item()->x() + m_graph->shadowXOffset());
+            ax.tickerShadow->item()->setY(ax.ticker->item()->y() + m_graph->shadowYOffset()
                                    + m_graph->shadowBarWidth() * 0.5);
-            ax.tickerShadow->setWidth(ax.ticker->width());
-            ax.tickerShadow->setHeight(ax.ticker->height());
+            ax.tickerShadow->item()->setWidth(ax.ticker->item()->width());
+            ax.tickerShadow->item()->setHeight(ax.ticker->item()->height());
             ax.tickerShadow->setFlipped(ax.ticker->isFlipped());
             ax.tickerShadow->setSpacing(ax.ticker->spacing());
             ax.tickerShadow->setSubTicksVisible(ax.ticker->subTicksVisible());
@@ -1329,21 +1333,21 @@ void AxisRenderer::updateAxisTickersShadow()
             ax.tickerShadow->setLogarithmic(ax.ticker->isLogarithmic());
             ax.tickerShadow->setBase(ax.ticker->base());
 
-            ax.tickerShadow->setVisible(ax.ticker->isVisible());
+            ax.tickerShadow->item()->setVisible(ax.ticker->item()->isVisible());
             // Axis line
             ax.lineShadow->setColor(m_graph->shadowColor());
             ax.lineShadow->setLineWidth(ax.line->lineWidth() + m_graph->shadowBarWidth());
             ax.lineShadow->setSmoothing(ax.line->smoothing() + m_graph->shadowSmoothing());
-            ax.lineShadow->setX(ax.line->x() + m_graph->shadowXOffset());
-            ax.lineShadow->setY(ax.line->y() + m_graph->shadowYOffset()
+            ax.lineShadow->item()->setX(ax.line->item()->x() + m_graph->shadowXOffset());
+            ax.lineShadow->item()->setY(ax.line->item()->y() + m_graph->shadowYOffset()
                                  + m_graph->shadowBarWidth() * 0.5);
-            ax.lineShadow->setWidth(ax.line->width());
-            ax.lineShadow->setHeight(ax.line->height());
-            ax.lineShadow->setVisible(ax.line->isVisible());
+            ax.lineShadow->item()->setWidth(ax.line->item()->width());
+            ax.lineShadow->item()->setHeight(ax.line->item()->height());
+            ax.lineShadow->item()->setVisible(ax.line->item()->isVisible());
         } else {
             // Hide all parts of vertical axis
-            ax.tickerShadow->setVisible(false);
-            ax.lineShadow->setVisible(false);
+            ax.tickerShadow->item()->setVisible(false);
+            ax.lineShadow->item()->setVisible(false);
         }
     }
 
@@ -1359,30 +1363,30 @@ void AxisRenderer::updateAxisTickersShadow()
 
             // TODO Only when changed
             ax.tickerShadow->setDisplacement(ax.ticker->displacement());
-            ax.tickerShadow->setX(ax.ticker->x() + m_graph->shadowXOffset()
+            ax.tickerShadow->item()->setX(ax.ticker->item()->x() + m_graph->shadowXOffset()
                                    - m_graph->shadowBarWidth() * 0.5);
-            ax.tickerShadow->setY(ax.ticker->y() + m_graph->shadowYOffset());
-            ax.tickerShadow->setWidth(ax.ticker->width());
-            ax.tickerShadow->setHeight(ax.ticker->height());
+            ax.tickerShadow->item()->setY(ax.ticker->item()->y() + m_graph->shadowYOffset());
+            ax.tickerShadow->item()->setWidth(ax.ticker->item()->width());
+            ax.tickerShadow->item()->setHeight(ax.ticker->item()->height());
             ax.tickerShadow->setFlipped(ax.ticker->isFlipped());
             ax.tickerShadow->setSpacing(ax.ticker->spacing());
             ax.tickerShadow->setSubTicksVisible(ax.ticker->subTicksVisible());
             ax.tickerShadow->setSubTickScale(ax.ticker->subTickScale());
-            ax.tickerShadow->setVisible(ax.ticker->isVisible());
+            ax.tickerShadow->item()->setVisible(ax.ticker->item()->isVisible());
             // Axis line
             ax.lineShadow->setColor(m_graph->shadowColor());
-            ax.lineShadow->setLineWidth(ax.line->width() + m_graph->shadowBarWidth());
+            ax.lineShadow->setLineWidth(ax.line->lineWidth() + m_graph->shadowBarWidth());
             ax.lineShadow->setSmoothing(ax.line->smoothing() + m_graph->shadowSmoothing());
-            ax.lineShadow->setX(ax.line->x() + m_graph->shadowXOffset()
+            ax.lineShadow->item()->setX(ax.line->item()->x() + m_graph->shadowXOffset()
                                  - m_graph->shadowBarWidth() * 0.5);
-            ax.lineShadow->setY(ax.line->y() + m_graph->shadowYOffset());
-            ax.lineShadow->setWidth(ax.line->width());
-            ax.lineShadow->setHeight(ax.line->height());
-            ax.lineShadow->setVisible(ax.line->isVisible());
+            ax.lineShadow->item()->setY(ax.line->item()->y() + m_graph->shadowYOffset());
+            ax.lineShadow->item()->setWidth(ax.line->item()->width());
+            ax.lineShadow->item()->setHeight(ax.line->item()->height());
+            ax.lineShadow->item()->setVisible(ax.line->item()->isVisible());
         } else {
             // Hide all parts of horizontal axis
-            ax.tickerShadow->setVisible(false);
-            ax.lineShadow->setVisible(false);
+            ax.tickerShadow->item()->setVisible(false);
+            ax.lineShadow->item()->setVisible(false);
         }
     }
 }
@@ -1410,14 +1414,14 @@ void AxisRenderer::updateAxisGrid()
     // TODO Only when changed
     m_axisGrid->setGridMovement(QPointF(hax.displacement, vax.displacement));
     QRectF rect = m_graph->m_plotArea;
-    m_axisGrid->setX(rect.x());
-    m_axisGrid->setY(rect.y());
-    m_axisGrid->setWidth(rect.width());
-    m_axisGrid->setHeight(rect.height());
+    m_axisGrid->item()->setX(rect.x());
+    m_axisGrid->item()->setY(rect.y());
+    m_axisGrid->item()->setWidth(rect.width());
+    m_axisGrid->item()->setHeight(rect.height());
 
-    m_axisGrid->setGridWidth((m_axisGrid->width() - leftPadding - rightPadding)
+    m_axisGrid->setGridWidth((m_axisGrid->item()->width() - leftPadding - rightPadding)
                              / (hax.valueRange / hax.valueStep));
-    m_axisGrid->setGridHeight((m_axisGrid->height() - topPadding - bottomPadding)
+    m_axisGrid->setGridHeight((m_axisGrid->item()->height() - topPadding - bottomPadding)
                               / (vax.valueRange / vax.valueStep));
     m_axisGrid->setGridVisibility(QVector4D(m_gridHorizontalLinesVisible,
                                             m_gridVerticalLinesVisible,
@@ -1443,23 +1447,23 @@ void AxisRenderer::updateAxisGridShadow()
 
         // TODO Only when changed
         m_axisGridShadow->setGridMovement(m_axisGrid->gridMovement());
-        m_axisGridShadow->setX(m_axisGrid->x() + m_graph->shadowXOffset() - m_graph->shadowBarWidth() * 0.5);
-        m_axisGridShadow->setY(m_axisGrid->y() + m_graph->shadowYOffset() + m_graph->shadowBarWidth() * 0.5);
-        m_axisGridShadow->setWidth(m_axisGrid->width());
-        m_axisGridShadow->setHeight(m_axisGrid->height());
+        m_axisGridShadow->item()->setX(m_axisGrid->item()->x() + m_graph->shadowXOffset() - m_graph->shadowBarWidth() * 0.5);
+        m_axisGridShadow->item()->setY(m_axisGrid->item()->y() + m_graph->shadowYOffset() + m_graph->shadowBarWidth() * 0.5);
+        m_axisGridShadow->item()->setWidth(m_axisGrid->item()->width());
+        m_axisGridShadow->item()->setHeight(m_axisGrid->item()->height());
         m_axisGridShadow->setGridWidth(m_axisGrid->gridWidth());
         m_axisGridShadow->setGridHeight(m_axisGrid->gridHeight());
         m_axisGridShadow->setGridVisibility(m_axisGrid->gridVisibility());
         m_axisGridShadow->setVerticalSubGridScale(m_axisGrid->verticalSubGridScale());
         m_axisGridShadow->setHorizontalSubGridScale(m_axisGrid->horizontalSubGridScale());
-        m_axisGridShadow->setVisible(true);
+        m_axisGridShadow->item()->setVisible(true);
 
         m_axisGridShadow->setVerticalLogarithmic(m_axisGrid->isVerticalLogarithmic());
         m_axisGridShadow->setHorizontalLogarithmic(m_axisGrid->isHorizontalLogarithmic());
         m_axisGridShadow->setVerticalBase(m_axisGrid->verticalBase());
         m_axisGridShadow->setHorizontalBase(m_axisGrid->horizontalBase());
     } else {
-        m_axisGridShadow->setVisible(false);
+        m_axisGridShadow->item()->setVisible(false);
     }
 }
 

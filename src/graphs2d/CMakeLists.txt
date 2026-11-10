@@ -24,6 +24,9 @@ else()
             charthelpers_p.h
 
             axis/qabstractaxis.cpp axis/qabstractaxis.h axis/qabstractaxis_p.h
+            axis/abstractaxisgrid_p.h
+            axis/abstractaxisticker_p.h
+            axis/abstractaxisline_p.h
             axis/axisgrid.cpp axis/axisgrid_p.h
             axis/axisticker.cpp axis/axisticker_p.h
             axis/axisline.cpp axis/axisline_p.h

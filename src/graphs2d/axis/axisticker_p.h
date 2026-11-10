@@ -16,10 +16,11 @@
 // We mean it.
 
 #include <QtQuick/private/qquickshadereffect_p.h>
+#include <QtGraphs/private/abstractaxisticker_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class AxisTicker : public QQuickShaderEffect
+class AxisTicker : public QQuickShaderEffect, public AbstractAxisTicker
 {
     Q_OBJECT
     Q_PROPERTY(QVector3D iResolution READ iResolution NOTIFY iResolutionChanged FINAL)
@@ -40,56 +41,58 @@ class AxisTicker : public QQuickShaderEffect
     Q_PROPERTY(qreal base READ base WRITE setBase NOTIFY baseChanged REVISION(6, 12))
 public:
     AxisTicker(QQuickItem *parent = nullptr);
-    ~AxisTicker() override;
 
     void setupShaders();
 
     QVector3D iResolution() const;
 
-    qreal smoothing() const;
-    void setSmoothing(qreal newSmoothing);
+    qreal smoothing() const override;
+    void setSmoothing(qreal newSmoothing) override;
 
-    int origo() const;
-    void setOrigo(int newOrigo);
+    int origo() const override;
+    void setOrigo(int newOrigo) override;
 
-    bool subTicksVisible() const;
-    void setSubTicksVisible(bool newSubTicksVisible);
+    bool subTicksVisible() const override;
+    void setSubTicksVisible(bool newSubTicksVisible) override;
 
-    qreal spacing() const;
-    void setSpacing(qreal newSpacing);
+    qreal spacing() const override;
+    void setSpacing(qreal newSpacing) override;
 
-    qreal displacement() const;
-    void setDisplacement(qreal newDisplacement);
+    qreal displacement() const override;
+    void setDisplacement(qreal newDisplacement) override;
 
     QColor subTickColor() const;
-    void setSubTickColor(QColor newSubTickColor);
+    void setSubTickColor(QColor newSubTickColor) override;
 
     QColor tickColor() const;
-    void setTickColor(QColor newTickColor);
+    void setTickColor(QColor newTickColor) override;
 
-    qreal subTickLineWidth() const;
-    void setSubTickLineWidth(qreal newSubTickLineWidth);
+    qreal subTickLineWidth() const override;
+    void setSubTickLineWidth(qreal newSubTickLineWidth) override;
 
-    qreal tickLineWidth() const;
-    void setTickLineWidth(qreal newTickLineWidth);
+    qreal tickLineWidth() const override;
+    void setTickLineWidth(qreal newTickLineWidth) override;
 
-    qreal subTickScale() const;
-    void setSubTickScale(qreal newSubTickScale);
+    qreal subTickScale() const override;
+    void setSubTickScale(qreal newSubTickScale) override;
 
-    qreal subTickLength() const;
-    void setSubTickLength(qreal newSubTickLength);
+    qreal subTickLength() const override;
+    void setSubTickLength(qreal newSubTickLength) override;
 
     bool isHorizontal() const;
-    void setIsHorizontal(bool newIsHorizontal);
+    void setIsHorizontal(bool newIsHorizontal) override;
 
-    bool isFlipped() const;
-    void setFlipped(bool newFlipped);
+    bool isFlipped() const override;
+    void setFlipped(bool newFlipped) override;
 
-    bool isLogarithmic() const;
-    void setLogarithmic(bool newLogarithmic);
+    bool isLogarithmic() const override;
+    void setLogarithmic(bool newLogarithmic) override;
 
-    qreal base() const;
-    void setBase(qreal newBase);
+    qreal base() const override;
+    void setBase(qreal newBase) override;
+
+    QQuickItem *item() override;
+    void completeItem() override;
 
 protected:
     void componentComplete() override;

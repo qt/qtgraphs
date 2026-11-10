@@ -15,12 +15,10 @@ AxisLine::AxisLine(QQuickItem *parent) :
 
 }
 
-AxisLine::~AxisLine() {}
-
 void AxisLine::componentComplete()
 {
-    QQuickShaderEffect::componentComplete();
     setupShaders();
+    QQuickShaderEffect::componentComplete();
 }
 
 void AxisLine::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
@@ -106,6 +104,16 @@ void AxisLine::setIsHorizontal(bool newIsHorizontal)
     }
     m_isHorizontal = newIsHorizontal;
     emit isHorizontalChanged();
+}
+
+QQuickItem *AxisLine::item()
+{
+    return this;
+}
+
+void AxisLine::completeItem()
+{
+    componentComplete();
 }
 
 QT_END_NAMESPACE
