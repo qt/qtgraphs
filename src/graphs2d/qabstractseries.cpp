@@ -270,6 +270,12 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlsignal AbstractSeries::update()
+    This signal is emitted when a change in the series, or in one of its axes,
+    requires the graph to be redrawn.
+*/
+
+/*!
     \qmlsignal AbstractSeries::legendDataChanged()
     This signal is emitted when legend data changes.
 */
